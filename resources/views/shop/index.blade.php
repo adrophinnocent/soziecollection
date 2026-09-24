@@ -181,7 +181,7 @@
 
                     <div class="pt-4 mt-4 border-t border-[#D8C9B8] flex items-center justify-between">
                         <div>
-                            <span class="text-sm font-extrabold text-[#A8895F] block">{{ $product->formatted_price }}</span>
+                            <span class="text-base sm:text-sm font-extrabold text-[#A8895F] block">{{ $product->formatted_price }}</span>
                             @if($product->discount_price)
                             <span class="text-[10px] text-gray-500 line-through font-semibold">{{ $product->formatted_original_price }}</span>
                             @endif

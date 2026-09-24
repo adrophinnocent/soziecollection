@@ -365,7 +365,7 @@
                                 <h4 class="font-serif font-bold text-xs text-[#29241F]">{{ $item['name'] }}</h4>
                                 <span class="text-[10px] text-[#A8895F] font-extrabold">{{ $item['size'] }} x {{ $item['quantity'] }}</span>
                             </div>
-                            <span class="text-xs font-bold text-[#29241F]">TZS {{ number_format($item['price'] * $item['quantity'], 0) }}</span>
+                            <span class="text-sm sm:text-xs font-extrabold text-[#29241F]">TZS {{ number_format($item['price'] * $item['quantity'], 0) }}</span>
                         </div>
                         @endforeach
                     </div>

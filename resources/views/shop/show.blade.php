@@ -100,7 +100,7 @@
                             :class="selectedSize === '{{ $variant->size }}' ? 'bg-[#A8895F] text-white border-[#A8895F] shadow-md font-extrabold' : 'bg-white text-[#29241F] border-[#D8C9B8] hover:border-[#A8895F] font-bold'"
                             class="py-3 px-3 border text-center polygon-btn transition-all">
                         <span class="block text-xs font-bold uppercase">{{ $variant->size }}</span>
-                        <span class="block text-[10px] opacity-90">TZS {{ number_format($variant->price, 0) }}</span>
+                        <span class="block text-xs sm:text-[10px] font-bold opacity-90">TZS {{ number_format($variant->price, 0) }}</span>
                     </button>
                     @endforeach
                 </div>
@@ -307,7 +307,7 @@
 
                 <div class="pt-3 mt-3 border-t border-[#D8C9B8] flex items-center justify-between">
                     <div>
-                        <span class="text-xs font-extrabold text-[#A8895F] block">{{ $rel->formatted_price }}</span>
+                        <span class="text-sm sm:text-xs font-extrabold text-[#A8895F] block">{{ $rel->formatted_price }}</span>
                         @if($rel->discount_price)
                         <span class="text-[9px] text-gray-500 line-through font-semibold">{{ $rel->formatted_original_price }}</span>
                         @endif

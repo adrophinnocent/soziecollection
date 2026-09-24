@@ -197,7 +197,7 @@
                         <div class="flex-grow">
                             <div class="flex justify-between items-start">
                                 <h4 class="font-serif font-bold text-lg text-[#29241F]">{{ $fp->name }}</h4>
-                                <span class="text-sm font-extrabold text-[#A8895F]">{{ $fp->formatted_price }}</span>
+                                <span class="text-base sm:text-sm font-extrabold text-[#A8895F]">{{ $fp->formatted_price }}</span>
                             </div>
                             <p class="text-xs text-gray-600 font-semibold mt-1">Top: {{ $fp->top_notes }}</p>
                             <div class="flex gap-2 mt-3">
@@ -291,7 +291,7 @@
                 <!-- Price & Action -->
                 <div class="pt-4 mt-4 border-t border-[#D8C9B8] flex items-center justify-between">
                     <div>
-                        <span class="text-sm font-extrabold text-[#A8895F] block">{{ $product->formatted_price }}</span>
+                        <span class="text-base sm:text-sm font-extrabold text-[#A8895F] block">{{ $product->formatted_price }}</span>
                         @if($product->discount_price)
                         <span class="text-[10px] text-gray-500 line-through font-semibold">{{ $product->formatted_original_price }}</span>
                         @endif
@@ -355,7 +355,7 @@
                                     <p class="text-[10px] text-[#A8895F] uppercase tracking-widest font-extrabold mt-1" x-text="p.scent_type + ' • ' + p.fragrance_family"></p>
                                 </div>
                                 <div class="mt-4 pt-3 border-t border-[#D8C9B8] flex justify-between items-center gap-1">
-                                    <span class="text-xs font-extrabold text-[#29241F]" x-text="'TZS ' + Number(p.price).toLocaleString()"></span>
+                                    <span class="text-sm sm:text-xs font-extrabold text-[#29241F]" x-text="'TZS ' + Number(p.price).toLocaleString()"></span>
                                     <button @click="addToCart(p.id)" class="px-3 py-1.5 bg-[#A8895F] border border-[#A8895F] text-white text-[10px] font-extrabold uppercase polygon-btn hover:bg-[#29241F]">
                                         {{ __('ADD TO CART') }}
                                     </button>
@@ -425,7 +425,7 @@
                 </div>
 
                 <div class="pt-4 mt-4 border-t border-[#D8C9B8] flex items-center justify-between">
-                    <span class="text-sm font-extrabold text-[#A8895F]">{{ $product->formatted_price }}</span>
+                    <span class="text-base sm:text-sm font-extrabold text-[#A8895F]">{{ $product->formatted_price }}</span>
 
                     <button @click="addToCart({{ $product->id }}, '{{ $product->default_size }}')"
                             class="p-2.5 bg-[#A8895F] border border-[#A8895F] text-white polygon-btn hover:bg-[#29241F] transition-colors">

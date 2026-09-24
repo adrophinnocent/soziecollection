@@ -32,7 +32,7 @@
                     <div>
                         <h3 class="font-serif font-bold text-lg text-[#29241F]">{{ $item['name'] }}</h3>
                         <span class="text-xs font-extrabold text-[#A8895F] block">{{ $item['size'] }}</span>
-                        <span class="text-xs text-gray-700 font-semibold">TZS {{ number_format($item['price'], 0) }} per unit</span>
+                        <span class="text-sm sm:text-xs text-gray-700 font-bold">TZS {{ number_format($item['price'], 0) }} per unit</span>
                     </div>
                 </div>
 

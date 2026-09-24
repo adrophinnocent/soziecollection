@@ -404,7 +404,7 @@
                             <div class="flex-grow">
                                 <h4 class="font-serif font-bold text-sm text-[#29241F]" x-text="item.name"></h4>
                                 <span class="text-[10px] text-[#A8895F] font-extrabold tracking-wider uppercase block" x-text="item.size"></span>
-                                <span class="text-xs text-gray-700 font-bold" x-text="'TZS ' + Number(item.price).toLocaleString()"></span>
+                                <span class="text-sm sm:text-xs text-gray-700 font-extrabold" x-text="'TZS ' + Number(item.price).toLocaleString()"></span>
 
                                 <div class="flex items-center gap-2 mt-2">
                                     <button @click="updateQuantity(item.cart_key, item.quantity - 1)"
@@ -488,7 +488,7 @@
                             <img :src="item.image" class="w-16 h-16 object-cover polygon-card border border-[#D8C9B8]">
                             <div class="flex-grow">
                                 <h4 class="font-serif font-bold text-sm text-[#29241F]" x-text="item.name"></h4>
-                                <span class="text-xs text-[#A8895F] font-extrabold" x-text="item.formatted_price"></span>
+                                <span class="text-sm sm:text-xs text-[#A8895F] font-extrabold" x-text="item.formatted_price"></span>
                                 <div class="flex gap-2 mt-2">
                                     <button @click="addToCart(item.id); toggleWishlist(item)" class="px-3 py-1 bg-[#A8895F] text-white text-[10px] font-bold uppercase polygon-btn hover:bg-[#29241F]">
                                         Move to Cart
