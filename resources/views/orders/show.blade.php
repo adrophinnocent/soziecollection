@@ -1,0 +1,92 @@
+@extends('layouts.app')
+
+@section('title', 'Order Confirmation #' . $order->order_number . ' | Sozie Collection')
+
+@section('content')
+
+<div class="py-16 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+    <div class="glass-panel-gold p-8 sm:p-12 polygon-card border border-[#A8895F]/40 shadow-2xl space-y-6 bg-[#F8F5EF]">
+
+        <div class="w-16 h-16 bg-[#A8895F] polygon-card flex items-center justify-center mx-auto text-white gold-glow">
+            <i data-lucide="check-circle" class="w-10 h-10"></i>
+        </div>
+
+        <div>
+            <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.3em] block mb-1">ODA YAKO IMEPOKELEWA</span>
+            <h1 class="font-serif font-bold text-4xl text-[#29241F]">ASANTE KWA KUCHAGUA SOZIE COLLECTION!</h1>
+            <p class="text-xs sm:text-sm text-gray-700 mt-2 font-bold">
+                Nambari yako ya oda ni <strong class="text-[#A8895F] font-mono text-base font-extrabold">{{ $order->order_number }}</strong>
+            </p>
+        </div>
+
+        <!-- WhatsApp Quick Action Button -->
+        <div class="p-6 bg-emerald-900 border border-emerald-700 polygon-card max-w-xl mx-auto space-y-3 text-white">
+            <span class="text-xs font-extrabold uppercase tracking-widest text-emerald-300 block">THIBITISHA ODA YAKO DIRECT WHATSAPP</span>
+            <p class="text-xs text-gray-200 font-bold">
+                Bofya kitufe hapa chini kutuma taarifa kamili za oda yako moja kwa moja kwa huduma yetu ya WhatsApp kwa ajili ya usafirishaji wa haraka.
+            </p>
+            <a href="{{ $whatsappUrl }}" target="_blank"
+               class="inline-flex items-center justify-center gap-3 w-full py-3.5 bg-emerald-800 text-white font-extrabold text-xs uppercase tracking-[0.2em] polygon-btn hover:bg-emerald-950 shadow-xl">
+                <i data-lucide="message-circle" class="w-5 h-5"></i>
+                <span>TUMA ODA WHATSAPP SASA</span>
+            </a>
+        </div>
+
+        <!-- Order Summary Details -->
+        <div class="text-left pt-6 border-t border-[#D8C9B8] space-y-4">
+            <h3 class="font-serif font-bold text-lg text-[#29241F]">TAARIFA ZA ODA</h3>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-gray-700 font-bold">
+                <div>
+                    <span class="text-gray-500 block font-extrabold">Jina la Mteja:</span>
+                    <strong class="text-[#29241F] font-serif text-sm">{{ $order->customer_name }}</strong>
+                </div>
+                <div>
+                    <span class="text-gray-500 block font-extrabold">Simu:</span>
+                    <strong class="text-[#29241F] font-serif text-sm">{{ $order->customer_phone }}</strong>
+                </div>
+                <div>
+                    <span class="text-gray-500 block font-extrabold">Mji / Eneo:</span>
+                    <strong class="text-[#29241F] font-serif text-sm">{{ $order->city }} - {{ $order->shipping_address }}</strong>
+                </div>
+                <div>
+                    <span class="text-gray-500 block font-extrabold">Njia ya Malipo:</span>
+                    <strong class="text-[#29241F] uppercase">{{ str_replace('_', ' ', $order->payment_method) }}</strong>
+                </div>
+            </div>
+
+            <!-- Items list -->
+            <div class="space-y-2 pt-2">
+                <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-wider block">Bidhaa Zilizowekwa:</span>
+                @foreach($order->items as $item)
+                <div class="navy-card p-3 polygon-card flex justify-between items-center text-xs border border-[#D8C9B8] bg-white">
+                    <div>
+                        <strong class="text-[#29241F] font-serif text-sm">{{ $item->product_name }}</strong>
+                        <span class="text-[#A8895F] block text-[10px] font-extrabold">{{ $item->variant_size }} x {{ $item->quantity }}</span>
+                    </div>
+                    <span class="font-extrabold text-[#29241F]">TZS {{ number_format($item->subtotal, 0) }}</span>
+                </div>
+                @endforeach
+            </div>
+
+            <div class="flex justify-between items-center pt-4 border-t border-[#D8C9B8]">
+                <span class="font-serif font-bold text-base text-[#29241F]">JUMLA KUU:</span>
+                <span class="font-serif font-bold text-2xl text-[#A8895F]">TZS {{ number_format($order->total_amount, 0) }}</span>
+            </div>
+        </div>
+
+        <div class="pt-4 flex justify-center gap-4 text-xs">
+            <a href="{{ route('orders.track', ['order_number' => $order->order_number]) }}" class="px-6 py-2.5 bg-white border border-[#D8C9B8] text-[#29241F] uppercase font-extrabold polygon-btn hover:bg-[#EDE5D8]">
+                Fuatilia Oda Yako
+            </a>
+            <a href="{{ route('shop.index') }}" class="px-6 py-2.5 bg-[#A8895F] text-white uppercase font-extrabold polygon-btn hover:bg-[#29241F]">
+                Rudi Dukani
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+@endsection
