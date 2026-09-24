@@ -35,7 +35,7 @@ class OrderController extends Controller
         $waMessage .= "\n*Jumla Kuu:* TZS ".number_format($order->total_amount, 0, '.', ',')."\n";
         $waMessage .= '*Njia ya Malipo:* '.ucfirst(str_replace('_', ' ', $order->payment_method))."\n";
 
-        $whatsappPhone = config('payment.whatsapp.phone_number', '255700000000');
+        $whatsappPhone = config('payment.whatsapp.phone_number', '255691980178');
         $whatsappUrl = "https://wa.me/{$whatsappPhone}?text=".urlencode($waMessage);
 
         return view('orders.show', compact('order', 'whatsappUrl', 'paymentConfig'));

@@ -123,7 +123,7 @@
                 </div>
 
                 <!-- WhatsApp Direct Order Button -->
-                <a :href="'https://wa.me/255700000000?text=Jambo%20Sozie%20Collection!%20Naomba%20agizo%20la%20perfume:%20{{ urlencode($product->name) }}%20Size:%20' + encodeURIComponent(selectedSize) + '%20Bei:%20TZS%20' + Number(currentPrice).toLocaleString()"
+                <a :href="'https://wa.me/{{ config('payment.whatsapp.phone_number') }}?text=Jambo%20Sozie%20Collection!%20Naomba%20agizo%20la%20perfume:%20{{ urlencode($product->name) }}%20Size:%20' + encodeURIComponent(selectedSize) + '%20Bei:%20TZS%20' + Number(currentPrice).toLocaleString()"
                    target="_blank"
                    class="w-full py-3 bg-emerald-800 text-white font-extrabold text-xs uppercase tracking-[0.2em] polygon-btn text-center block hover:bg-emerald-900">
                     <i data-lucide="message-circle" class="w-4 h-4 inline-block mr-2 text-white"></i> ORDER DIRECTLY VIA WHATSAPP

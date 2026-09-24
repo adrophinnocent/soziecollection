@@ -8,7 +8,7 @@ return [
 
     'whatsapp' => [
         'enabled' => env('PAYMENT_WHATSAPP_ENABLED', true),
-        'phone_number' => env('PAYMENT_WHATSAPP_NUMBER', '255700000000'),
+        'phone_number' => env('PAYMENT_WHATSAPP_NUMBER', '255691980178'),
         'business_name' => env('PAYMENT_WHATSAPP_BUSINESS', 'Sozie Collection Atelier'),
     ],
 

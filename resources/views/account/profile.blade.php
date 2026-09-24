@@ -185,7 +185,7 @@
                 <p class="text-[11px] text-[#D8C9B8] font-medium leading-relaxed relative">
                     Permanently deleting your account will erase your wishlist, address book, and remove future member access to order tracking. Your historical order data remains on record for accounting purposes.
                 </p>
-                <a href="https://wa.me/255700000000?text=Jambo%20Sozie%20Collection%2C%20ninaomba%20kufuta%20account%20yangu"
+                <a href="https://wa.me/{{ config('payment.whatsapp.phone_number') }}?text=Jambo%20Sozie%20Collection%2C%20ninaomba%20kufuta%20account%20yangu"
                    target="_blank"
                    class="relative inline-flex items-center gap-2 px-5 py-2.5 bg-rose-600/90 hover:bg-rose-700 text-white text-[10px] font-extrabold uppercase tracking-[0.2em] polygon-btn transition-all border border-rose-500/30">
                     <i data-lucide="user-minus" class="w-4 h-4"></i>

@@ -217,7 +217,7 @@
                     <i data-lucide="store" class="w-4 h-4"></i>
                     Order New Scents
                 </a>
-                <a href="https://wa.me/255700000000?text=Jambo%20Sozie%20Collection%2C%20natafuta%20msaada%20kwa%20order%20{{ $order->order_number }}"
+                <a href="https://wa.me/{{ config('payment.whatsapp.phone_number') }}?text=Jambo%20Sozie%20Collection%2C%20natafuta%20msaada%20kwa%20order%20{{ $order->order_number }}"
                    target="_blank"
                    class="px-5 py-3 bg-emerald-900 text-white text-[10px] font-extrabold uppercase tracking-[0.25em] polygon-btn hover:bg-emerald-950 transition-all text-center inline-flex items-center justify-center gap-2 border border-emerald-700">
                     <i data-lucide="message-circle" class="w-4 h-4 text-emerald-300"></i>

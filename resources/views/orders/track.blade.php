@@ -46,7 +46,7 @@
                     Signed in members can view all orders directly in the <a href="{{ route('account.orders') }}" class="underline text-rose-900 hover:text-rose-700 font-extrabold">My Orders page</a>.
                 </p>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                    <a href="https://wa.me/255700000000" target="_blank"
+                    <a href="https://wa.me/{{ config('payment.whatsapp.phone_number') }}" target="_blank"
                        class="inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-emerald-900 text-white text-[10px] font-extrabold uppercase tracking-[0.2em] polygon-btn border border-emerald-700">
                         <i data-lucide="message-circle" class="w-3.5 h-3.5 text-emerald-300"></i>
                         WhatsApp Support

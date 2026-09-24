@@ -347,7 +347,7 @@
                     <label class="block font-extrabold text-[#A8895F] uppercase mb-1 flex items-center gap-1.5">
                         💬 WhatsApp Status Text
                     </label>
-                    <textarea name="whatsapp_caption" rows="3" placeholder="Jambo! Fragrance yetu mpya ya SOZIE sasa ipo tayari. Agiza sasa WhatsApp 0700000000 🛍️✨"
+                    <textarea name="whatsapp_caption" rows="3" placeholder="Jambo! Fragrance yetu mpya ya SOZIE sasa ipo tayari. Agiza sasa WhatsApp 0691980178 🛍️✨"
                               class="w-full bg-white border border-[#D8C9B8] text-[#29241F] px-3 py-2 focus:outline-none focus:border-[#A8895F] font-medium"></textarea>
                 </div>
             </div>
