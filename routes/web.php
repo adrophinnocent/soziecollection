@@ -12,6 +12,24 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use League\Flysystem\PathTraversalDetected;
+
+Route::get('/storage/{path}', function (string $path) {
+    $disk = Storage::disk('public');
+
+    try {
+        abort_unless($disk->exists($path), 404);
+    } catch (PathTraversalDetected) {
+        abort(404);
+    }
+
+    return $disk->response($path, headers: [
+        'Cache-Control' => 'public, max-age=31536000, immutable',
+        'Content-Security-Policy' => "default-src 'none'; sandbox",
+        'X-Content-Type-Options' => 'nosniff',
+    ]);
+})->where('path', '.*')->name('storage.public');
 
 Route::get('/lang/{locale}', function ($locale) {
     if (in_array($locale, ['en', 'sw'])) {
