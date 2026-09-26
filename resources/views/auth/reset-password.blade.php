@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Reset Password | Sozie Collection')
+@section('title', __('Reset Password | Sozie Collection'))
 
 @section('content')
 <div class="py-24 max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -10,10 +10,10 @@
             <i data-lucide="lock-keyhole" class="w-8 h-8 text-[#A8895F]"></i>
         </div>
 
-        <span class="text-[10px] font-extrabold text-[#A8895F] uppercase tracking-[0.35em] block mb-3">SET NEW PASSWORD</span>
-        <h1 class="font-serif font-bold text-4xl text-[#29241F] mb-4">Reset Your Password</h1>
+        <span class="text-[10px] font-extrabold text-[#A8895F] uppercase tracking-[0.35em] block mb-3">{{ __('SET NEW PASSWORD') }}</span>
+        <h1 class="font-serif font-bold text-4xl text-[#29241F] mb-4">{{ __('Reset Your Password') }}</h1>
         <p class="text-sm text-gray-600 font-medium leading-relaxed mb-8 max-w-md mx-auto">
-            Enter a strong new password below to regain access to your Sozie Collection account.
+            {{ __('Enter a strong new password below to regain access to your Sozie Collection account.') }}
         </p>
 
         @if ($errors->any())
@@ -36,7 +36,7 @@
 
             <div>
                 <label for="email" class="block text-[10px] font-extrabold text-[#A8895F] uppercase tracking-[0.25em] mb-2">
-                    Account Email
+                    {{ __('Account Email') }}
                 </label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
@@ -56,7 +56,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label for="password" class="block text-[10px] font-extrabold text-[#A8895F] uppercase tracking-[0.25em] mb-2">
-                        New Password
+                        {{ __('New Password') }}
                     </label>
                     <input
                         id="password"
@@ -64,12 +64,12 @@
                         name="password"
                         required
                         autocomplete="new-password"
-                        placeholder="Min 8 characters"
+                        placeholder="{{ __('Min 8 characters') }}"
                         class="w-full bg-white border border-[#D8C9B8] text-xs text-[#29241F] px-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/20 font-bold transition-all placeholder:text-gray-400 placeholder:font-bold">
                 </div>
                 <div>
                     <label for="password-confirm" class="block text-[10px] font-extrabold text-[#A8895F] uppercase tracking-[0.25em] mb-2">
-                        Confirm Password
+                        {{ __('Confirm Password') }}
                     </label>
                     <input
                         id="password-confirm"
@@ -77,7 +77,7 @@
                         name="password_confirmation"
                         required
                         autocomplete="new-password"
-                        placeholder="Re-enter password"
+                        placeholder="{{ __('Re-enter password') }}"
                         class="w-full bg-white border border-[#D8C9B8] text-xs text-[#29241F] px-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/20 font-bold transition-all placeholder:text-gray-400 placeholder:font-bold">
                 </div>
             </div>
@@ -85,11 +85,11 @@
             <button
                 type="submit"
                 class="w-full py-3.5 bg-[#A8895F] text-white font-extrabold text-xs uppercase tracking-[0.3em] polygon-btn text-center block shadow-xl shadow-[#A8895F]/25 hover:bg-[#29241F] active:scale-[0.99] transition-all">
-                Reset Password & Sign In
+                {{ __('Reset Password & Sign In') }}
             </button>
 
             <p class="pt-1 text-[10px] text-gray-500 font-semibold leading-relaxed text-center">
-                For security, your password must be at least 8 characters with a mix of letters, numbers, and symbols.
+                {{ __('For security, your password must be at least 8 characters with a mix of letters, numbers, and symbols.') }}
             </p>
         </form>
     </div>

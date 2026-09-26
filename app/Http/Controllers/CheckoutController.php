@@ -18,7 +18,7 @@ class CheckoutController extends Controller
         $cart = session()->get('cart', []);
 
         if (empty($cart)) {
-            return redirect()->route('shop.index')->with('info', 'Kikapu chako kipo wazi. Tafadhali chagua marashi kwanza.');
+            return redirect()->route('shop.index')->with('info', __('Your cart is empty. Please choose a fragrance first.'));
         }
 
         $subtotal = array_reduce($cart, function ($acc, $item) {
@@ -69,8 +69,10 @@ class CheckoutController extends Controller
         $isLoggedIn = $maybeUser instanceof User && ! $maybeUser->isAdmin();
 
         if (! $isLoggedIn && $mode !== 'guest') {
+            $action = $mode === 'login' ? __('sign in') : __('create an account');
+
             return redirect()->guest(route($mode === 'login' ? 'login' : 'register'))
-                ->with('info', 'Please '.($mode === 'login' ? 'sign in' : 'create an account').' to continue with this checkout option.');
+                ->with('info', __('Please :action to continue with this checkout option.', ['action' => $action]));
         }
 
         $useSavedAddress = false;
@@ -109,7 +111,7 @@ class CheckoutController extends Controller
         $cart = session()->get('cart', []);
 
         if (empty($cart)) {
-            return redirect()->route('shop.index')->with('error', 'Kikapu chako kipo wazi.');
+            return redirect()->route('shop.index')->with('error', __('Your cart is empty.'));
         }
 
         $subtotal = array_reduce($cart, function ($acc, $item) {
@@ -161,7 +163,7 @@ class CheckoutController extends Controller
 
         session()->forget('cart');
 
-        $flash = 'Oda yako imepokelewa kikamilifu! Order number: '.$order->order_number;
+        $flash = __('Your order has been received successfully! Order number: :number', ['number' => $order->order_number]);
 
         return redirect()->route('orders.show', $order->order_number)
             ->with('success', $flash)

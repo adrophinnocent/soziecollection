@@ -23,7 +23,7 @@ class HomeController extends Controller
                 'headline' => $banner->headline ?: $banner->title,
                 'highlight_text' => $banner->highlight_text,
                 'description' => $banner->subtitle ?: __('Hero Description'),
-                'button_text' => $banner->button_text ?: __('SHOP COLLECTION'),
+                'button_text' => $banner->button_text ?: __('Shop Collection'),
                 'button_link' => $banner->button_link ?: route('shop.index'),
                 'secondary_button_text' => $banner->secondary_button_text,
                 'secondary_button_link' => $banner->secondary_button_link,

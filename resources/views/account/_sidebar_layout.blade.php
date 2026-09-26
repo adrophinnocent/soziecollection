@@ -1,9 +1,9 @@
 <div class="py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex flex-col gap-2 mb-8">
-        <span class="text-[10px] font-extrabold text-[#A8895F] uppercase tracking-[0.4em]">MY ACCOUNT</span>
-        <h1 class="font-serif font-bold text-4xl text-[#29241F]">@yield('account_title', 'Dashboard')</h1>
+        <span class="text-[10px] font-extrabold text-[#A8895F] uppercase tracking-[0.4em]">{{ __('MY ACCOUNT') }}</span>
+        <h1 class="font-serif font-bold text-4xl text-[#29241F]">@yield('account_title', __('Dashboard'))</h1>
         <p class="text-sm text-gray-600 font-medium max-w-2xl">
-            @yield('account_subtitle', 'Manage your Sozie Collection orders, saved wishlist, delivery addresses, and personal details from one elegant atelier dashboard.')
+            @yield('account_subtitle', __('Manage your Sozie Collection orders, saved wishlist, delivery addresses, and personal details from one elegant atelier dashboard.'))
         </p>
     </div>
 
@@ -24,7 +24,7 @@
                         <p class="text-[10px] text-gray-500 font-bold truncate">{{ $user->email }}</p>
                         <span class="inline-flex items-center gap-1 mt-1 text-[9px] uppercase tracking-[0.2em] font-extrabold text-[#A8895F]">
                             <i data-lucide="gem" class="w-3 h-3"></i>
-                            {{ __($user->roleLabel) }} Member
+                            {{ $user->roleLabel }} {{ __('Member') }}
                         </span>
                     </div>
                 </div>
@@ -34,31 +34,31 @@
                        class="flex items-center gap-3 px-3 py-2.5 text-[11px] font-bold uppercase tracking-[0.2em] transition-colors polygon-card
                        {{ request()->routeIs('account.dashboard') ? 'bg-[#A8895F] text-white shadow-md' : 'text-[#29241F] hover:bg-[#EDE5D8]' }}">
                         <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
-                        <span>Dashboard</span>
+                        <span>{{ __('Dashboard') }}</span>
                     </a>
                     <a href="{{ route('account.orders') }}"
                        class="flex items-center gap-3 px-3 py-2.5 text-[11px] font-bold uppercase tracking-[0.2em] transition-colors polygon-card
                        {{ request()->routeIs('account.orders*') ? 'bg-[#A8895F] text-white shadow-md' : 'text-[#29241F] hover:bg-[#EDE5D8]' }}">
                         <i data-lucide="package-search" class="w-4 h-4"></i>
-                        <span>My Orders</span>
+                        <span>{{ __('My Orders') }}</span>
                     </a>
                     <a href="{{ route('account.wishlist') }}"
                        class="flex items-center gap-3 px-3 py-2.5 text-[11px] font-bold uppercase tracking-[0.2em] transition-colors polygon-card
                        {{ request()->routeIs('account.wishlist*') ? 'bg-[#A8895F] text-white shadow-md' : 'text-[#29241F] hover:bg-[#EDE5D8]' }}">
                         <i data-lucide="heart" class="w-4 h-4"></i>
-                        <span>Wishlist</span>
+                        <span>{{ __('Wishlist') }}</span>
                     </a>
                     <a href="{{ route('account.addresses') }}"
                        class="flex items-center gap-3 px-3 py-2.5 text-[11px] font-bold uppercase tracking-[0.2em] transition-colors polygon-card
                        {{ request()->routeIs('account.addresses*') ? 'bg-[#A8895F] text-white shadow-md' : 'text-[#29241F] hover:bg-[#EDE5D8]' }}">
                         <i data-lucide="map-pin" class="w-4 h-4"></i>
-                        <span>Saved Addresses</span>
+                        <span>{{ __('Saved Addresses') }}</span>
                     </a>
                     <a href="{{ route('account.profile') }}"
                        class="flex items-center gap-3 px-3 py-2.5 text-[11px] font-bold uppercase tracking-[0.2em] transition-colors polygon-card
                        {{ request()->routeIs('account.profile*') ? 'bg-[#A8895F] text-white shadow-md' : 'text-[#29241F] hover:bg-[#EDE5D8]' }}">
                         <i data-lucide="user-cog" class="w-4 h-4"></i>
-                        <span>Profile</span>
+                        <span>{{ __('Profile') }}</span>
                     </a>
                 </nav>
 
@@ -66,19 +66,19 @@
                     <a href="{{ route('orders.track') }}"
                        class="flex items-center gap-2.5 px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#A8895F] hover:text-[#29241F] transition-colors">
                         <i data-lucide="truck" class="w-3.5 h-3.5"></i>
-                        Track Order
+                        {{ __('Track Order') }}
                     </a>
                     <a href="{{ route('shop.index') }}"
                        class="flex items-center gap-2.5 px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#A8895F] hover:text-[#29241F] transition-colors">
                         <i data-lucide="store" class="w-3.5 h-3.5"></i>
-                        Browse Perfumes
+                        {{ __('Browse Perfumes') }}
                     </a>
                     <form method="POST" action="{{ route('logout') }}" class="block w-full">
                         @csrf
                         <button type="submit"
                                 class="flex items-center gap-2.5 w-full px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.2em] text-rose-700 hover:bg-rose-50 transition-colors rounded text-left">
                             <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
-                            Sign Out
+                            {{ __('Sign Out') }}
                         </button>
                     </form>
                 </div>

@@ -20,7 +20,7 @@ class IsAdmin
         }
 
         if (! $request->user()->isAdmin()) {
-            abort(403, 'Unauthorized access. You do not have permission to view this page.');
+            abort(403, __('Unauthorized access. You do not have permission to view this page.'));
         }
 
         return $next($request);

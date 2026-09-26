@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Saved Addresses | Sozie Collection')
+@section('title', __('Saved Addresses | Sozie Collection'))
 
 @section('content')
 @include('account._sidebar_layout', [
-    'account_title' => 'Saved Shipping Addresses',
-    'account_subtitle' => 'Manage your delivery locations. Set a default address for super-fast checkout next time you order your favorite Sozie fragrances.'
+    'account_title' => __('Saved Shipping Addresses'),
+    'account_subtitle' => __('Manage your delivery locations. Set a default address for super-fast checkout next time you order your favorite Sozie fragrances.')
 ])
 @endsection
 
@@ -14,13 +14,13 @@
     <div class="flex items-center gap-3 text-[11px] font-bold text-gray-600">
         <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#A8895F]/15 text-[#A8895F] rounded-full border border-[#A8895F]/30 uppercase tracking-[0.2em] text-[9px] font-extrabold">
             <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
-            {{ $addresses->count() }} {{ Str::plural('Address', $addresses->count()) }} Saved
+            {{ $addresses->count() }} {{ Str::plural(__('Address'), $addresses->count()) }} {{ __('Saved') }}
         </span>
     </div>
     <a href="{{ route('account.addresses.create') }}"
        class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#A8895F] text-white text-[10px] font-extrabold uppercase tracking-[0.25em] polygon-btn hover:bg-[#29241F] shadow-md">
         <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-        Add New Address
+        {{ __('Add New Address') }}
     </a>
 </div>
 
@@ -30,14 +30,14 @@
         <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-[#A8895F]/10 border border-[#A8895F]/30 flex items-center justify-center">
             <i data-lucide="map-pinned" class="w-10 h-10 text-[#A8895F]/60"></i>
         </div>
-        <h3 class="font-serif font-bold text-2xl text-[#29241F] mb-2">No saved addresses yet</h3>
+        <h3 class="font-serif font-bold text-2xl text-[#29241F] mb-2">{{ __('No saved addresses yet') }}</h3>
         <p class="text-sm text-gray-500 font-medium max-w-md mx-auto mb-7">
-            Store your most-used delivery locations for 1-click checkout on every future Sozie Collection fragrance order.
+            {{ __('Store your most-used delivery locations for 1-click checkout on every future Sozie Collection fragrance order.') }}
         </p>
         <a href="{{ route('account.addresses.create') }}"
            class="inline-block px-7 py-3 bg-[#A8895F] text-white text-xs font-extrabold uppercase tracking-[0.3em] polygon-btn hover:bg-[#29241F] shadow-lg inline-flex items-center gap-2">
             <i data-lucide="plus" class="w-4 h-4"></i>
-            Add First Address
+            {{ __('Add First Address') }}
         </a>
     </div>
     @else
@@ -48,7 +48,7 @@
             @if($address->is_default)
             <span class="absolute top-4 right-4 inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#A8895F] text-white text-[9px] uppercase tracking-[0.2em] font-extrabold shadow">
                 <i data-lucide="badge-check" class="w-3 h-3"></i>
-                Default
+                {{ __('Default') }}
             </span>
             @endif
 
@@ -75,7 +75,7 @@
                 <a href="{{ route('account.addresses.edit', $address->id) }}"
                    class="px-3 py-1.5 bg-white border border-[#A8895F]/50 text-[#29241F] text-[10px] font-extrabold uppercase tracking-[0.2em] polygon-btn hover:bg-[#EDE5D8] transition-all inline-flex items-center gap-1.5">
                     <i data-lucide="pencil" class="w-3.5 h-3.5 text-[#A8895F]"></i>
-                    Edit
+                    {{ __('Edit') }}
                 </a>
 
                 @if(! $address->is_default)
@@ -85,19 +85,19 @@
                     <button type="submit"
                             class="px-3 py-1.5 bg-[#EDE5D8] border border-[#D8C9B8] text-[#29241F] text-[10px] font-extrabold uppercase tracking-[0.2em] polygon-btn hover:bg-[#D8C9B8] transition-all inline-flex items-center gap-1.5">
                         <i data-lucide="star" class="w-3.5 h-3.5 text-[#A8895F]"></i>
-                        Default
+                        {{ __('Default') }}
                     </button>
                 </form>
                 @endif
 
                 <form action="{{ route('account.addresses.destroy', $address->id) }}" method="POST" class="inline-block ml-auto"
-                      onsubmit="return confirm('Delete this saved address? This action cannot be undone.');">
+                      onsubmit="return confirm({{ \Illuminate\Support\Js::from(__('Delete this saved address? This action cannot be undone.')) }});">
                     @csrf
                     @method('DELETE')
                     <button type="submit"
                             class="px-3 py-1.5 bg-white border border-rose-200 text-rose-700 text-[10px] font-extrabold uppercase tracking-[0.2em] polygon-btn hover:bg-rose-50 transition-all inline-flex items-center gap-1.5">
                         <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                        Remove
+                        {{ __('Remove') }}
                     </button>
                 </form>
             </div>

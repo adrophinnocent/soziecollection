@@ -59,7 +59,7 @@ class CartController extends Controller
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json([
                 'status' => 'success',
-                'message' => 'Product added to cart!',
+                'message' => __('Product added to cart!'),
                 'cart_count' => array_sum(array_column($cart, 'quantity')),
                 'cart' => array_values($cart),
                 'total' => array_reduce($cart, function ($acc, $item) {
@@ -68,7 +68,7 @@ class CartController extends Controller
             ]);
         }
 
-        return back()->with('success', $product->name.' added to cart!');
+        return back()->with('success', __(':product added to cart!', ['product' => $product->name]));
     }
 
     public function update(Request $request)
@@ -97,7 +97,7 @@ class CartController extends Controller
             ]);
         }
 
-        return back()->with('success', 'Cart updated');
+        return back()->with('success', __('Cart updated'));
     }
 
     public function remove(Request $request)
@@ -125,7 +125,7 @@ class CartController extends Controller
             ]);
         }
 
-        return back()->with('success', 'Item removed from cart');
+        return back()->with('success', __('Item removed from cart'));
     }
 
     public function getCartApi()

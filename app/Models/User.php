@@ -151,12 +151,12 @@ class User extends Authenticatable
     public function getRoleLabelAttribute(): string
     {
         return match ($this->role) {
-            self::ROLE_SUPER_ADMIN => 'Super Admin',
-            self::ROLE_MANAGER => 'Manager',
-            self::ROLE_INVENTORY_MANAGER => 'Inventory Manager',
-            self::ROLE_ORDER_MANAGER => 'Order Manager',
-            self::ROLE_CONTENT_MANAGER => 'Content Manager',
-            default => 'Customer',
+            self::ROLE_SUPER_ADMIN => __('Super Admin'),
+            self::ROLE_MANAGER => __('Manager'),
+            self::ROLE_INVENTORY_MANAGER => __('Inventory Manager'),
+            self::ROLE_ORDER_MANAGER => __('Order Manager'),
+            self::ROLE_CONTENT_MANAGER => __('Content Manager'),
+            default => __('Customer'),
         };
     }
 }

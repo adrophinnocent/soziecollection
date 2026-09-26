@@ -37,15 +37,15 @@ class CustomerAuthController extends Controller implements HasMiddleware
             'email' => ['required', 'email'],
             'password' => ['required'],
         ], [
-            'email.required' => 'Email address is required.',
-            'password.required' => 'Password is required.',
+            'email.required' => __('Email address is required.'),
+            'password.required' => __('Password is required.'),
         ]);
 
         $remember = (bool) $request->boolean('remember');
 
         if (! Auth::attempt($credentials, $remember)) {
             return back()->withErrors([
-                'email' => 'The provided credentials do not match our records.',
+                'email' => __('The provided credentials do not match our records.'),
             ])->onlyInput('email');
         }
 
@@ -55,7 +55,7 @@ class CustomerAuthController extends Controller implements HasMiddleware
             Auth::logout();
 
             return back()->withErrors([
-                'email' => 'Please use the Admin Portal to log in with this account.',
+                'email' => __('Please use the Admin Portal to log in with this account.'),
             ])->onlyInput('email');
         }
 
@@ -77,12 +77,12 @@ class CustomerAuthController extends Controller implements HasMiddleware
             'phone' => ['nullable', 'string', 'max:50'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ], [
-            'name.required' => 'Full name is required.',
-            'email.required' => 'Email address is required.',
-            'email.email' => 'Please enter a valid email address.',
-            'email.unique' => 'This email is already registered. Please login instead.',
-            'password.required' => 'Password is required.',
-            'password.confirmed' => 'Password confirmation does not match.',
+            'name.required' => __('Full name is required.'),
+            'email.required' => __('Email address is required.'),
+            'email.email' => __('Please enter a valid email address.'),
+            'email.unique' => __('This email is already registered. Please login instead.'),
+            'password.required' => __('Password is required.'),
+            'password.confirmed' => __('Password confirmation does not match.'),
         ]);
 
         $user = User::create([
@@ -100,7 +100,7 @@ class CustomerAuthController extends Controller implements HasMiddleware
         $request->session()->regenerate();
 
         return redirect()->route('account.dashboard')
-            ->with('success', 'Welcome to Sozie Collection, '.$user->name.'! Your account has been created.');
+            ->with('success', __('Welcome to Sozie Collection, :name! Your account has been created.', ['name' => $user->name]));
     }
 
     public function showForgotPasswordForm(): View
@@ -113,7 +113,7 @@ class CustomerAuthController extends Controller implements HasMiddleware
         $request->validate([
             'email' => ['required', 'email'],
         ], [
-            'email.required' => 'Email address is required.',
+            'email.required' => __('Email address is required.'),
         ]);
 
         $status = Password::sendResetLink(
@@ -168,7 +168,7 @@ class CustomerAuthController extends Controller implements HasMiddleware
         $request->session()->regenerateToken();
 
         return redirect()->route('home')
-            ->with('info', 'You have been signed out of your Sozie Collection account.');
+            ->with('info', __('You have been signed out of your Sozie Collection account.'));
     }
 
     public function showAccountRedirect(): RedirectResponse

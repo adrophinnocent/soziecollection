@@ -52,7 +52,7 @@ class AccountController extends Controller
             ->firstOrFail();
 
         if ($order->user_id !== $user->id) {
-            abort(403, 'This order does not belong to your account.');
+            abort(403, __('This order does not belong to your account.'));
         }
 
         return view('account.show-order', compact('user', 'order'));
@@ -109,7 +109,7 @@ class AccountController extends Controller
         ]);
 
         return redirect()->route('account.addresses')
-            ->with('success', 'Shipping address saved successfully.');
+            ->with('success', __('Shipping address saved successfully.'));
     }
 
     public function editAddress(int $id): View
@@ -148,7 +148,7 @@ class AccountController extends Controller
         ]);
 
         return redirect()->route('account.addresses')
-            ->with('success', 'Address updated successfully.');
+            ->with('success', __('Address updated successfully.'));
     }
 
     public function destroyAddress(int $id): RedirectResponse
@@ -166,7 +166,7 @@ class AccountController extends Controller
         }
 
         return redirect()->route('account.addresses')
-            ->with('success', 'Address removed successfully.');
+            ->with('success', __('Address removed successfully.'));
     }
 
     public function setDefaultAddress(int $id): RedirectResponse
@@ -180,7 +180,7 @@ class AccountController extends Controller
         $address->update(['is_default' => true]);
 
         return redirect()->route('account.addresses')
-            ->with('success', 'Default shipping address updated.');
+            ->with('success', __('Default shipping address updated.'));
     }
 
     public function profile(): View
@@ -204,7 +204,7 @@ class AccountController extends Controller
         $user->update($validated);
 
         return redirect()->route('account.profile')
-            ->with('success', 'Your profile information has been updated.');
+            ->with('success', __('Your profile information has been updated.'));
     }
 
     public function updatePassword(Request $request): RedirectResponse
@@ -227,6 +227,6 @@ class AccountController extends Controller
         ]);
 
         return redirect()->route('account.profile')
-            ->with('success', 'Your password has been changed successfully.');
+            ->with('success', __('Your password has been changed successfully.'));
     }
 }

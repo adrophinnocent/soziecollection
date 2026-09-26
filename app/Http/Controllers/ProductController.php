@@ -131,7 +131,7 @@ class ProductController extends Controller
             'is_verified' => true,
         ]);
 
-        return back()->with('success', 'Asante! Maoni yako yamewasilishwa kikamilifu.');
+        return back()->with('success', __('Thank you! Your review has been submitted.'));
     }
 
     public function quickView($id)

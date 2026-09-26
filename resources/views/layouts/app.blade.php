@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Sozie Collection | Premium Perfume E-Commerce')</title>
+    <title>@yield('title', __('Sozie Collection | Premium Perfume E-Commerce'))</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -38,18 +38,21 @@
         <div class="max-w-7xl mx-auto flex items-center justify-between w-full">
             <span class="truncate flex items-center gap-2.5">
                 <span class="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-ping"></span>
-                <span class="text-[#D8C9B8] font-bold tracking-widest">{{ __('SOZIE COLLECTION') }}</span>
+                <span class="text-[#D8C9B8] font-bold tracking-normal sm:tracking-widest sm:hidden">{{ __('Announcement Bar Short') }}</span>
+                <span class="text-[#D8C9B8] font-bold tracking-widest hidden sm:inline">{{ __('Announcement Bar') }}</span>
             </span>
 
             <div class="flex items-center space-x-2 pl-4 flex-shrink-0">
                 <!-- Language Switcher Buttons -->
                 <a href="{{ route('lang.switch', 'en') }}"
-                   class="px-2.5 py-1 rounded text-[10px] font-black border transition-all {{ app()->getLocale() === 'en' ? 'bg-gradient-to-r from-[#A8895F] to-[#D4AF37] text-[#12100E] border-[#D4AF37] shadow-sm' : 'text-[#D8C9B8] border-[#C5A059]/30 hover:border-[#D4AF37] hover:text-[#FFF5D0]' }}">
+                   class="px-2.5 py-1 rounded text-[10px] font-black border transition-all {{ app()->getLocale() === 'en' ? 'bg-gradient-to-r from-[#A8895F] to-[#D4AF37] text-[#12100E] border-[#D4AF37] shadow-sm' : 'text-[#D8C9B8] border-[#C5A059]/30 hover:border-[#D4AF37] hover:text-[#FFF5D0]' }}"
+                   title="{{ __('Switch to English') }}" aria-label="{{ __('Switch to English') }}">
                     🇬🇧 EN
                 </a>
                 <a href="{{ route('lang.switch', 'sw') }}"
-                   class="px-2.5 py-1 rounded text-[10px] font-black border transition-all {{ app()->getLocale() === 'sw' ? 'bg-gradient-to-r from-[#A8895F] to-[#D4AF37] text-[#12100E] border-[#D4AF37] shadow-sm' : 'text-[#D8C9B8] border-[#C5A059]/30 hover:border-[#D4AF37] hover:text-[#FFF5D0]' }}">
-                    🇹ℤ SW
+                   class="px-2.5 py-1 rounded text-[10px] font-black border transition-all {{ app()->getLocale() === 'sw' ? 'bg-gradient-to-r from-[#A8895F] to-[#D4AF37] text-[#12100E] border-[#D4AF37] shadow-sm' : 'text-[#D8C9B8] border-[#C5A059]/30 hover:border-[#D4AF37] hover:text-[#FFF5D0]' }}"
+                   title="{{ __('Switch to Kiswahili') }}" aria-label="{{ __('Switch to Kiswahili') }}">
+                    🇹🇿 SW
                 </a>
             </div>
         </div>
@@ -209,10 +212,10 @@
                              x-transition
                              class="absolute right-0 mt-3 w-72 sm:w-96 glass-panel p-3 polygon-card shadow-2xl z-50 bg-[#F8F5EF] border border-[#D8C9B8]">
                             <form action="{{ route('shop.index') }}" method="GET" class="flex items-center gap-2">
-                                <input type="text" name="q" placeholder="Search perfumes, notes, mood..."
+                                <input type="text" name="q" placeholder="{{ __('Search perfumes, notes, mood...') }}"
                                        class="w-full bg-white border border-[#D8C9B8] text-xs text-[#29241F] px-3 py-2 focus:outline-none focus:border-[#A8895F]">
                                 <button type="submit" class="bg-[#A8895F] border border-[#A8895F] text-white px-4 py-2 font-extrabold text-xs uppercase polygon-btn hover:bg-[#29241F]">
-                                    Search
+                                    {{ __('Search') }}
                                 </button>
                             </form>
                         </div>
@@ -237,13 +240,7 @@
                         <span class="hidden lg:inline text-xs font-bold uppercase tracking-wider text-[#A8895F]" x-text="formattedTotal">TZS 0</span>
                     </button>
 
-                    <!-- Direct WhatsApp Contact -->
-                    <a href="https://wa.me/{{ config('payment.whatsapp.phone_number') }}?text=Jambo%20Sozie%20Collection%20!"
-                       target="_blank"
-                       class="hidden sm:flex items-center gap-2 bg-emerald-900 text-white border border-emerald-700 px-3 py-1.5 text-xs font-extrabold uppercase tracking-wider polygon-btn hover:bg-emerald-950 transition-all">
-                        <i data-lucide="message-circle" class="w-4 h-4 text-emerald-300"></i>
-                        <span>WhatsApp</span>
-                    </a>
+                    <!-- Direct WhatsApp Contact lives in the floating button, see below -->
 
                     <!-- Mobile Menu Button -->
                     <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 text-[#29241F] hover:text-[#A8895F]">
@@ -336,11 +333,26 @@
     <!-- FLASH MESSAGES -->
     @if(session('success'))
     <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)"
-         class="fixed bottom-6 right-6 z-50 bg-[#F8F5EF] text-[#29241F] border-2 border-[#A8895F] p-4 polygon-card shadow-2xl flex items-center gap-3 backdrop-blur-md">
-        <i data-lucide="check-circle-2" class="w-5 h-5 text-[#A8895F]"></i>
+         class="fixed bottom-5 left-5 z-50 max-w-[calc(100vw-2.5rem)] bg-[#F8F5EF] text-[#29241F] border-2 border-[#A8895F] p-4 polygon-card shadow-2xl flex items-center gap-3 backdrop-blur-md">
+        <i data-lucide="check-circle-2" class="w-5 h-5 text-[#A8895F] shrink-0"></i>
         <span class="text-xs font-bold tracking-wider">{{ session('success') }}</span>
         <button @click="show = false" class="ml-4 text-gray-500 hover:text-black">&times;</button>
     </div>
+    @endif
+
+    <!-- FLOATING WHATSAPP CONCIERGE -->
+    @if(config('payment.whatsapp.enabled') && config('payment.whatsapp.phone_number'))
+    <a href="https://wa.me/{{ config('payment.whatsapp.phone_number') }}?text={{ rawurlencode(__('Hello Sozie Collection! I would like some help with your products.')) }}"
+       target="_blank" rel="noopener"
+       class="fixed bottom-5 right-5 z-40 inline-flex items-center rounded-full bg-[#25D366] hover:bg-[#1EBE5A] text-white shadow-2xl ring-1 ring-black/5 transition-transform duration-200 hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#25D366]/50"
+       aria-label="{{ __('Chat with us on WhatsApp') }}"
+       title="{{ __('Chat with us on WhatsApp') }}">
+        <span class="relative p-3.5">
+            <i data-lucide="message-circle" class="w-6 h-6 block"></i>
+            <span class="absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-white ring-2 ring-[#25D366]"></span>
+        </span>
+        <span class="hidden sm:inline text-xs font-extrabold uppercase tracking-[0.15em] pr-5 whitespace-nowrap">{{ __('Chat with us') }}</span>
+    </a>
     @endif
 
     <!-- MAIN CONTENT -->
@@ -370,7 +382,7 @@
                     <!-- Free Shipping Progress Bar -->
                     <div class="py-3 px-1 border-b border-[#D8C9B8]">
                         <div class="flex justify-between text-[11px] font-bold mb-1">
-                            <span class="text-gray-700" x-text="total >= 100000 ? '🎉 Free Delivery unlocked!' : 'Add TZS ' + Number(100000 - total).toLocaleString() + ' more for Free Delivery!'"></span>
+                            <span class="text-gray-700" x-text="total >= 100000 ? @js(__('🎉 Free Delivery unlocked!')) : @js(__('Add TZS :amount more for Free Delivery!')).replace(':amount', Number(100000 - total).toLocaleString())"></span>
                             <span class="text-[#A8895F]" x-text="Math.min(100, Math.round((total / 100000) * 100)) + '%'"></span>
                         </div>
                         <div class="w-full h-2 bg-[#EDE5D8] rounded-full overflow-hidden">
@@ -384,7 +396,7 @@
                     <template x-if="cartItems.length === 0">
                         <div class="text-center py-16 text-gray-600">
                             <i data-lucide="sparkles" class="w-12 h-12 text-[#A8895F]/50 mx-auto mb-3"></i>
-                            <p class="font-serif text-lg font-bold text-[#29241F]">Your cart is currently empty.</p>
+                            <p class="font-serif text-lg font-bold text-[#29241F]">{{ __('Your cart is currently empty.') }}</p>
                             <a href="{{ route('shop.index') }}" @click="cartOpen = false"
                                class="inline-block mt-4 text-xs font-bold uppercase tracking-widest text-[#A8895F] underline hover:text-[#29241F]">
                                 {{ __('EXPLORE COLLECTION') }}
@@ -418,7 +430,7 @@
                 <!-- Footer Summary & Checkout CTA -->
                 <div class="pt-4 border-t border-[#D8C9B8] space-y-4">
                     <div class="flex justify-between items-center text-sm font-bold tracking-wider">
-                        <span class="text-gray-700">ESTIMATED TOTAL</span>
+                        <span class="text-gray-700">{{ __('ESTIMATED TOTAL') }}</span>
                         <span class="font-serif text-xl font-bold text-[#A8895F]" x-text="formattedTotal"></span>
                     </div>
 
@@ -429,7 +441,7 @@
                         </a>
                         <a href="{{ route('cart.index') }}"
                            class="w-full py-2.5 bg-white border border-[#D8C9B8] text-[#29241F] font-bold text-xs uppercase tracking-wider polygon-btn text-center block hover:bg-[#EDE5D8]">
-                            VIEW FULL CART
+                            {{ __('VIEW FULL CART') }}
                         </a>
                     </div>
                 </div>
@@ -459,11 +471,11 @@
                         <div class="flex items-start gap-2.5">
                             <i data-lucide="key-round" class="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5"></i>
                             <div class="flex-grow">
-                                <p class="font-extrabold mb-1 uppercase tracking-[0.2em] text-[10px] text-amber-700">Cross-Device Save Not Active</p>
-                                <p class="font-medium">This wishlist is currently stored <strong>only on this browser/device</strong>. Create or sign into your Sozie Collection account to access these saved scents from phone, tablet, and desktop.</p>
+                                <p class="font-extrabold mb-1 uppercase tracking-[0.2em] text-[10px] text-amber-700">{{ __('Cross-Device Save Not Active') }}</p>
+                                <p class="font-medium">{{ __('This wishlist is currently stored') }} <strong>{{ __('only on this browser/device') }}</strong>. {{ __('Create or sign into your Sozie Collection account to access these saved scents from phone, tablet, and desktop.') }}</p>
                                 <div class="flex flex-wrap gap-2 mt-3">
-                                    <a href="{{ route('register') }}" class="inline-block px-3 py-1.5 bg-[#A8895F] text-white text-[10px] font-extrabold uppercase tracking-[0.2em] polygon-btn shadow-sm">Create Account</a>
-                                    <a href="{{ route('login') }}" class="inline-block px-3 py-1.5 bg-white border border-[#D8C9B8] text-[#29241F] text-[10px] font-extrabold uppercase tracking-[0.2em] polygon-btn">Sign In</a>
+                                    <a href="{{ route('register') }}" class="inline-block px-3 py-1.5 bg-[#A8895F] text-white text-[10px] font-extrabold uppercase tracking-[0.2em] polygon-btn shadow-sm">{{ __('Create Account') }}</a>
+                                    <a href="{{ route('login') }}" class="inline-block px-3 py-1.5 bg-white border border-[#D8C9B8] text-[#29241F] text-[10px] font-extrabold uppercase tracking-[0.2em] polygon-btn">{{ __('Sign In') }}</a>
                                 </div>
                             </div>
                         </div>
@@ -472,8 +484,8 @@
                     <template x-if="wishlist.length === 0">
                         <div class="text-center py-16 text-gray-600">
                             <i data-lucide="heart" class="w-12 h-12 text-[#A8895F]/50 mx-auto mb-3"></i>
-                            <p class="font-serif text-lg font-bold text-[#29241F]">Your wishlist is empty.</p>
-                            <p class="text-xs text-gray-500 mt-1">Tap the heart icon on any perfume card to save items.</p>
+                            <p class="font-serif text-lg font-bold text-[#29241F]">{{ __('Your wishlist is empty.') }}</p>
+                            <p class="text-xs text-gray-500 mt-1">{{ __('Tap the heart icon on any perfume card to save items.') }}</p>
                         </div>
                     </template>
 
@@ -485,7 +497,7 @@
                                 <span class="text-sm sm:text-xs text-[#A8895F] font-extrabold" x-text="item.formatted_price"></span>
                                 <div class="flex gap-2 mt-2">
                                     <button @click="addToCart(item.id); toggleWishlist(item)" class="px-3 py-1 bg-[#A8895F] text-white text-[10px] font-bold uppercase polygon-btn hover:bg-[#29241F]">
-                                        Move to Cart
+                                        {{ __('Move to Cart') }}
                                     </button>
                                 </div>
                             </div>
@@ -521,7 +533,7 @@
                             <!-- Variant Size Pills -->
                             <template x-if="quickViewData.variants && quickViewData.variants.length > 0">
                                 <div>
-                                    <span class="text-[10px] font-extrabold text-[#A8895F] uppercase tracking-wider block mb-1">Select Size</span>
+                                    <span class="text-[10px] font-extrabold text-[#A8895F] uppercase tracking-wider block mb-1">{{ __('Select Size') }}</span>
                                     <div class="flex flex-wrap gap-1.5">
                                         <template x-for="v in quickViewData.variants" :key="v.size">
                                             <button @click="quickViewSize = v.size; quickViewSelectedPrice = v.formatted_price"
@@ -535,9 +547,9 @@
                             </template>
 
                             <div class="text-[11px] text-gray-700 space-y-1 pt-2 border-t border-[#D8C9B8] font-medium">
-                                <div><strong class="text-[#A8895F] font-bold">Top Notes:</strong> <span x-text="quickViewData.top_notes"></span></div>
-                                <div><strong class="text-[#A8895F] font-bold">Heart Notes:</strong> <span x-text="quickViewData.heart_notes"></span></div>
-                                <div><strong class="text-[#A8895F] font-bold">Base Notes:</strong> <span x-text="quickViewData.base_notes"></span></div>
+                                <div><strong class="text-[#A8895F] font-bold">{{ __('Top Notes:') }}</strong> <span x-text="quickViewData.top_notes"></span></div>
+                                <div><strong class="text-[#A8895F] font-bold">{{ __('Heart Notes:') }}</strong> <span x-text="quickViewData.heart_notes"></span></div>
+                                <div><strong class="text-[#A8895F] font-bold">{{ __('Base Notes:') }}</strong> <span x-text="quickViewData.base_notes"></span></div>
                             </div>
 
                             <div class="pt-3 flex gap-2">
@@ -545,7 +557,7 @@
                                     {{ __('ADD TO CART') }}
                                 </button>
                                 <a :href="'/product/' + quickViewData.slug" class="px-4 py-3 bg-[#EDE5D8] text-[#29241F] font-bold text-xs uppercase polygon-btn hover:bg-[#D8C9B8]">
-                                    Full Page
+                                    {{ __('Full Page') }}
                                 </a>
                             </div>
                         </div>
@@ -569,8 +581,8 @@
                             <i data-lucide="gem" class="w-5 h-5 text-[#D4AF37]"></i>
                         </div>
                         <div>
-                            <h5 class="text-xs font-serif font-bold tracking-wider text-[#FFF5D0] uppercase">100% Authentic</h5>
-                            <p class="text-[10px] text-[#C5A059] font-medium">Artisanal Niche Perfumery</p>
+                            <h5 class="text-xs font-serif font-bold tracking-wider text-[#FFF5D0] uppercase">{{ __('100% Authentic') }}</h5>
+                            <p class="text-[10px] text-[#C5A059] font-medium">{{ __('Artisanal Niche Perfumery') }}</p>
                         </div>
                     </div>
 
@@ -579,8 +591,8 @@
                             <i data-lucide="truck" class="w-5 h-5 text-[#D4AF37]"></i>
                         </div>
                         <div>
-                            <h5 class="text-xs font-serif font-bold tracking-wider text-[#FFF5D0] uppercase">VIP Express Delivery</h5>
-                            <p class="text-[10px] text-[#C5A059] font-medium">Fast Shipping Across Tanzania</p>
+                            <h5 class="text-xs font-serif font-bold tracking-wider text-[#FFF5D0] uppercase">{{ __('VIP Express Delivery') }}</h5>
+                            <p class="text-[10px] text-[#C5A059] font-medium">{{ __('Fast Shipping Across Tanzania') }}</p>
                         </div>
                     </div>
 
@@ -589,8 +601,8 @@
                             <i data-lucide="gift" class="w-5 h-5 text-[#D4AF37]"></i>
                         </div>
                         <div>
-                            <h5 class="text-xs font-serif font-bold tracking-wider text-[#FFF5D0] uppercase">Complimentary Samples</h5>
-                            <p class="text-[10px] text-[#C5A059] font-medium">Included With Every Order</p>
+                            <h5 class="text-xs font-serif font-bold tracking-wider text-[#FFF5D0] uppercase">{{ __('Complimentary Samples') }}</h5>
+                            <p class="text-[10px] text-[#C5A059] font-medium">{{ __('Included With Every Order') }}</p>
                         </div>
                     </div>
 
@@ -599,8 +611,8 @@
                             <i data-lucide="shield-check" class="w-5 h-5 text-[#D4AF37]"></i>
                         </div>
                         <div>
-                            <h5 class="text-xs font-serif font-bold tracking-wider text-[#FFF5D0] uppercase">Secure Payments</h5>
-                            <p class="text-[10px] text-[#C5A059] font-medium">Mobile Money & COD Available</p>
+                            <h5 class="text-xs font-serif font-bold tracking-wider text-[#FFF5D0] uppercase">{{ __('Secure Payments') }}</h5>
+                            <p class="text-[10px] text-[#C5A059] font-medium">{{ __('Mobile Money & COD Available') }}</p>
                         </div>
                     </div>
                 </div>
@@ -625,7 +637,7 @@
                     </div>
 
                     <p class="text-xs text-[#D8C9B8]/90 leading-relaxed font-normal pr-2">
-                        Exclusive haute parfumerie campaign & luxury sensory e-commerce destination. Every creation is meticulously crafted to evoke timeless elegance and leave an unforgettable signature aura.
+                        {{ __('Exclusive haute parfumerie campaign & luxury sensory e-commerce destination. Every creation is meticulously crafted to evoke timeless elegance and leave an unforgettable signature aura.') }}
                     </p>
 
                     <div class="flex space-x-3 pt-1">
@@ -651,7 +663,7 @@
                         </a>
 
                         <!-- WhatsApp -->
-                        <a href="https://wa.me/{{ config('payment.whatsapp.phone_number') }}" target="_blank" title="WhatsApp Concierge" class="w-9 h-9 rounded bg-emerald-950/80 border border-emerald-600/50 flex items-center justify-center text-emerald-300 hover:bg-emerald-900 transition-all shadow-md">
+                        <a href="https://wa.me/{{ config('payment.whatsapp.phone_number') }}" target="_blank" title="{{ __('WhatsApp Concierge') }}" class="w-9 h-9 rounded bg-emerald-950/80 border border-emerald-600/50 flex items-center justify-center text-emerald-300 hover:bg-emerald-900 transition-all shadow-md">
                             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.631.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
                             </svg>
@@ -662,43 +674,43 @@
                 <!-- Col 2: Collections -->
                 <div>
                     <h4 class="font-serif font-bold text-sm tracking-[0.25em] text-[#D4AF37] uppercase mb-5 flex items-center gap-2">
-                        <span>COLLECTIONS</span>
+                        <span>{{ __('COLLECTIONS') }}</span>
                         <span class="w-1.5 h-1.5 rounded-full bg-[#D4AF37]"></span>
                     </h4>
                     <ul class="space-y-3 text-xs text-[#D8C9B8] font-medium">
-                        <li><a href="{{ route('shop.index', ['gender' => 'women']) }}" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> Women's Perfumes</a></li>
-                        <li><a href="{{ route('shop.index', ['gender' => 'men']) }}" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> Men's Perfumes</a></li>
-                        <li><a href="{{ route('shop.index', ['gender' => 'unisex']) }}" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> Unisex Signature</a></li>
-                        <li><a href="{{ route('shop.index', ['category' => 'perfume-oils']) }}" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> Concentrated Oils</a></li>
-                        <li><a href="{{ route('shop.index', ['category' => 'perfume-gift-sets']) }}" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> Luxury Gift Boxes</a></li>
+                        <li><a href="{{ route('shop.index', ['gender' => 'women']) }}" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> {{ __("Women's Perfumes") }}</a></li>
+                        <li><a href="{{ route('shop.index', ['gender' => 'men']) }}" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> {{ __("Men's Perfumes") }}</a></li>
+                        <li><a href="{{ route('shop.index', ['gender' => 'unisex']) }}" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> {{ __('Unisex Signature') }}</a></li>
+                        <li><a href="{{ route('shop.index', ['category' => 'perfume-oils']) }}" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> {{ __('Concentrated Oils') }}</a></li>
+                        <li><a href="{{ route('shop.index', ['category' => 'perfume-gift-sets']) }}" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> {{ __('Luxury Gift Boxes') }}</a></li>
                     </ul>
                 </div>
 
                 <!-- Col 3: Customer Care -->
                 <div>
                     <h4 class="font-serif font-bold text-sm tracking-[0.25em] text-[#D4AF37] uppercase mb-5 flex items-center gap-2">
-                        <span>CUSTOMER CARE</span>
+                        <span>{{ __('CUSTOMER CARE') }}</span>
                         <span class="w-1.5 h-1.5 rounded-full bg-[#D4AF37]"></span>
                     </h4>
                     <ul class="space-y-3 text-xs text-[#D8C9B8] font-medium">
                         <li><a href="{{ route('orders.track') }}" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> {{ __('Track Order') }}</a></li>
                         <li><a href="{{ route('home') }}#scent-finder" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> {{ __('Fragrance Finder') }}</a></li>
-                        <li><a href="https://wa.me/{{ config('payment.whatsapp.phone_number') }}" target="_blank" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> VIP WhatsApp Concierge</a></li>
-                        <li><a href="{{ route('account.dashboard') }}" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> My Account Dashboard</a></li>
+                        <li><a href="https://wa.me/{{ config('payment.whatsapp.phone_number') }}" target="_blank" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> {{ __('VIP WhatsApp Concierge') }}</a></li>
+                        <li><a href="{{ route('account.dashboard') }}" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> {{ __('My Account Dashboard') }}</a></li>
                     </ul>
                 </div>
 
                 <!-- Col 4: VIP Newsletter Box -->
                 <div>
                     <div class="p-5 rounded-lg border border-[#C5A059]/30 bg-[#1A1613]/80 polygon-card shadow-2xl backdrop-blur-md">
-                        <h4 class="font-serif font-bold text-sm tracking-[0.2em] text-[#D4AF37] uppercase mb-2">THE VIP CIRCLE</h4>
+                        <h4 class="font-serif font-bold text-sm tracking-[0.2em] text-[#D4AF37] uppercase mb-2">{{ __('THE VIP CIRCLE') }}</h4>
                         <p class="text-[11px] text-[#D8C9B8] mb-4 font-normal leading-relaxed">
-                            Subscribe for exclusive private access to unreleased perfume launches and private campaign invitations.
+                            {{ __('Subscribe for exclusive private access to unreleased perfume launches and private campaign invitations.') }}
                         </p>
-                        <form @submit.prevent="alert('Thank you for joining Sozie Collection VIP Circle!')" class="space-y-3">
-                            <input type="email" placeholder="Enter your email..." required class="w-full bg-[#12100E] border border-[#C5A059]/40 text-xs text-[#FFF5D0] px-3.5 py-2.5 focus:outline-none focus:border-[#D4AF37] rounded font-medium placeholder-[#C5A059]/50">
+                        <form @submit.prevent="alert(@js(__('Thank you for joining Sozie Collection VIP Circle!')))" class="space-y-3">
+                            <input type="email" placeholder="{{ __('Enter your email...') }}" required class="w-full bg-[#12100E] border border-[#C5A059]/40 text-xs text-[#FFF5D0] px-3.5 py-2.5 focus:outline-none focus:border-[#D4AF37] rounded font-medium placeholder-[#C5A059]/50">
                             <button type="submit" class="w-full py-2.5 bg-gradient-to-r from-[#A8895F] via-[#D4AF37] to-[#A8895F] hover:from-[#D4AF37] hover:to-[#A8895F] text-[#12100E] font-black text-[10px] uppercase tracking-[0.25em] polygon-btn transition-all shadow-lg">
-                                JOIN VIP CIRCLE
+                                {{ __('JOIN VIP CIRCLE') }}
                             </button>
                         </form>
                     </div>
@@ -710,12 +722,12 @@
             <div class="gold-line-glow h-[1px] w-full mb-8"></div>
 
             <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-[#C5A059] font-medium">
-                <p>&copy; {{ date('Y') }} SOZIE COLLECTION. All rights reserved. Haute Parfumerie & Luxury E-Commerce.</p>
+                <p>&copy; {{ date('Y') }} {{ __('SOZIE COLLECTION') }}. {{ __('All rights reserved. Haute Parfumerie & Luxury E-Commerce.') }}</p>
 
                 <div class="flex flex-wrap items-center gap-3 text-[10px]">
-                    <span class="px-2 py-1 rounded bg-white/[0.03] border border-[#C5A059]/20 text-[#FFF5D0]">Dar es Salaam, Tanzania</span>
-                    <span class="px-2 py-1 rounded bg-white/[0.03] border border-[#C5A059]/20 text-[#FFF5D0]">M-Pesa & Tigo Pesa</span>
-                    <span class="px-2 py-1 rounded bg-white/[0.03] border border-[#C5A059]/20 text-[#FFF5D0]">Cash On Delivery</span>
+                    <span class="px-2 py-1 rounded bg-white/[0.03] border border-[#C5A059]/20 text-[#FFF5D0]">{{ __('Dar es Salaam, Tanzania') }}</span>
+                    <span class="px-2 py-1 rounded bg-white/[0.03] border border-[#C5A059]/20 text-[#FFF5D0]">{{ __('M-Pesa & Tigo Pesa') }}</span>
+                    <span class="px-2 py-1 rounded bg-white/[0.03] border border-[#C5A059]/20 text-[#FFF5D0]">{{ __('Cash On Delivery') }}</span>
                 </div>
             </div>
         </div>

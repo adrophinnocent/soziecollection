@@ -84,14 +84,34 @@ class Order extends Model
     public function getStatusLabelAttribute(): string
     {
         return match ($this->status) {
-            'new' => 'New',
-            'confirmed' => 'Confirmed',
-            'processing' => 'Processing',
-            'shipped' => 'Shipped',
-            'delivered' => 'Delivered',
-            'cancelled' => 'Cancelled',
-            default => ucfirst($this->status),
+            'new' => __('order.status.new'),
+            'confirmed' => __('order.status.confirmed'),
+            'processing' => __('order.status.processing'),
+            'shipped' => __('order.status.shipped'),
+            'delivered' => __('order.status.delivered'),
+            'cancelled' => __('order.status.cancelled'),
+            default => ucfirst((string) $this->status),
         };
+    }
+
+    /**
+     * Human-readable payment method label.
+     */
+    public function getPaymentMethodLabelAttribute(): string
+    {
+        $key = match ((string) $this->payment_method) {
+            'whatsapp' => 'order.payment_method.whatsapp',
+            'mobile_money' => 'order.payment_method.mobile_money',
+            'bank_transfer' => 'order.payment_method.bank_transfer',
+            'cash_on_delivery' => 'order.payment_method.cash_on_delivery',
+            default => null,
+        };
+
+        if ($key === null) {
+            return ucfirst(str_replace('_', ' ', (string) $this->payment_method));
+        }
+
+        return __($key);
     }
 
     /**

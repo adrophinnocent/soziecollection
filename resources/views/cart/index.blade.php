@@ -1,23 +1,23 @@
 @extends('layouts.app')
 
-@section('title', 'Your Shopping Cart | Sozie Collection')
+@section('title', __('Your Shopping Cart | Sozie Collection'))
 
 @section('content')
 
 <div class="py-12 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
     <div class="mb-8 border-b border-[#D8C9B8] pb-4">
-        <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.3em] block mb-1">SHOPPING SELECTION</span>
-        <h1 class="font-serif font-bold text-3xl sm:text-4xl text-[#29241F]">YOUR FRAGRANCE CART</h1>
+        <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.3em] block mb-1">{{ __('SHOPPING SELECTION') }}</span>
+        <h1 class="font-serif font-bold text-3xl sm:text-4xl text-[#29241F]">{{ __('YOUR FRAGRANCE CART') }}</h1>
     </div>
 
     @if(empty($cart))
     <div class="glass-panel p-16 text-center polygon-card border border-[#D8C9B8] bg-[#F8F5EF]">
         <i data-lucide="shopping-bag" class="w-12 h-12 text-[#A8895F] mx-auto mb-3"></i>
-        <h3 class="font-serif font-bold text-2xl text-[#29241F]">Your cart is currently empty</h3>
-        <p class="text-xs text-gray-700 mt-2 font-semibold">Discover signature scents in our perfume catalog.</p>
+        <h3 class="font-serif font-bold text-2xl text-[#29241F]">{{ __('Your cart is currently empty') }}</h3>
+        <p class="text-xs text-gray-700 mt-2 font-semibold">{{ __('Discover signature scents in our perfume catalog.') }}</p>
         <a href="{{ route('shop.index') }}" class="inline-block mt-6 px-8 py-3 bg-[#A8895F] text-white font-extrabold text-xs uppercase polygon-btn hover:bg-[#29241F]">
-            EXPLORE PERFUMES
+            {{ __('EXPLORE PERFUMES') }}
         </a>
     </div>
     @else
@@ -32,7 +32,7 @@
                     <div>
                         <h3 class="font-serif font-bold text-lg text-[#29241F]">{{ $item['name'] }}</h3>
                         <span class="text-xs font-extrabold text-[#A8895F] block">{{ $item['size'] }}</span>
-                        <span class="text-sm sm:text-xs text-gray-700 font-bold">TZS {{ number_format($item['price'], 0) }} per unit</span>
+                        <span class="text-sm sm:text-xs text-gray-700 font-bold">{{ __('TZS :price per unit', ['price' => number_format($item['price'], 0)]) }}</span>
                     </div>
                 </div>
 
@@ -65,7 +65,7 @@
         <!-- Summary & Proceed -->
         <div class="lg:col-span-4">
             <div class="glass-panel-gold p-6 polygon-card border border-[#A8895F]/40 space-y-4 bg-[#F8F5EF]">
-                <h3 class="font-serif font-bold text-xl text-[#29241F] pb-3 border-b border-[#D8C9B8]">ORDER SUMMARY</h3>
+                <h3 class="font-serif font-bold text-xl text-[#29241F] pb-3 border-b border-[#D8C9B8]">{{ __('ORDER SUMMARY') }}</h3>
 
                 @php
                     $subtotal = array_reduce($cart, function($acc, $i) { return $acc + ($i['price'] * $i['quantity']); }, 0);
@@ -75,23 +75,23 @@
 
                 <div class="space-y-2 text-xs text-gray-700 font-bold">
                     <div class="flex justify-between">
-                        <span>Subtotal</span>
+                        <span>{{ __('Subtotal') }}</span>
                         <span>TZS {{ number_format($subtotal, 0) }}</span>
                     </div>
                     <div class="flex justify-between">
-                        <span>Flat Delivery (Dar es Salaam)</span>
+                        <span>{{ __('Flat Delivery (Dar es Salaam)') }}</span>
                         <span>TZS {{ number_format($shipping, 0) }}</span>
                     </div>
                 </div>
 
                 <div class="pt-3 border-t border-[#D8C9B8] flex justify-between items-center">
-                    <span class="font-serif font-bold text-base text-[#29241F]">TOTAL</span>
+                    <span class="font-serif font-bold text-base text-[#29241F]">{{ __('TOTAL') }}</span>
                     <span class="font-serif font-bold text-2xl text-[#A8895F]">TZS {{ number_format($total, 0) }}</span>
                 </div>
 
                 <a href="{{ route('checkout.index') }}"
                    class="w-full py-4 bg-[#A8895F] text-white font-extrabold text-xs uppercase tracking-[0.2em] polygon-btn text-center block hover:bg-[#29241F] shadow-xl shadow-[#A8895F]/20">
-                    PROCEED TO CHECKOUT
+                    {{ __('PROCEED TO CHECKOUT') }}
                 </a>
             </div>
         </div>

@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Saved Wishlist | Sozie Collection')
+@section('title', __('Saved Wishlist | Sozie Collection'))
 
 @section('content')
 @include('account._sidebar_layout', [
-    'account_title' => 'Saved Wishlist',
-    'account_subtitle' => 'Your curated collection of Sozie Collection fragrances. Save scents across devices and move them to cart whenever you\'re ready to own them.'
+    'account_title' => __('Saved Wishlist'),
+    'account_subtitle' => __('Your curated collection of Sozie Collection fragrances. Save scents across devices and move them to cart whenever you\'re ready to own them.')
 ])
 @endsection
 
@@ -16,14 +16,14 @@
             <i data-lucide="heart" class="w-5 h-5 text-[#A8895F]"></i>
         </div>
         <div>
-            <h3 class="font-serif font-bold text-lg text-[#29241F]">{{ $wishlistItems->count() }} Scents Saved</h3>
-            <p class="text-[11px] text-gray-500 font-bold">Your wishlist is synced to this account across every device.</p>
+            <h3 class="font-serif font-bold text-lg text-[#29241F]">{{ $wishlistItems->count() }} {{ __('Scents Saved') }}</h3>
+            <p class="text-[11px] text-gray-500 font-bold">{{ __('Your wishlist is synced to this account across every device.') }}</p>
         </div>
     </div>
     <a href="{{ route('shop.index') }}"
        class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#A8895F] text-white text-[10px] font-extrabold uppercase tracking-[0.25em] polygon-btn hover:bg-[#29241F] shadow-md">
         <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-        Add New Scent
+        {{ __('Add New Scent') }}
     </a>
 </div>
 
@@ -33,14 +33,14 @@
         <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-[#A8895F]/10 border border-[#A8895F]/30 flex items-center justify-center">
             <i data-lucide="heart-handshake" class="w-10 h-10 text-[#A8895F]/60"></i>
         </div>
-        <h3 class="font-serif font-bold text-2xl text-[#29241F] mb-2">Your wishlist awaits beautiful scents</h3>
+        <h3 class="font-serif font-bold text-2xl text-[#29241F] mb-2">{{ __('Your wishlist awaits beautiful scents') }}</h3>
         <p class="text-sm text-gray-500 font-medium max-w-md mx-auto mb-7">
-            Tap the heart icon on any perfume card to curate your personal Sozie Collection shortlist — ready to order whenever inspiration strikes.
+            {{ __('Tap the heart icon on any perfume card to curate your personal Sozie Collection shortlist — ready to order whenever inspiration strikes.') }}
         </p>
         <a href="{{ route('shop.index') }}"
            class="inline-block px-7 py-3 bg-[#A8895F] text-white text-xs font-extrabold uppercase tracking-[0.3em] polygon-btn hover:bg-[#29241F] shadow-lg inline-flex items-center gap-2">
             <i data-lucide="store" class="w-4 h-4"></i>
-            Browse All Perfumes
+            {{ __('Browse All Perfumes') }}
         </a>
     </div>
     @else
@@ -51,12 +51,12 @@
             <div class="relative aspect-square bg-[#EDE5D8] polygon-card overflow-hidden mb-4 border border-[#D8C9B8]">
                 @if(!empty($product?->primary_image))
                 <a href="{{ $product ? route('shop.show', $product->slug) : '#' }}">
-                    <img src="{{ $product->primary_image }}" loading="lazy" decoding="async" alt="{{ $product?->name ?? 'Scent' }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <img src="{{ $product->primary_image }}" loading="lazy" decoding="async" alt="{{ $product?->name ?? __('Scent') }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                 </a>
                 @else
                 <div class="w-full h-full flex flex-col items-center justify-center text-[#A8895F]/50 gap-2">
                     <i data-lucide="bottle-wine" class="w-12 h-12"></i>
-                    <span class="text-[10px] font-extrabold uppercase tracking-[0.25em]">Scent Preview</span>
+                    <span class="text-[10px] font-extrabold uppercase tracking-[0.25em]">{{ __('Scent Preview') }}</span>
                 </div>
                 @endif
 
@@ -85,7 +85,7 @@
                     </a>
                     @else
                     <span class="font-serif font-bold text-base text-[#29241F] leading-tight line-clamp-2">
-                        {{ $wItem->product_id ? 'Product #'.$wItem->product_id : 'Saved Scent' }}
+                        {{ $wItem->product_id ? __('Product #:id', ['id' => $wItem->product_id]) : __('Saved Scent') }}
                     </span>
                     @endif
                     @if(!empty($product?->tagline))
@@ -99,7 +99,7 @@
                         </span>
                         <span class="inline-flex items-center gap-1 text-[9px] font-extrabold uppercase tracking-[0.2em] text-emerald-700">
                             <i data-lucide="badge-check" class="w-3.5 h-3.5"></i>
-                            In Stock
+                            {{ __('In Stock') }}
                         </span>
                     </div>
                     <form action="{{ route('wishlist.move_to_cart') }}" method="POST" class="w-full">
@@ -109,7 +109,7 @@
                         @if(!empty($product?->variants) && is_iterable($product->variants) && count((array)$product->variants) > 0)
                         <select name="size"
                                 class="w-full mb-2 bg-[#EDE5D8] border border-[#D8C9B8] text-[10px] text-[#29241F] px-2.5 py-1.5 font-bold uppercase tracking-wider focus:outline-none focus:border-[#A8895F] polygon-btn">
-                            <option value="">Select Size</option>
+                            <option value="">{{ __('Select Size') }}</option>
                             @foreach((array)$product->variants as $variant)
                             @php($size = is_array($variant) ? ($variant['size'] ?? null) : (is_object($variant) ? ($variant->size ?? null) : null))
                             @if(!empty($size))
@@ -121,7 +121,7 @@
                         <button type="submit"
                                 class="w-full px-4 py-2.5 bg-[#A8895F] text-white text-[10px] font-extrabold uppercase tracking-[0.22em] polygon-btn hover:bg-[#29241F] transition-all shadow-md inline-flex items-center justify-center gap-2">
                             <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>
-                            Move to Cart
+                            {{ __('Move to Cart') }}
                         </button>
                     </form>
                 </div>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Sozie Collection | Luxury Perfumes & Signature Scents')
+@section('title', __('Sozie Collection | Luxury Perfumes & Signature Scents'))
 
 @section('content')
 
@@ -52,11 +52,11 @@
                 <div class="inline-flex items-center gap-2 bg-[#F8F5EF] border border-[#A8895F]/40 px-3.5 py-1.5 polygon-badge shadow-sm">
                     <span class="w-2 h-2 rounded-full bg-[#A8895F] animate-ping"></span>
                     <span class="text-[11px] font-extrabold tracking-[0.25em] text-[#A8895F] uppercase"
-                          x-text="slides[activeSlide].eyebrow">THE ATELIER VISUAL EXPERIENCE</span>
+                          x-text="slides[activeSlide].eyebrow">{{ __('THE ATELIER VISUAL EXPERIENCE') }}</span>
                 </div>
 
                 <div class="space-y-2">
-                    <h2 class="text-xs sm:text-sm font-extrabold tracking-[0.4em] text-[#A8895F] uppercase">SOZIE COLLECTION</h2>
+                    <h2 class="text-xs sm:text-sm font-extrabold tracking-[0.4em] text-[#A8895F] uppercase">{{ __('SOZIE COLLECTION') }}</h2>
                     <h1 class="font-serif font-bold text-5xl sm:text-7xl lg:text-8xl leading-none text-[#29241F] tracking-tight">
                         <span x-text="slides[activeSlide].headline">{{ __('YOUR SCENT.') }}</span><br>
                         <span class="gold-gradient-text italic font-normal"
@@ -86,16 +86,16 @@
                 <!-- Hero Metrics -->
                 <div class="grid grid-cols-3 gap-6 pt-8 border-t border-[#D8C9B8] max-w-lg">
                     <div class="navy-card p-3 polygon-card text-center border border-[#D8C9B8] bg-[#F8F5EF]">
-                        <span class="font-serif font-bold text-2xl text-[#A8895F]">12+ hrs</span>
-                        <span class="block text-[10px] text-gray-700 uppercase tracking-widest font-extrabold">Longevity</span>
+                        <span class="font-serif font-bold text-2xl text-[#A8895F]">{{ __('12+ hrs') }}</span>
+                        <span class="block text-[10px] text-gray-700 uppercase tracking-widest font-extrabold">{{ __('Longevity') }}</span>
                     </div>
                     <div class="navy-card p-3 polygon-card text-center border border-[#D8C9B8] bg-[#F8F5EF]">
                         <span class="font-serif font-bold text-2xl text-[#A8895F]">100%</span>
-                        <span class="block text-[10px] text-gray-700 uppercase tracking-widest font-extrabold">Authentic Notes</span>
+                        <span class="block text-[10px] text-gray-700 uppercase tracking-widest font-extrabold">{{ __('Authentic Notes') }}</span>
                     </div>
                     <div class="navy-card p-3 polygon-card text-center border border-[#D8C9B8] bg-[#F8F5EF]">
-                        <span class="font-serif font-bold text-2xl text-[#A8895F]">Fast</span>
-                        <span class="block text-[10px] text-gray-700 uppercase tracking-widest font-extrabold">Doorstep Delivery</span>
+                        <span class="font-serif font-bold text-2xl text-[#A8895F]">{{ __('Fast') }}</span>
+                        <span class="block text-[10px] text-gray-700 uppercase tracking-widest font-extrabold">{{ __('Doorstep Delivery') }}</span>
                     </div>
                 </div>
 
@@ -153,7 +153,7 @@
                             <button @click="activeSlide = index"
                                     :class="activeSlide === index ? 'w-8 bg-[#A8895F]' : 'w-2 bg-[#29241F]/30 hover:bg-[#29241F]/60'"
                                     class="h-2 rounded-full transition-all duration-300"
-                                    :aria-label="'Slide ' + (index + 1)"></button>
+                                    :aria-label="@js(__('Slide :number')).replace(':number', index + 1)"></button>
                         </template>
                     </div>
 
@@ -181,13 +181,13 @@
                 <div class="w-full h-[500px] glass-panel p-2 polygon-card border border-[#A8895F]/40 shadow-2xl gold-glow bg-[#F8F5EF]">
                     <div class="w-full h-full polygon-card overflow-hidden relative">
                         <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=1000" loading="lazy" decoding="async"
-                             alt="Sozie Signature Scent"
+                             alt="{{ __('Sozie Signature Scent') }}"
                              class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-[#29241F]/90 via-[#29241F]/30 to-transparent opacity-90"></div>
                         <div class="absolute bottom-8 left-8 right-8 text-white space-y-1">
-                            <span class="text-xs font-extrabold text-[#D8C9B8] tracking-[0.3em] uppercase block">Sozie Signature Scent • CROWN JEWEL COLLECTION</span>
+                            <span class="text-xs font-extrabold text-[#D8C9B8] tracking-[0.3em] uppercase block">{{ __('Sozie Signature Scent') }} &bull; {{ __('CROWN JEWEL COLLECTION') }}</span>
                             <h3 class="font-serif font-bold text-3xl text-[#F8F5EF]">SOZIE GOLDEN AURA</h3>
-                            <p class="text-xs text-[#D8C9B8] mt-2 line-clamp-2 font-medium">Kashmiri saffron, warm honeycomb, and crystal amber blended to perfection.</p>
+                            <p class="text-xs text-[#D8C9B8] mt-2 line-clamp-2 font-medium">{{ __('Kashmiri saffron, warm honeycomb, and crystal amber blended to perfection.') }}</p>
                         </div>
                     </div>
                 </div>
@@ -196,10 +196,10 @@
             <!-- Right Showcase Card Details -->
             <div class="lg:col-span-6 space-y-8">
                 <div class="space-y-3">
-                    <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.3em] block">ARTISANAL FRAGRANCE BLENDS</span>
-                    <h2 class="font-serif font-bold text-4xl text-[#29241F]">SIGNATURE SCENTS ARRANGEMENT</h2>
+                    <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.3em] block">{{ __('ARTISANAL FRAGRANCE BLENDS') }}</span>
+                    <h2 class="font-serif font-bold text-4xl text-[#29241F]">{{ __('SIGNATURE SCENTS ARRANGEMENT') }}</h2>
                     <p class="text-gray-700 text-sm leading-relaxed font-semibold">
-                        Each bottle of Sozie Collection signature perfume is handcrafted with raw botanical essences and rare aromatic resins, guaranteeing a multi-layered scent experience that evolves throughout your day.
+                        {{ __('Each bottle of Sozie Collection signature perfume is handcrafted with raw botanical essences and rare aromatic resins, guaranteeing a multi-layered scent experience that evolves throughout your day.') }}
                     </p>
                 </div>
 
@@ -212,15 +212,15 @@
                                 <h4 class="font-serif font-bold text-lg text-[#29241F]">{{ $fp->name }}</h4>
                                 <span class="text-base sm:text-sm font-extrabold text-[#A8895F]">{{ $fp->formatted_price }}</span>
                             </div>
-                            <p class="text-xs text-gray-600 font-semibold mt-1">Top: {{ $fp->top_notes }}</p>
+                            <p class="text-xs text-gray-600 font-semibold mt-1">{{ __('Top:') }} {{ $fp->top_notes }}</p>
                             <div class="flex gap-2 mt-3">
                                 <button @click="addToCart({{ $fp->id }}, '{{ $fp->default_size }}')"
                                         class="px-4 py-1.5 bg-[#A8895F] border border-[#A8895F] text-white text-[10px] font-extrabold uppercase tracking-wider polygon-btn hover:bg-[#29241F] transition-colors">
-                                    ADD TO CART
+                                    {{ __('ADD TO CART') }}
                                 </button>
                                 <button @click="$dispatch('open-quickview', { id: {{ $fp->id }} })"
                                         class="px-4 py-1.5 bg-[#EDE5D8] border border-[#D8C9B8] text-[#29241F] text-[10px] font-bold uppercase tracking-wider polygon-btn hover:bg-white">
-                                    QUICK VIEW
+                                    {{ __('QUICK VIEW') }}
                                 </button>
                             </div>
                         </div>
@@ -289,7 +289,7 @@
 
                     <!-- Category Tag -->
                     <span class="text-[10px] font-extrabold text-[#A8895F] uppercase tracking-widest block mb-1">
-                        {{ $product->category ? $product->category->name : 'Signature' }}
+                        {{ $product->category ? $product->category->name : __('Signature') }}
                     </span>
 
                     <a href="{{ route('shop.show', $product->slug) }}">
@@ -298,7 +298,7 @@
                         </h3>
                     </a>
 
-                    <p class="text-xs text-gray-600 font-medium mt-1 line-clamp-1">Notes: {{ $product->top_notes }}</p>
+                    <p class="text-xs text-gray-600 font-medium mt-1 line-clamp-1">{{ __('Notes:') }} {{ $product->top_notes }}</p>
                 </div>
 
                 <!-- Price & Action -->
@@ -332,10 +332,10 @@
         <div class="bg-[#F8F5EF] p-8 sm:p-12 polygon-card border border-[#A8895F]/40 shadow-2xl">
 
             <div class="text-center mb-8">
-                <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.3em] block mb-2">PERSONAL FRAGRANCE CONSULTATION</span>
+                <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.3em] block mb-2">{{ __('PERSONAL FRAGRANCE CONSULTATION') }}</span>
                 <h2 class="font-serif font-bold text-3xl sm:text-5xl text-[#29241F]">{{ __('FIND YOUR SIGNATURE SCENT Title') }}</h2>
                 <p class="text-xs sm:text-sm text-gray-700 mt-3 max-w-lg mx-auto font-semibold">
-                    Select your preferred scent profile to discover matching signature perfumes from our collection.
+                    {{ __('Select your preferred scent profile to discover matching signature perfumes from our collection.') }}
                 </p>
             </div>
 
@@ -343,7 +343,7 @@
 
                 <!-- Scent Preference Options -->
                 <div>
-                    <label class="block text-xs font-extrabold uppercase tracking-widest text-[#A8895F] mb-3 text-center">Select Your Scent Personality</label>
+                    <label class="block text-xs font-extrabold uppercase tracking-widest text-[#A8895F] mb-3 text-center">{{ __('Select Your Scent Personality') }}</label>
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                         <template x-for="s in ['Floral', 'Woody', 'Fresh', 'Vanilla', 'Spicy', 'Sweet', 'Oriental', 'Citrus']" :key="s">
                             <button @click="chooseScent(s)"
@@ -357,7 +357,7 @@
 
                 <!-- Match Results Box -->
                 <div x-show="matches.length > 0" x-transition class="mt-8 pt-8 border-t border-[#D8C9B8]">
-                    <h3 class="font-serif font-bold text-2xl text-[#29241F] text-center mb-6">YOUR PERFECT FRAGRANCE MATCH</h3>
+                    <h3 class="font-serif font-bold text-2xl text-[#29241F] text-center mb-6">{{ __('YOUR PERFECT FRAGRANCE MATCH') }}</h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <template x-for="p in matches" :key="p.id">
@@ -407,7 +407,7 @@
             <div class="navy-card p-4 polygon-card border border-[#D8C9B8] group hover:border-[#A8895F] transition-all duration-300 flex flex-col justify-between relative bg-[#F8F5EF]">
 
                 <span class="absolute top-6 right-6 z-20 bg-[#29241F] text-white text-[9px] font-extrabold uppercase px-2 py-0.5 polygon-badge">
-                    NEW
+                    {{ __('NEW') }}
                 </span>
 
                 <div>
@@ -425,7 +425,7 @@
                     </div>
 
                     <span class="text-[10px] font-extrabold text-[#A8895F] uppercase tracking-widest block mb-1">
-                        {{ $product->category ? $product->category->name : 'New Release' }}
+                        {{ $product->category ? $product->category->name : __('New Release') }}
                     </span>
 
                     <a href="{{ route('shop.show', $product->slug) }}">
@@ -434,7 +434,7 @@
                         </h3>
                     </a>
 
-                    <p class="text-xs text-gray-600 font-medium mt-1 line-clamp-1">Notes: {{ $product->top_notes }}</p>
+                    <p class="text-xs text-gray-600 font-medium mt-1 line-clamp-1">{{ __('Notes:') }} {{ $product->top_notes }}</p>
                 </div>
 
                 <div class="pt-4 mt-4 border-t border-[#D8C9B8] flex items-center justify-between">
@@ -462,26 +462,26 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
             <div class="lg:col-span-6 space-y-6">
-                <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.3em] block">LUXURY CRAFTSMANSHIP</span>
+                <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.3em] block">{{ __('LUXURY CRAFTSMANSHIP') }}</span>
                 <h2 class="font-serif font-bold text-4xl sm:text-5xl text-[#29241F] leading-tight">
-                    THE SOZIE EXPERIENCE:<br>
-                    <span class="gold-gradient-text italic font-normal">ARTISTRY IN EVERY DROP</span>
+                    {{ __('THE SOZIE EXPERIENCE') }}:<br>
+                    <span class="gold-gradient-text italic font-normal">{{ __('ARTISTRY IN EVERY DROP') }}</span>
                 </h2>
                 <p class="text-gray-700 text-sm leading-relaxed font-semibold">
-                    We believe fragrance is more than a scent—it is an invisible armor of confidence and personal expression. Every bottle in the Sozie Collection is formulated with master perfumery techniques, incorporating pure botanical oils, rare spices, and long-wearing amber accords.
+                    {{ __('We believe fragrance is more than a scent—it is an invisible armor of confidence and personal expression. Every bottle in the Sozie Collection is formulated with master perfumery techniques, incorporating pure botanical oils, rare spices, and long-wearing amber accords.') }}
                 </p>
 
                 <div class="grid grid-cols-2 gap-4 pt-4">
                     <div class="navy-card p-4 polygon-card border border-[#D8C9B8] bg-[#F8F5EF]">
                         <i data-lucide="shield-check" class="w-6 h-6 text-[#A8895F] mb-2"></i>
-                        <h4 class="font-serif font-bold text-[#29241F] text-base">Pure Quality</h4>
-                        <p class="text-[11px] text-gray-600 mt-1 font-semibold">Authentic concentrated perfume oils and extracts.</p>
+                        <h4 class="font-serif font-bold text-[#29241F] text-base">{{ __('Pure Quality') }}</h4>
+                        <p class="text-[11px] text-gray-600 mt-1 font-semibold">{{ __('Authentic concentrated perfume oils and extracts.') }}</p>
                     </div>
 
                     <div class="navy-card p-4 polygon-card border border-[#D8C9B8] bg-[#F8F5EF]">
                         <i data-lucide="gem" class="w-6 h-6 text-[#A8895F] mb-2"></i>
-                        <h4 class="font-serif font-bold text-[#29241F] text-base">Artistic Design</h4>
-                        <p class="text-[11px] text-gray-600 mt-1 font-semibold">Architectural geometric bottles and casing.</p>
+                        <h4 class="font-serif font-bold text-[#29241F] text-base">{{ __('Artistic Design') }}</h4>
+                        <p class="text-[11px] text-gray-600 mt-1 font-semibold">{{ __('Architectural geometric bottles and casing.') }}</p>
                     </div>
                 </div>
             </div>
@@ -489,7 +489,7 @@
             <div class="lg:col-span-6">
                 <div class="relative w-full h-[450px] glass-panel p-3 polygon-card border border-[#A8895F]/40 gold-glow bg-[#F8F5EF]">
                     <img src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&q=80&w=1000" loading="lazy" decoding="async"
-                         alt="The Sozie Experience"
+                         alt="{{ __('The Sozie Experience') }}"
                          class="w-full h-full object-cover polygon-card border border-[#D8C9B8]">
                 </div>
             </div>
@@ -506,7 +506,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div class="text-center max-w-2xl mx-auto mb-12">
-            <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.3em] block mb-2">VERIFIED REVIEWS</span>
+            <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.3em] block mb-2">{{ __('VERIFIED REVIEWS') }}</span>
             <h2 class="font-serif font-bold text-3xl sm:text-4xl text-[#29241F]">{{ __('WHAT OUR CLIENTS SAY') }}</h2>
         </div>
 
@@ -525,9 +525,9 @@
                 <div class="mt-6 pt-4 border-t border-[#D8C9B8] flex items-center justify-between">
                     <div>
                         <span class="font-serif font-bold text-sm text-[#29241F] block">{{ $rev->customer_name }}</span>
-                        <span class="text-[9px] text-emerald-700 font-extrabold uppercase tracking-wider">Verified Purchase</span>
+                        <span class="text-[9px] text-emerald-700 font-extrabold uppercase tracking-wider">{{ __('Verified Purchase') }}</span>
                     </div>
-                    <span class="text-[10px] text-gray-600 font-bold">{{ $rev->product ? $rev->product->name : 'Sozie Perfume' }}</span>
+                    <span class="text-[10px] text-gray-600 font-bold">{{ $rev->product ? $rev->product->name : __('Sozie Perfume') }}</span>
                 </div>
             </div>
             @endforeach
@@ -546,8 +546,8 @@
 
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-10 gap-4">
             <div>
-                <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.3em] block mb-1">INSTAGRAM & CAMPAIGN VISUALS</span>
-                <h2 class="font-serif font-bold text-3xl sm:text-4xl text-[#29241F]">#SOZIECOLLECTION GALLERY</h2>
+                <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.3em] block mb-1">{{ __('INSTAGRAM & CAMPAIGN VISUALS') }}</span>
+                <h2 class="font-serif font-bold text-3xl sm:text-4xl text-[#29241F]">{{ __('#SOZIECOLLECTION GALLERY') }}</h2>
             </div>
 
             <!-- Slide Navigation Controls -->
@@ -584,7 +584,7 @@
                                 <h4 class="font-serif font-bold text-lg text-white" x-text="slide.title"></h4>
                                 <p class="text-xs text-gray-200 mt-0.5 font-medium" x-text="slide.subtitle"></p>
                                 <a href="{{ route('shop.index') }}" class="mt-3 inline-block py-1.5 px-3 bg-[#A8895F] text-white text-[10px] font-extrabold uppercase tracking-wider polygon-btn text-center hover:bg-black">
-                                    Shop Scent
+                                    {{ __('Shop Scent') }}
                                 </a>
                             </div>
                         </div>
@@ -611,10 +611,10 @@
 <!-- ================================================================= -->
 <section class="py-24 relative overflow-hidden bg-gradient-to-r from-[#29241F] via-[#3a332d] to-[#29241F] text-[#F8F5EF]">
     <div class="max-w-4xl mx-auto px-4 text-center space-y-6 relative z-10">
-        <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.4em] block">READY TO ELEVATE YOUR SCENT?</span>
+        <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.4em] block">{{ __('READY TO ELEVATE YOUR SCENT?') }}</span>
         <h2 class="font-serif font-bold text-5xl sm:text-6xl text-[#F8F5EF]">{{ __('WEAR YOUR SIGNATURE.') }}</h2>
         <p class="text-[#D8C9B8] text-sm max-w-lg mx-auto font-medium">
-            Experience luxury perfumes delivered directly to your doorstep with instant order processing and direct WhatsApp communication.
+            {{ __('Experience luxury perfumes delivered directly to your doorstep with instant order processing and direct WhatsApp communication.') }}
         </p>
         <div>
             <a href="{{ route('shop.index') }}"
@@ -634,23 +634,23 @@
             {
                 image: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=1200',
                 mobile_image: null,
-                eyebrow: 'THE ATELIER VISUAL EXPERIENCE',
-                headline: 'YOUR SCENT.',
-                highlight_text: 'YOUR SIGNATURE.',
-                description: 'Discover handcrafted fragrances designed to leave a memorable impression.',
-                button_text: 'EXPLORE COLLECTION',
+                eyebrow: @js(__('THE ATELIER VISUAL EXPERIENCE')),
+                headline: @js(__('YOUR SCENT.')),
+                highlight_text: @js(__('YOUR SIGNATURE.')),
+                description: @js(__('Discover handcrafted fragrances designed to leave a memorable impression.')),
+                button_text: @js(__('EXPLORE COLLECTION')),
                 button_link: '{{ route('shop.index') }}',
-                secondary_button_text: 'FIND YOUR SCENT',
+                secondary_button_text: @js(__('FIND YOUR SCENT')),
                 secondary_button_link: '#scent-finder'
             },
             {
                 image: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&q=80&w=1200',
                 mobile_image: null,
-                eyebrow: 'LIMITED RESERVE',
+                eyebrow: @js(__('LIMITED RESERVE')),
                 headline: 'SOZIE NOIR',
                 highlight_text: 'IMPERIAL.',
-                description: 'Bold woods, spice and amber for an unforgettable signature.',
-                button_text: 'DISCOVER THE COLLECTION',
+                description: @js(__('Bold woods, spice and amber for an unforgettable signature.')),
+                button_text: @js(__('DISCOVER THE COLLECTION')),
                 button_link: '{{ route('shop.index') }}',
                 secondary_button_text: null,
                 secondary_button_link: null
@@ -658,11 +658,11 @@
             {
                 image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=1200',
                 mobile_image: null,
-                eyebrow: 'NEW ARRIVAL',
+                eyebrow: @js(__('NEW ARRIVAL')),
                 headline: 'SOZIE GOLDEN',
                 highlight_text: 'AURA.',
-                description: 'Saffron, warm honeycomb and crystal amber blended to perfection.',
-                button_text: 'SHOP THE NEW ARRIVAL',
+                description: @js(__('Saffron, warm honeycomb and crystal amber blended to perfection.')),
+                button_text: @js(__('SHOP THE NEW ARRIVAL')),
                 button_link: '{{ route('shop.index') }}',
                 secondary_button_text: null,
                 secondary_button_link: null
@@ -716,42 +716,42 @@
                 {
                     image: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=800',
                     title: 'SOZIE ELEGANCE',
-                    subtitle: 'Floral Fruity • Eau de Parfum',
+                    subtitle: @js(__('Floral Fruity • Eau de Parfum')),
                     tag: '@sozie_collection',
                     handle: '#SozieElegance'
                 },
                 {
                     image: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&q=80&w=800',
                     title: 'SOZIE NOIR IMPERIAL',
-                    subtitle: 'Woody Oud • Extrait de Parfum',
+                    subtitle: @js(__('Woody Oud • Extrait de Parfum')),
                     tag: '@sozie_collection',
                     handle: '#SozieNoir'
                 },
                 {
                     image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=800',
                     title: 'SOZIE GOLDEN AURA',
-                    subtitle: 'Saffron Amber • Limited Reserve',
+                    subtitle: @js(__('Saffron Amber • Limited Reserve')),
                     tag: '@sozie_collection',
                     handle: '#GoldenAura'
                 },
                 {
                     image: 'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&q=80&w=800',
                     title: 'SOZIE VELVET ROSE',
-                    subtitle: 'Turkish Rose Gourmand',
+                    subtitle: @js(__('Turkish Rose Gourmand')),
                     tag: '@sozie_collection',
                     handle: '#VelvetRose'
                 },
                 {
                     image: 'https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&q=80&w=800',
                     title: 'SOZIE ROYAL OUD OIL',
-                    subtitle: '0% Alcohol Concentrated Elixir',
+                    subtitle: @js(__('0% Alcohol Concentrated Elixir')),
                     tag: '@sozie_collection',
                     handle: '#RoyalOud'
                 },
                 {
                     image: 'https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&q=80&w=800',
                     title: 'SOZIE BLOSSOM BLISS',
-                    subtitle: 'Cherry Blossom & White Peach',
+                    subtitle: @js(__('Cherry Blossom & White Peach')),
                     tag: '@sozie_collection',
                     handle: '#BlossomBliss'
                 }

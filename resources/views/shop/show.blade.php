@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $product->name . ' | Sozie Collection')
+@section('title', $product->name . ' | ' . __('Sozie Collection'))
 
 @section('content')
 
@@ -8,9 +8,9 @@
 
     <!-- Breadcrumb -->
     <nav class="flex text-xs text-gray-600 mb-8 uppercase tracking-widest gap-2 font-bold">
-        <a href="{{ route('home') }}" class="hover:text-[#A8895F]">Home</a>
+        <a href="{{ route('home') }}" class="hover:text-[#A8895F]">{{ __('Home') }}</a>
         <span>/</span>
-        <a href="{{ route('shop.index') }}" class="hover:text-[#A8895F]">Shop</a>
+        <a href="{{ route('shop.index') }}" class="hover:text-[#A8895F]">{{ __('Shop') }}</a>
         <span>/</span>
         <span class="text-[#A8895F] font-extrabold">{{ $product->name }}</span>
     </nav>
@@ -43,11 +43,11 @@
             <div class="glass-panel p-4 polygon-card border border-[#A8895F]/40 space-y-3 bg-[#F8F5EF]">
                 <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.25em] flex items-center gap-2">
                     <i data-lucide="play-circle" class="w-4 h-4 text-[#A8895F]"></i>
-                    PERFUME CAMPAIGN VIDEO
+                    {{ __('PERFUME CAMPAIGN VIDEO') }}
                 </span>
                 <div class="aspect-video w-full polygon-card overflow-hidden border border-[#D8C9B8] shadow-lg bg-black">
                     <iframe src="{{ $product->embed_video_url }}"
-                            title="{{ $product->name }} Campaign Video"
+                            title="{{ __(':name Campaign Video', ['name' => $product->name]) }}"
                             class="w-full h-full"
                             frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -62,7 +62,7 @@
         <div class="lg:col-span-6 space-y-6">
 
             <div>
-                <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.3em] block mb-1">SOZIE COLLECTION</span>
+                <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.3em] block mb-1">{{ __('SOZIE COLLECTION') }}</span>
                 <h1 class="font-serif font-bold text-4xl sm:text-5xl text-[#29241F]">{{ $product->name }}</h1>
                 <p class="text-xs font-extrabold text-gray-600 uppercase tracking-widest mt-2">
                     {{ $product->concentration }} • {{ $product->scent_type }} • {{ $product->gender }}
@@ -76,24 +76,24 @@
                     <i data-lucide="star" class="w-4 h-4 fill-[#A8895F]"></i>
                     @endfor
                 </div>
-                <span class="text-xs text-[#29241F] font-bold">({{ $product->reviews->count() }} Client Reviews)</span>
+                <span class="text-xs text-[#29241F] font-bold">{{ __('(:count Client Reviews)', ['count' => $product->reviews->count()]) }}</span>
             </div>
 
             <!-- Price Display (Dynamic based on selected size) -->
             <div class="glass-panel p-4 polygon-card border border-[#A8895F]/40 flex items-center justify-between bg-[#F8F5EF]">
                 <div>
-                    <span class="text-xs text-gray-600 block uppercase tracking-wider font-extrabold">Price</span>
+                    <span class="text-xs text-gray-600 block uppercase tracking-wider font-extrabold">{{ __('Price') }}</span>
                     <span class="font-serif font-bold text-3xl text-[#A8895F]" x-text="'TZS ' + Number(currentPrice).toLocaleString()"></span>
                 </div>
                 <span class="bg-emerald-800 text-white text-[10px] font-extrabold uppercase px-3 py-1 polygon-badge">
-                    In Stock
+                    {{ __('In Stock') }}
                 </span>
             </div>
 
             <!-- Size / Variant Selector -->
             @if($product->variants->count() > 0)
             <div>
-                <label class="block text-xs font-extrabold text-[#A8895F] uppercase tracking-widest mb-3">Select Bottle Size</label>
+                <label class="block text-xs font-extrabold text-[#A8895F] uppercase tracking-widest mb-3">{{ __('Select Bottle Size') }}</label>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     @foreach($product->variants as $variant)
                     <button @click="selectVariant('{{ $variant->size }}', {{ $variant->price }})"
@@ -118,7 +118,7 @@
 
                     <button @click="addToCart({{ $product->id }}, selectedSize, quantity)"
                             class="flex-grow py-4 bg-[#A8895F] text-white font-extrabold text-xs uppercase tracking-[0.2em] polygon-btn shadow-xl shadow-[#A8895F]/30 hover:bg-[#29241F]">
-                        ADD TO CART
+                        {{ __('ADD TO CART') }}
                     </button>
                 </div>
 
@@ -126,26 +126,26 @@
                 <a :href="whatsappUrl()"
                    target="_blank"
                    class="w-full py-3 bg-emerald-800 text-white font-extrabold text-xs uppercase tracking-[0.2em] polygon-btn text-center block hover:bg-emerald-900">
-                    <i data-lucide="message-circle" class="w-4 h-4 inline-block mr-2 text-white"></i> ORDER DIRECTLY VIA WHATSAPP
+                    <i data-lucide="message-circle" class="w-4 h-4 inline-block mr-2 text-white"></i> {{ __('ORDER DIRECTLY VIA WHATSAPP') }}
                 </a>
             </div>
 
             <!-- Fragrance Characteristics Badges -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-[#D8C9B8] text-center">
                 <div class="navy-card p-3 polygon-card bg-[#F8F5EF] border border-[#D8C9B8]">
-                    <span class="text-[9px] text-gray-600 uppercase block font-extrabold">Longevity</span>
+                    <span class="text-[9px] text-gray-600 uppercase block font-extrabold">{{ __('Longevity') }}</span>
                     <span class="text-xs font-extrabold text-[#A8895F]">{{ $product->longevity }}</span>
                 </div>
                 <div class="navy-card p-3 polygon-card bg-[#F8F5EF] border border-[#D8C9B8]">
-                    <span class="text-[9px] text-gray-600 uppercase block font-extrabold">Sillage</span>
+                    <span class="text-[9px] text-gray-600 uppercase block font-extrabold">{{ __('Sillage') }}</span>
                     <span class="text-xs font-extrabold text-[#A8895F]">{{ $product->sillage }}</span>
                 </div>
                 <div class="navy-card p-3 polygon-card bg-[#F8F5EF] border border-[#D8C9B8]">
-                    <span class="text-[9px] text-gray-600 uppercase block font-extrabold">Intensity</span>
+                    <span class="text-[9px] text-gray-600 uppercase block font-extrabold">{{ __('Intensity') }}</span>
                     <span class="text-xs font-extrabold text-[#A8895F]">{{ $product->intensity }}</span>
                 </div>
                 <div class="navy-card p-3 polygon-card bg-[#F8F5EF] border border-[#D8C9B8]">
-                    <span class="text-[9px] text-gray-600 uppercase block font-extrabold">Occasion</span>
+                    <span class="text-[9px] text-gray-600 uppercase block font-extrabold">{{ __('Occasion') }}</span>
                     <span class="text-xs font-extrabold text-[#A8895F]">{{ $product->occasion }}</span>
                 </div>
             </div>
@@ -157,27 +157,27 @@
     <!-- ABOUT PERFUME & STORY -->
     <div class="mt-20 glass-panel p-8 sm:p-12 polygon-card border border-[#A8895F]/40 bg-[#F8F5EF]">
         <div class="max-w-3xl mx-auto space-y-6 text-gray-700 text-sm leading-relaxed font-semibold">
-            <h3 class="font-serif font-bold text-3xl text-[#29241F]">ABOUT {{ strtoupper($product->name) }}</h3>
+            <h3 class="font-serif font-bold text-3xl text-[#29241F]">{{ __('ABOUT :name', ['name' => strtoupper($product->name)]) }}</h3>
             <p>{{ $product->description }}</p>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 text-center">
                 <div class="navy-card p-4 polygon-card border border-[#D8C9B8] bg-white">
-                    <span class="text-[10px] font-extrabold text-[#A8895F] uppercase block mb-1">Top Notes</span>
+                    <span class="text-[10px] font-extrabold text-[#A8895F] uppercase block mb-1">{{ __('Top Notes') }}</span>
                     <span class="text-xs font-bold text-[#29241F]">{{ $product->top_notes }}</span>
                 </div>
                 <div class="navy-card p-4 polygon-card border border-[#D8C9B8] bg-white">
-                    <span class="text-[10px] font-extrabold text-[#A8895F] uppercase block mb-1">Heart Notes</span>
+                    <span class="text-[10px] font-extrabold text-[#A8895F] uppercase block mb-1">{{ __('Heart Notes') }}</span>
                     <span class="text-xs font-bold text-[#29241F]">{{ $product->heart_notes }}</span>
                 </div>
                 <div class="navy-card p-4 polygon-card border border-[#D8C9B8] bg-white">
-                    <span class="text-[10px] font-extrabold text-[#A8895F] uppercase block mb-1">Base Notes</span>
+                    <span class="text-[10px] font-extrabold text-[#A8895F] uppercase block mb-1">{{ __('Base Notes') }}</span>
                     <span class="text-xs font-bold text-[#29241F]">{{ $product->base_notes }}</span>
                 </div>
             </div>
 
             @if(is_array($product->why_you_will_love_it))
             <div class="pt-4">
-                <h4 class="font-serif font-bold text-lg text-[#A8895F] mb-3">WHY YOU'LL LOVE IT</h4>
+                <h4 class="font-serif font-bold text-lg text-[#A8895F] mb-3">{{ __("WHY YOU'LL LOVE IT") }}</h4>
                 <ul class="space-y-2 text-xs text-[#29241F] font-bold">
                     @foreach($product->why_you_will_love_it as $point)
                     <li class="flex items-center gap-2">
@@ -195,10 +195,10 @@
     <div class="mt-16 grid grid-cols-1 lg:grid-cols-12 gap-8">
 
         <div class="lg:col-span-7 space-y-6">
-            <h3 class="font-serif font-bold text-2xl text-[#29241F]">CLIENT REVIEWS</h3>
+            <h3 class="font-serif font-bold text-2xl text-[#29241F]">{{ __('CLIENT REVIEWS') }}</h3>
 
             @if($product->reviews->isEmpty())
-            <p class="text-xs text-gray-600 font-semibold">No reviews yet for this fragrance. Be the first to share your impression!</p>
+            <p class="text-xs text-gray-600 font-semibold">{{ __('No reviews yet for this fragrance. Be the first to share your impression!') }}</p>
             @else
             <div class="space-y-4">
                 @foreach($product->reviews as $rev)
@@ -219,29 +219,29 @@
         <div class="lg:col-span-5">
             <form action="{{ route('product.review', $product->id) }}" method="POST" class="glass-panel p-6 polygon-card border border-[#D8C9B8] space-y-4 bg-[#F8F5EF]">
                 @csrf
-                <h4 class="font-serif font-bold text-lg text-[#29241F]">WRITE A REVIEW</h4>
+                <h4 class="font-serif font-bold text-lg text-[#29241F]">{{ __('WRITE A REVIEW') }}</h4>
 
                 <div>
-                    <label class="block text-xs font-extrabold text-[#A8895F] uppercase tracking-widest mb-1">Your Name</label>
+                    <label class="block text-xs font-extrabold text-[#A8895F] uppercase tracking-widest mb-1">{{ __('Your Name') }}</label>
                     <input type="text" name="customer_name" required class="w-full bg-white border border-[#D8C9B8] text-xs text-[#29241F] px-3 py-2 focus:outline-none focus:border-[#A8895F] font-bold">
                 </div>
 
                 <div>
-                    <label class="block text-xs font-extrabold text-[#A8895F] uppercase tracking-widest mb-1">Rating</label>
+                    <label class="block text-xs font-extrabold text-[#A8895F] uppercase tracking-widest mb-1">{{ __('Rating') }}</label>
                     <select name="rating" class="w-full bg-white border border-[#D8C9B8] text-xs text-[#29241F] px-3 py-2 focus:outline-none focus:border-[#A8895F] font-bold">
-                        <option value="5">★★★★★ (5/5) Exceptional</option>
-                        <option value="4">★★★★☆ (4/5) Very Good</option>
-                        <option value="3">★★★☆☆ (3/3) Average</option>
+                        <option value="5">{{ __('★★★★★ (5/5) Exceptional') }}</option>
+                        <option value="4">{{ __('★★★★☆ (4/5) Very Good') }}</option>
+                        <option value="3">{{ __('★★★☆☆ (3/3) Average') }}</option>
                     </select>
                 </div>
 
                 <div>
-                    <label class="block text-xs font-extrabold text-[#A8895F] uppercase tracking-widest mb-1">Your Experience</label>
+                    <label class="block text-xs font-extrabold text-[#A8895F] uppercase tracking-widest mb-1">{{ __('Your Experience') }}</label>
                     <textarea name="comment" rows="3" required class="w-full bg-white border border-[#D8C9B8] text-xs text-[#29241F] px-3 py-2 focus:outline-none focus:border-[#A8895F] font-medium"></textarea>
                 </div>
 
                 <button type="submit" class="w-full py-2.5 bg-[#A8895F] text-white font-extrabold text-xs uppercase tracking-widest polygon-btn hover:bg-[#29241F]">
-                    SUBMIT REVIEW
+                    {{ __('SUBMIT REVIEW') }}
                 </button>
             </form>
         </div>
@@ -253,11 +253,11 @@
     <div class="mt-20 pt-12 border-t border-[#D8C9B8]">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-4">
             <div>
-                <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.3em] block mb-1">CURATED RECOMMENDATIONS</span>
-                <h3 class="font-serif font-bold text-2xl sm:text-3xl text-[#29241F]">YOU MAY ALSO LIKE</h3>
+                <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.3em] block mb-1">{{ __('CURATED RECOMMENDATIONS') }}</span>
+                <h3 class="font-serif font-bold text-2xl sm:text-3xl text-[#29241F]">{{ __('YOU MAY ALSO LIKE') }}</h3>
             </div>
             <a href="{{ route('shop.index') }}" class="text-xs font-extrabold text-[#A8895F] uppercase tracking-widest hover:text-[#29241F]">
-                EXPLORE FULL CATALOG &rarr;
+                {{ __('EXPLORE FULL CATALOG') }} &rarr;
             </a>
         </div>
 
@@ -287,13 +287,13 @@
                         <div class="absolute inset-0 bg-[#29241F]/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 p-2 backdrop-blur-xs">
                             <button @click="$dispatch('open-quickview', { id: {{ $rel->id }} })"
                                     class="px-3 py-1.5 bg-[#A8895F] border border-[#A8895F] text-white font-extrabold text-[10px] uppercase tracking-wider polygon-btn hover:bg-[#29241F]">
-                                QUICK VIEW
+                                {{ __('QUICK VIEW') }}
                             </button>
                         </div>
                     </div>
 
                     <span class="text-[9px] font-extrabold text-[#A8895F] uppercase tracking-widest block mb-0.5">
-                        {{ $rel->gender }} • {{ $rel->category ? $rel->category->name : 'Signature' }}
+                        {{ $rel->gender }} • {{ $rel->category ? $rel->category->name : __('Signature') }}
                     </span>
 
                     <a href="{{ route('shop.show', $rel->slug) }}">
@@ -302,7 +302,7 @@
                         </h4>
                     </a>
 
-                    <p class="text-[11px] text-gray-600 font-medium mt-1 line-clamp-1">Notes: {{ $rel->top_notes }}</p>
+                    <p class="text-[11px] text-gray-600 font-medium mt-1 line-clamp-1">{{ __('Notes: :notes', ['notes' => $rel->top_notes]) }}</p>
                 </div>
 
                 <div class="pt-3 mt-3 border-t border-[#D8C9B8] flex items-center justify-between">
@@ -350,14 +350,14 @@
 
             whatsappUrl() {
                 const message = [
-                    'Jambo Sozie Collection! Naomba kujionyesha bidhaa hii:',
+                    '{{ __('Jambo Sozie Collection! Naomba kujionyesha bidhaa hii:') }}',
                     '',
-                    '*Bidhaa:* ' + this.productName,
-                    'Size: ' + this.selectedSize,
-                    'Quantity: ' + this.quantity,
-                    'Bei: TZS ' + Number(this.currentPrice).toLocaleString(),
-                    this.productImage ? '📸 Picha: ' + this.productImage : '',
-                    '🔗 Bidhaa: ' + this.productUrl,
+                    '{{ __('*Bidhaa:*') }} ' + this.productName,
+                    '{{ __('Size:') }} ' + this.selectedSize,
+                    '{{ __('Quantity:') }} ' + this.quantity,
+                    '{{ __('Bei: TZS') }} ' + Number(this.currentPrice).toLocaleString(),
+                    this.productImage ? '{{ __('📸 Picha:') }} ' + this.productImage : '',
+                    '{{ __('🔗 Bidhaa:') }} ' + this.productUrl,
                 ].filter(Boolean).join('\n');
 
                 return 'https://wa.me/' + this.whatsappPhone + '?text=' + encodeURIComponent(message);

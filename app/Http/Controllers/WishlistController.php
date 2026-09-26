@@ -29,7 +29,7 @@ class WishlistController extends Controller
             ->map(fn (Wishlist $w) => [
                 'id' => $w->product_id,
                 'product_id' => $w->product_id,
-                'name' => $w->product?->name ?? 'Product',
+                'name' => $w->product?->name ?? __('Product'),
                 'slug' => $w->product?->slug,
                 'image' => $w->product?->primary_image,
                 'formatted_price' => $w->product?->formatted_price,
@@ -49,7 +49,7 @@ class WishlistController extends Controller
             return response()->json([
                 'logged_in' => false,
                 'status' => 'error',
-                'message' => 'Please login to manage wishlist.',
+                'message' => __('Please login to manage wishlist.'),
             ], 401);
         }
 
@@ -80,7 +80,9 @@ class WishlistController extends Controller
             'logged_in' => true,
             'status' => 'success',
             'added' => $added,
-            'message' => $added ? $product->name.' added to wishlist.' : $product->name.' removed from wishlist.',
+            'message' => $added
+                ? __(':product added to wishlist.', ['product' => $product->name])
+                : __(':product removed from wishlist.', ['product' => $product->name]),
             'count' => Wishlist::where('user_id', $user->id)->count(),
             'item' => [
                 'id' => $product->id,
@@ -95,7 +97,7 @@ class WishlistController extends Controller
     {
         if (! Auth::check()) {
             return redirect()->route('login')
-                ->with('info', 'Please login to manage your wishlist.');
+                ->with('info', __('Please login to manage your wishlist.'));
         }
 
         $validated = $request->validate([
@@ -108,14 +110,14 @@ class WishlistController extends Controller
             'product_id' => $validated['product_id'],
         ])->delete();
 
-        return back()->with('success', 'Item removed from your wishlist.');
+        return back()->with('success', __('Item removed from your wishlist.'));
     }
 
     public function moveToCart(Request $request): RedirectResponse
     {
         if (! Auth::check()) {
             return redirect()->route('login')
-                ->with('info', 'Please login to move wishlist items to cart.');
+                ->with('info', __('Please login to move wishlist items to cart.'));
         }
 
         $validated = $request->validate([
@@ -131,7 +133,7 @@ class WishlistController extends Controller
         ])->first();
 
         if (! $item) {
-            return back()->with('error', 'Item not found in wishlist.');
+            return back()->with('error', __('Item not found in wishlist.'));
         }
 
         $cartRequest = new Request([
@@ -144,6 +146,6 @@ class WishlistController extends Controller
 
         $item->delete();
 
-        return back()->with('success', 'Moved to cart successfully.');
+        return back()->with('success', __('Moved to cart successfully.'));
     }
 }

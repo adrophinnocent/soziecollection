@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Order Confirmation #' . $order->order_number . ' | Sozie Collection')
+@section('title', __('Order Confirmation #:order | Sozie Collection', ['order' => $order->order_number]))
 
 @section('content')
 
@@ -13,57 +13,57 @@
         </div>
 
         <div>
-            <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.3em] block mb-1">ODA YAKO IMEPOKELEWA</span>
-            <h1 class="font-serif font-bold text-4xl text-[#29241F]">ASANTE KWA KUCHAGUA SOZIE COLLECTION!</h1>
+            <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.3em] block mb-1">{{ __('Order received') }}</span>
+            <h1 class="font-serif font-bold text-4xl text-[#29241F]">{{ __('Thank you for choosing Sozie Collection!') }}</h1>
             <p class="text-xs sm:text-sm text-gray-700 mt-2 font-bold">
-                Nambari yako ya oda ni <strong class="text-[#A8895F] font-mono text-base font-extrabold">{{ $order->order_number }}</strong>
+                {{ __('Your order number is') }} <strong class="text-[#A8895F] font-mono text-base font-extrabold">{{ $order->order_number }}</strong>
             </p>
         </div>
 
         <!-- WhatsApp Quick Action Button -->
         <div class="p-6 bg-emerald-900 border border-emerald-700 polygon-card max-w-xl mx-auto space-y-3 text-white">
-            <span class="text-xs font-extrabold uppercase tracking-widest text-emerald-300 block">THIBITISHA ODA YAKO DIRECT WHATSAPP</span>
+            <span class="text-xs font-extrabold uppercase tracking-widest text-emerald-300 block">{{ __('Confirm your order directly on WhatsApp') }}</span>
             <p class="text-xs text-gray-200 font-bold">
-                Bofya kitufe hapa chini kutuma taarifa kamili za oda yako moja kwa moja kwa huduma yetu ya WhatsApp kwa ajili ya usafirishaji wa haraka.
+                {{ __('Tap the button below to send your full order details to our WhatsApp team for fast delivery.') }}
             </p>
             <a href="{{ $whatsappUrl }}" target="_blank" rel="noopener"
                class="inline-flex items-center justify-center gap-3 w-full py-3.5 bg-emerald-800 text-white font-extrabold text-xs uppercase tracking-[0.2em] polygon-btn hover:bg-emerald-950 shadow-xl">
                 <i data-lucide="message-circle" class="w-5 h-5"></i>
-                <span>TUMA ODA WHATSAPP SASA</span>
+                <span>{{ __('Send order on WhatsApp now') }}</span>
             </a>
             <a href="{{ $shareUrl }}" target="_blank" rel="noopener"
                class="inline-flex items-center justify-center gap-2 w-full py-2.5 bg-emerald-950/60 border border-emerald-700 text-emerald-100 text-[10px] font-extrabold uppercase tracking-wider polygon-btn hover:bg-emerald-900">
                 <i data-lucide="image" class="w-4 h-4"></i>
-                <span>Angalia design na picha za oda</span>
+                <span>{{ __('View order design and photos') }}</span>
             </a>
         </div>
 
         <!-- Order Summary Details -->
         <div class="text-left pt-6 border-t border-[#D8C9B8] space-y-4">
-            <h3 class="font-serif font-bold text-lg text-[#29241F]">TAARIFA ZA ODA</h3>
+            <h3 class="font-serif font-bold text-lg text-[#29241F]">{{ __('Order information') }}</h3>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-gray-700 font-bold">
                 <div>
-                    <span class="text-gray-500 block font-extrabold">Jina la Mteja:</span>
+                    <span class="text-gray-500 block font-extrabold">{{ __('Customer name:') }}</span>
                     <strong class="text-[#29241F] font-serif text-sm">{{ $order->customer_name }}</strong>
                 </div>
                 <div>
-                    <span class="text-gray-500 block font-extrabold">Simu:</span>
+                    <span class="text-gray-500 block font-extrabold">{{ __('Phone:') }}</span>
                     <strong class="text-[#29241F] font-serif text-sm">{{ $order->customer_phone }}</strong>
                 </div>
                 <div>
-                    <span class="text-gray-500 block font-extrabold">Mji / Eneo:</span>
+                    <span class="text-gray-500 block font-extrabold">{{ __('City / Area:') }}</span>
                     <strong class="text-[#29241F] font-serif text-sm">{{ $order->city }} - {{ $order->shipping_address }}</strong>
                 </div>
                 <div>
-                    <span class="text-gray-500 block font-extrabold">Njia ya Malipo:</span>
-                    <strong class="text-[#29241F] uppercase">{{ str_replace('_', ' ', $order->payment_method) }}</strong>
+                    <span class="text-gray-500 block font-extrabold">{{ __('Payment method:') }}</span>
+                    <strong class="text-[#29241F] uppercase">{{ $order->payment_method_label }}</strong>
                 </div>
             </div>
 
             <!-- Items list -->
             <div class="space-y-2 pt-2">
-                <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-wider block">Bidhaa Zilizowekwa:</span>
+                <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-wider block">{{ __('Items ordered:') }}</span>
                 @foreach($order->items as $item)
                 <div class="navy-card p-3 polygon-card flex items-center gap-3 text-xs border border-[#D8C9B8] bg-white">
                     @if($item->product_image_url)
@@ -79,17 +79,17 @@
             </div>
 
             <div class="flex justify-between items-center pt-4 border-t border-[#D8C9B8]">
-                <span class="font-serif font-bold text-base text-[#29241F]">JUMLA KUU:</span>
+                <span class="font-serif font-bold text-base text-[#29241F]">{{ __('Grand total:') }}</span>
                 <span class="font-serif font-bold text-2xl text-[#A8895F]">TZS {{ number_format($order->total_amount, 0) }}</span>
             </div>
         </div>
 
         <div class="pt-4 flex justify-center gap-4 text-xs">
             <a href="{{ route('orders.track', ['order_number' => $order->order_number]) }}" class="px-6 py-2.5 bg-white border border-[#D8C9B8] text-[#29241F] uppercase font-extrabold polygon-btn hover:bg-[#EDE5D8]">
-                Fuatilia Oda Yako
+                {{ __('Track your order') }}
             </a>
             <a href="{{ route('shop.index') }}" class="px-6 py-2.5 bg-[#A8895F] text-white uppercase font-extrabold polygon-btn hover:bg-[#29241F]">
-                Rudi Dukani
+                {{ __('Back to shop') }}
             </a>
         </div>
 

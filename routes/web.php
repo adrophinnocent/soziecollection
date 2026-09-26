@@ -32,12 +32,15 @@ Route::get('/storage/{path}', function (string $path) {
     ]);
 })->where('path', '.*')->name('storage.public');
 
-Route::get('/lang/{locale}', function ($locale) {
-    if (in_array($locale, ['en', 'sw'])) {
-        session(['locale' => $locale]);
-    }
+Route::get('/lang/{locale}', function (string $locale) {
+    $locale = strtolower($locale);
+    $availableLocales = config('app.available_locales', ['en', 'sw']);
 
-    return back();
+    abort_unless(in_array($locale, $availableLocales, true), 404);
+
+    session(['locale' => $locale]);
+
+    return redirect()->back(fallback: route('home'));
 })->name('lang.switch');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -69,7 +72,7 @@ Route::get('/wishlist', function () {
         return redirect()->route('account.wishlist');
     }
 
-    return redirect()->route('login')->with('info', 'Please login to manage your wishlist across devices.');
+    return redirect()->route('login')->with('info', __('Please login to manage your wishlist across devices.'));
 })->name('wishlist.public');
 
 Route::get('/login', [CustomerAuthController::class, 'showLoginForm'])->name('login');

@@ -84,14 +84,14 @@ class OrderController extends Controller
         if (! $order) {
             return back()->withInput()
                 ->withErrors([
-                    'order_number' => 'No order found with number: '.$orderNumber,
+                    'order_number' => __('No order found with number: :number', ['number' => $orderNumber]),
                 ]);
         }
 
         if (! $this->canViewOrder($order, $request, $contact)) {
             return back()->withInput()
                 ->withErrors([
-                    'tracking_contact' => 'For your privacy, please provide the phone number or email address used to place this order.',
+                    'tracking_contact' => __('For your privacy, please provide the phone number or email address used to place this order.'),
                 ]);
         }
 
@@ -184,7 +184,7 @@ class OrderController extends Controller
     private function authorizeViewOrder(Order $order, Request $request): void
     {
         if (! $this->canViewOrder($order, $request)) {
-            abort(403, 'Sorry, you are not authorized to view this order. Please provide the phone number or email used when placing this order via the Track Order page.');
+            abort(403, __('Sorry, you are not authorized to view this order. Please provide the phone number or email used when placing this order via the Track Order page.'));
         }
     }
 }

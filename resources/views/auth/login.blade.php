@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Sign In | Sozie Collection')
+@section('title', __('Sign In | Sozie Collection'))
 
 @section('content')
 
@@ -10,15 +10,15 @@
 
         <div class="hidden lg:flex flex-col space-y-8">
             <div class="mb-4">
-                <span class="text-[10px] font-extrabold text-[#A8895F] uppercase tracking-[0.4em] block mb-3">WELCOME BACK</span>
+                <span class="text-[10px] font-extrabold text-[#A8895F] uppercase tracking-[0.4em] block mb-3">{{ __('WELCOME BACK') }}</span>
                 <h1 class="font-serif font-bold text-5xl leading-tight text-[#29241F]">
-                    Return to Your<br>
+                    {{ __('Return to Your') }}<br>
                     <span class="text-[#A8895F]">Sozie Collection</span>
                 </h1>
             </div>
 
             <p class="text-sm text-gray-600 leading-relaxed font-medium max-w-md">
-                Sign in to access your saved wishlist, saved shipping addresses, order history, and get exclusive early access to limited-edition fragrance drops.
+                {{ __('Sign in to access your saved wishlist, saved shipping addresses, order history, and get exclusive early access to limited-edition fragrance drops.') }}
             </p>
 
             <div class="space-y-5 max-w-md">
@@ -27,8 +27,8 @@
                         <i data-lucide="package-search" class="w-5 h-5 text-[#A8895F]"></i>
                     </div>
                     <div>
-                        <span class="text-sm font-bold text-[#29241F] block">Order Tracking At A Glance</span>
-                        <span class="text-xs text-gray-600 font-medium">All your orders with real-time status updates in one place.</span>
+                        <span class="text-sm font-bold text-[#29241F] block">{{ __('Order Tracking At A Glance') }}</span>
+                        <span class="text-xs text-gray-600 font-medium">{{ __('All your orders with real-time status updates in one place.') }}</span>
                     </div>
                 </div>
 
@@ -37,8 +37,8 @@
                         <i data-lucide="heart" class="w-5 h-5 text-[#A8895F]"></i>
                     </div>
                     <div>
-                        <span class="text-sm font-bold text-[#29241F] block">Saved Wishlist Everywhere</span>
-                        <span class="text-xs text-gray-600 font-medium">Access your saved scents across phone, desktop, and tablet.</span>
+                        <span class="text-sm font-bold text-[#29241F] block">{{ __('Saved Wishlist Everywhere') }}</span>
+                        <span class="text-xs text-gray-600 font-medium">{{ __('Access your saved scents across phone, desktop, and tablet.') }}</span>
                     </div>
                 </div>
 
@@ -47,8 +47,8 @@
                         <i data-lucide="map-pin" class="w-5 h-5 text-[#A8895F]"></i>
                     </div>
                     <div>
-                        <span class="text-sm font-bold text-[#29241F] block">Fast 1-Click Checkout</span>
-                        <span class="text-xs text-gray-600 font-medium">Save multiple delivery addresses for instant reorders.</span>
+                        <span class="text-sm font-bold text-[#29241F] block">{{ __('Fast 1-Click Checkout') }}</span>
+                        <span class="text-xs text-gray-600 font-medium">{{ __('Save multiple delivery addresses for instant reorders.') }}</span>
                     </div>
                 </div>
             </div>
@@ -56,7 +56,7 @@
             <div class="pt-4">
                 <a href="{{ route('shop.index') }}" class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.25em] text-[#A8895F] hover:text-[#29241F] transition-colors">
                     <i data-lucide="arrow-left" class="w-4 h-4"></i>
-                    Continue Browsing Perfumes
+                    {{ __('Continue Browsing Perfumes') }}
                 </a>
             </div>
         </div>
@@ -64,11 +64,11 @@
         <div>
             <div class="glass-panel-gold p-8 sm:p-10 polygon-card border-2 border-[#A8895F]/40 shadow-2xl bg-[#F8F5EF]">
                 <div class="mb-8">
-                    <span class="text-[10px] font-extrabold text-[#A8895F] uppercase tracking-[0.35em] block mb-2">ACCOUNT ACCESS</span>
-                    <h2 class="font-serif font-bold text-3xl text-[#29241F]">Sign In to Your Account</h2>
+                    <span class="text-[10px] font-extrabold text-[#A8895F] uppercase tracking-[0.35em] block mb-2">{{ __('ACCOUNT ACCESS') }}</span>
+                    <h2 class="font-serif font-bold text-3xl text-[#29241F]">{{ __('Sign In to Your Account') }}</h2>
                     <p class="text-sm text-gray-600 font-medium mt-2">
-                        New to Sozie Collection?
-                        <a href="{{ route('register') }}" class="text-[#A8895F] font-bold underline hover:text-[#29241F] transition-colors ml-1">Create an account →</a>
+                        {{ __('New to Sozie Collection?') }}
+                        <a href="{{ route('register') }}" class="text-[#A8895F] font-bold underline hover:text-[#29241F] transition-colors ml-1">{{ __('Create an account') }} →</a>
                     </p>
                 </div>
 
@@ -97,7 +97,7 @@
 
                     <div>
                         <label for="email" class="block text-[10px] font-extrabold text-[#A8895F] uppercase tracking-[0.25em] mb-2">
-                            Email Address
+                            {{ __('Email Address') }}
                         </label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
@@ -118,7 +118,7 @@
 
                     <div>
                         <label for="password" class="block text-[10px] font-extrabold text-[#A8895F] uppercase tracking-[0.25em] mb-2">
-                            Password
+                            {{ __('Password') }}
                         </label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
@@ -143,26 +143,26 @@
                                 name="remember"
                                 class="w-4 h-4 accent-[#A8895F] border-[#D8C9B8] rounded">
                             <span class="text-[11px] text-gray-600 font-bold group-hover:text-[#29241F] transition-colors">
-                                Keep me signed in
+                                {{ __('Keep me signed in') }}
                             </span>
                         </label>
                         <a href="{{ route('password.request') }}" class="text-[11px] font-bold text-[#A8895F] hover:text-[#29241F] transition-colors underline underline-offset-2">
-                            Forgot password?
+                            {{ __('Forgot password?') }}
                         </a>
                     </div>
 
                     <button
                         type="submit"
                         class="w-full py-3.5 bg-[#A8895F] text-white font-extrabold text-xs uppercase tracking-[0.3em] polygon-btn text-center block shadow-xl shadow-[#A8895F]/25 hover:bg-[#29241F] active:scale-[0.99] transition-all">
-                        Sign In to Account
+                        {{ __('Sign In to Account') }}
                     </button>
                 </form>
 
                 <div class="mt-8 pt-6 border-t border-[#D8C9B8]">
                     <div class="p-4 bg-[#EDE5D8]/70 border border-[#A8895F]/30 polygon-card text-[11px]">
-                        <span class="font-extrabold text-[#A8895F] uppercase tracking-[0.2em] block mb-1">Just Browsing?</span>
+                        <span class="font-extrabold text-[#A8895F] uppercase tracking-[0.2em] block mb-1">{{ __('Just Browsing?') }}</span>
                         <p class="text-gray-700 font-bold leading-relaxed">
-                            No account needed to order. You can <a href="{{ route('shop.index') }}" class="underline text-[#29241F]">continue shopping as guest</a> and create your account later at checkout.
+                            {{ __('No account needed to order. You can') }} <a href="{{ route('shop.index') }}" class="underline text-[#29241F]">{{ __('continue shopping as guest') }}</a> {{ __('and create your account later at checkout.') }}
                         </p>
                     </div>
                 </div>
