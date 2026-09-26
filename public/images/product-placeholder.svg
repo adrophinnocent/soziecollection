@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="Sozie Collection">
+  <rect width="400" height="400" fill="#EDE5D8"/>
+  <rect x="8" y="8" width="384" height="384" fill="none" stroke="#D8C9B8" stroke-width="2"/>
+  <path d="M144 208h112v64a12 12 0 0 1-12 12H156a12 12 0 0 1-12-12z" fill="#29241F" opacity="0.14"/>
+  <g fill="none" stroke="#A8895F" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M184 116h32v20h-32z"/>
+    <path d="M172 136h56v24h-56z"/>
+    <path d="M154 160h92a12 12 0 0 1 12 12v100a12 12 0 0 1-12 12H154a12 12 0 0 1-12-12V172a12 12 0 0 1 12-12z"/>
+    <path d="M180 252h40"/>
+  </g>
+</svg>

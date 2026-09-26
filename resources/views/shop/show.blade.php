@@ -22,7 +22,7 @@
 
             <!-- Main Featured Image in Polygonal Frame -->
             <div class="relative w-full h-[480px] glass-panel p-2 polygon-card border border-[#A8895F]/40 gold-glow bg-[#F8F5EF]">
-                <img :src="activeImage" alt="{{ $product->name }}" class="w-full h-full object-cover polygon-card border border-[#D8C9B8]">
+                <img :src="activeImage" data-sozie-fallback alt="{{ $product->name }}" class="w-full h-full object-cover polygon-card border border-[#D8C9B8]">
             </div>
 
             <!-- Thumbnails -->
@@ -32,7 +32,7 @@
                     <button @click="activeImage = '{{ $img }}'"
                             :class="activeImage === '{{ $img }}' ? 'border-[#A8895F]' : 'border-[#D8C9B8]'"
                             class="w-20 h-20 polygon-card border-2 flex-shrink-0 overflow-hidden bg-white">
-                        <img src="{{ $img }}" loading="lazy" decoding="async" class="w-full h-full object-cover">
+                        <img src="{{ $img }}" data-sozie-fallback loading="lazy" decoding="async" class="w-full h-full object-cover">
                     </button>
                     @endforeach
                 @endif
@@ -280,7 +280,7 @@
                 <div>
                     <!-- Image Frame -->
                     <div class="w-full h-48 bg-white polygon-card overflow-hidden mb-3 relative border border-[#D8C9B8]">
-                        <img src="{{ $rel->primary_image }}" loading="lazy" decoding="async"
+                        <img src="{{ $rel->primary_image }}" data-sozie-fallback loading="lazy" decoding="async"
                              alt="{{ $rel->name }}"
                              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
 

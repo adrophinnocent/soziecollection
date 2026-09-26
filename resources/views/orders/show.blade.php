@@ -67,7 +67,7 @@
                 @foreach($order->items as $item)
                 <div class="navy-card p-3 polygon-card flex items-center gap-3 text-xs border border-[#D8C9B8] bg-white">
                     @if($item->product_image_url)
-                    <img src="{{ $item->product_image_url }}" loading="lazy" decoding="async" alt="{{ $item->product_name }}" class="w-14 h-14 object-cover border border-[#D8C9B8] shrink-0">
+                    <img src="{{ $item->product_image_url }}" data-sozie-fallback loading="lazy" decoding="async" alt="{{ $item->product_name }}" class="w-14 h-14 object-cover border border-[#D8C9B8] shrink-0">
                     @endif
                     <div class="flex-grow min-w-0">
                         <strong class="text-[#29241F] font-serif text-sm block truncate">{{ $item->product_name }}</strong>

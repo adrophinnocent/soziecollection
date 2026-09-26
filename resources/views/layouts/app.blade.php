@@ -8,9 +8,74 @@
     <meta name="theme-color" content="#EDE5D8">
     <title>@yield('title', __('Sozie Collection | Premium Perfume E-Commerce'))</title>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    {{--
+        Guarded icon renderer. Defined as a plain script (not inside Alpine state) so it
+        always exists before Alpine boots, and safe to call unconditionally: icons are
+        decorative, so a missing or slow icon script must never throw and take the rest
+        of the page's JavaScript (cart count, wishlist, drawers) down with it.
+    --}}
+    <script>
+        window.sozieIcons = function () {
+            try {
+                if (window.lucide && typeof window.lucide.createIcons === 'function') {
+                    window.lucide.createIcons();
+                }
+            } catch (e) {
+                /* Icons are decorative: never let them break a feature. */
+            }
+        };
+        window.addEventListener('load', function () { window.sozieIcons(); });
+    </script>
 
-    <script src="https://unpkg.com/lucide@1.48.0/dist/umd/lucide.min.js" defer></script>
+    {{--
+        Guarded image fallback. Product photography lives in the database as an
+        absolute URL, so a browser on a network that cannot reach that host used
+        to collapse the whole card to nothing. Every image that is allowed to be
+        missing carries data-sozie-fallback, and this one delegated capture-phase
+        listener swaps in a bundled local placeholder when it fails.
+
+        `error` does not bubble, but it does travel the capture phase, so a single
+        listener on `document` also covers the images Alpine injects later — no
+        per-element handlers and no MutationObserver. If the placeholder itself
+        fails to load, the marker is dropped instead of retried, so it cannot loop.
+
+        Progressive enhancement: the placeholder is a nicety, not a requirement. With
+        JavaScript off, every page renders exactly as it did before.
+    --}}
+    <script>
+        window.sozieImageFallback = function () {
+            if (window.sozieImageFallbackBound) {
+                return;
+            }
+            window.sozieImageFallbackBound = true;
+
+            var placeholder = @js(asset('images/product-placeholder.svg'));
+
+            document.addEventListener('error', function (event) {
+                var image = event.target;
+
+                if (!image || image.nodeName !== 'IMG' || !image.hasAttribute('data-sozie-fallback')) {
+                    return;
+                }
+
+                if (image.dataset.sozieFallbackDone === '1') {
+                    image.removeAttribute('data-sozie-fallback');
+                    return;
+                }
+
+                image.dataset.sozieFallbackDone = '1';
+                image.src = placeholder;
+            }, true);
+        };
+        window.addEventListener('DOMContentLoaded', function () { window.sozieImageFallback(); });
+    </script>
+
+    {{-- Lucide 1.48.0 is self-hosted (public/vendor/lucide.min.js) instead of a CDN:
+         third-party hosts get blocked or throttled on some mobile networks, which used
+         to leave every <i data-lucide> empty on some browsers. --}}
+    <script src="{{ asset('vendor/lucide.min.js') }}" defer onerror="void 0"></script>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
 <body class="bg-[#EDE5D8] text-[#29241F] font-sans selection:bg-[#A8895F] selection:text-white min-h-screen flex flex-col relative transition-colors duration-500"
@@ -413,7 +478,7 @@
 
                     <template x-for="item in cartItems" :key="item.cart_key">
                         <div class="navy-card p-3 polygon-card flex gap-3 relative border border-[#D8C9B8] bg-white">
-                            <img :src="item.image" :alt="item.name" loading="lazy" decoding="async" class="w-16 h-16 object-cover polygon-card border border-[#D8C9B8]">
+                            <img :src="item.image" :alt="item.name" data-sozie-fallback loading="lazy" decoding="async" class="w-16 h-16 object-cover polygon-card border border-[#D8C9B8]">
                             <div class="flex-grow">
                                 <h4 class="font-serif font-bold text-sm text-[#29241F]" x-text="item.name"></h4>
                                 <span class="text-[10px] text-[#A8895F] font-extrabold tracking-wider uppercase block" x-text="item.size"></span>
@@ -498,7 +563,7 @@
 
                     <template x-for="item in wishlistItems" :key="item.id">
                         <div class="navy-card p-3 polygon-card flex gap-3 relative border border-[#D8C9B8] bg-white">
-                            <img :src="item.image" loading="lazy" decoding="async" class="w-16 h-16 object-cover polygon-card border border-[#D8C9B8]">
+                            <img :src="item.image" data-sozie-fallback loading="lazy" decoding="async" class="w-16 h-16 object-cover polygon-card border border-[#D8C9B8]">
                             <div class="flex-grow">
                                 <h4 class="font-serif font-bold text-sm text-[#29241F]" x-text="item.name"></h4>
                                 <span class="text-sm sm:text-xs text-[#A8895F] font-extrabold" x-text="item.formatted_price"></span>
@@ -530,7 +595,7 @@
 
                 <template x-if="quickViewData">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <img :src="quickViewData.image" loading="lazy" decoding="async" class="w-full h-64 object-cover polygon-card border border-[#D8C9B8]">
+                        <img :src="quickViewData.image" data-sozie-fallback loading="lazy" decoding="async" class="w-full h-64 object-cover polygon-card border border-[#D8C9B8]">
                         <div class="space-y-3">
                             <span class="text-[10px] font-extrabold text-[#A8895F] uppercase tracking-widest" x-text="quickViewData.category + ' • ' + quickViewData.concentration"></span>
                             <h3 class="font-serif font-bold text-2xl text-[#29241F]" x-text="quickViewData.name"></h3>
@@ -763,7 +828,7 @@
                     this.fetchCart();
                     this.fetchLoggedInWishlist();
                     this.syncWishlistItems();
-                    lucide.createIcons();
+                    sozieIcons();
                 },
 
                 fetchCart() {
@@ -774,7 +839,7 @@
                             this.cartCount = data.cart_count || 0;
                             this.total = data.total || 0;
                             this.formattedTotal = data.formatted_total || 'TZS 0';
-                            this.$nextTick(() => lucide.createIcons());
+                            this.$nextTick(() => sozieIcons());
                         });
                 },
 
@@ -789,7 +854,7 @@
                                 this.wishlist = data.items || [];
                                 localStorage.setItem('sozie_wishlist', JSON.stringify(this.wishlist));
                                 this.syncWishlistItems();
-                                this.$nextTick(() => lucide.createIcons());
+                                this.$nextTick(() => sozieIcons());
                             } else {
                                 this.wishlistLoggedIn = false;
                             }
@@ -814,7 +879,7 @@
                         this.total = data.total;
                         this.formattedTotal = 'TZS ' + Number(data.total).toLocaleString();
                         this.cartOpen = true;
-                        this.$nextTick(() => lucide.createIcons());
+                        this.$nextTick(() => sozieIcons());
                     });
                 },
 
@@ -868,7 +933,7 @@
                             this.quickViewSize = data.variants && data.variants.length > 0 ? data.variants[0].size : null;
                             this.quickViewSelectedPrice = data.variants && data.variants.length > 0 ? data.variants[0].formatted_price : data.formatted_price;
                             this.quickViewOpen = true;
-                            this.$nextTick(() => lucide.createIcons());
+                            this.$nextTick(() => sozieIcons());
                         });
                 },
 
@@ -889,7 +954,7 @@
                         }
                         localStorage.setItem('sozie_wishlist', JSON.stringify(this.wishlist));
                         this.syncWishlistItems();
-                        this.$nextTick(() => lucide.createIcons());
+                        this.$nextTick(() => sozieIcons());
                         return;
                     }
 
@@ -910,7 +975,7 @@
                                 else this.wishlist.push(localItem);
                                 localStorage.setItem('sozie_wishlist', JSON.stringify(this.wishlist));
                                 this.syncWishlistItems();
-                                this.$nextTick(() => lucide.createIcons());
+                                this.$nextTick(() => sozieIcons());
                                 return null;
                             }
                             return res.json();
@@ -924,7 +989,7 @@
                                 else this.wishlist.push(localItem);
                                 localStorage.setItem('sozie_wishlist', JSON.stringify(this.wishlist));
                                 this.syncWishlistItems();
-                                this.$nextTick(() => lucide.createIcons());
+                                this.$nextTick(() => sozieIcons());
                                 return;
                             }
                             this.fetchLoggedInWishlist();
@@ -936,7 +1001,7 @@
                             else this.wishlist.push(localItem);
                             localStorage.setItem('sozie_wishlist', JSON.stringify(this.wishlist));
                             this.syncWishlistItems();
-                            this.$nextTick(() => lucide.createIcons());
+                            this.$nextTick(() => sozieIcons());
                         });
                 },
 

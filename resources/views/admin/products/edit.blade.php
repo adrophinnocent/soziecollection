@@ -290,7 +290,7 @@
 
                 <div>
                     <label class="block font-extrabold text-[#8B0D1A] uppercase mb-1">Or Add Image Link / URL</label>
-                    <input type="url" name="image_url" placeholder="https://images.unsplash.com/..."
+                    <input type="url" name="image_url" placeholder="https://example.com/perfume-bottle.jpg"
                            class="w-full bg-white border border-[#8B0D1A]/40 text-[#0B0B0B] px-3 py-2.5 focus:outline-none focus:border-[#8B0D1A]">
                 </div>
             </div>

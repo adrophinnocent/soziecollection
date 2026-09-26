@@ -171,5 +171,5 @@
     </div>
 </div>
 
-<script>document.addEventListener('DOMContentLoaded', () => lucide.createIcons());</script>
+<script>document.addEventListener('DOMContentLoaded', function () { sozieIcons(); });</script>
 @endsection

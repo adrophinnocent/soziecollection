@@ -23,9 +23,11 @@
                  x-transition:leave-end="opacity-0 scale-95"
                  class="absolute inset-0 opacity-30 transition-all duration-1000">
                 <img :src="slide.mobile_image || slide.image"
+                     data-sozie-fallback
                      alt=""
                      class="w-full h-full object-cover md:hidden">
                 <img :src="slide.image"
+                     data-sozie-fallback
                      alt=""
                      class="hidden w-full h-full object-cover md:block">
             </div>
@@ -123,9 +125,11 @@
                                  class="absolute inset-0 w-full h-full">
 
                                 <img :src="slide.mobile_image || slide.image"
+                                     data-sozie-fallback
                                      :alt="slides[activeSlide].headline"
                                      class="w-full h-full object-cover object-center transform hover:scale-110 transition-transform duration-700 md:hidden">
                                 <img :src="slide.image"
+                                     data-sozie-fallback
                                      :alt="slides[activeSlide].headline"
                                      class="hidden w-full h-full object-cover object-center transform hover:scale-110 transition-transform duration-700 md:block">
 
@@ -180,7 +184,7 @@
             <div class="lg:col-span-6 relative">
                 <div class="w-full h-[500px] glass-panel p-2 polygon-card border border-[#A8895F]/40 shadow-2xl gold-glow bg-[#F8F5EF]">
                     <div class="w-full h-full polygon-card overflow-hidden relative">
-                        <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=1000" loading="lazy" decoding="async"
+                        <img src="{{ asset('images/hero-signature-scent.jpg') }}" loading="lazy" decoding="async"
                              alt="{{ __('Sozie Signature Scent') }}"
                              class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-[#29241F]/90 via-[#29241F]/30 to-transparent opacity-90"></div>
@@ -206,7 +210,7 @@
                 <div class="space-y-4">
                     @foreach($featuredProducts->take(2) as $fp)
                     <div class="navy-card p-5 polygon-card border border-[#D8C9B8] flex gap-4 items-center hover:border-[#A8895F] transition-all bg-[#F8F5EF]">
-                        <img src="{{ $fp->primary_image }}" loading="lazy" decoding="async" alt="{{ $fp->name }}" class="w-20 h-20 object-cover polygon-card border border-[#D8C9B8]">
+                        <img src="{{ $fp->primary_image }}" data-sozie-fallback loading="lazy" decoding="async" alt="{{ $fp->name }}" class="w-20 h-20 object-cover polygon-card border border-[#D8C9B8]">
                         <div class="flex-grow">
                             <div class="flex justify-between items-start">
                                 <h4 class="font-serif font-bold text-lg text-[#29241F]">{{ $fp->name }}</h4>
@@ -274,7 +278,7 @@
                 <div>
                     <!-- Image Frame -->
                     <div class="w-full h-64 bg-white polygon-card overflow-hidden mb-4 relative border border-[#D8C9B8]">
-                        <img src="{{ $product->primary_image }}" loading="lazy" decoding="async"
+                        <img src="{{ $product->primary_image }}" data-sozie-fallback loading="lazy" decoding="async"
                              alt="{{ $product->name }}"
                              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
 
@@ -363,7 +367,7 @@
                         <template x-for="p in matches" :key="p.id">
                             <div class="navy-card p-4 polygon-card border border-[#D8C9B8] text-center flex flex-col justify-between bg-white">
                                 <div>
-                                    <img :src="p.images ? p.images[0] : p.campaign_image" loading="lazy" decoding="async" class="w-full h-40 object-cover polygon-card mb-3 border border-[#D8C9B8]">
+                                    <img :src="p.images ? p.images[0] : p.campaign_image" data-sozie-fallback loading="lazy" decoding="async" class="w-full h-40 object-cover polygon-card mb-3 border border-[#D8C9B8]">
                                     <h4 class="font-serif font-bold text-lg text-[#29241F]" x-text="p.name"></h4>
                                     <p class="text-[10px] text-[#A8895F] uppercase tracking-widest font-extrabold mt-1" x-text="p.scent_type + ' • ' + p.fragrance_family"></p>
                                 </div>
@@ -412,7 +416,7 @@
 
                 <div>
                     <div class="w-full h-64 bg-white polygon-card overflow-hidden mb-4 relative border border-[#D8C9B8]">
-                        <img src="{{ $product->primary_image }}" loading="lazy" decoding="async"
+                        <img src="{{ $product->primary_image }}" data-sozie-fallback loading="lazy" decoding="async"
                              alt="{{ $product->name }}"
                              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
 
@@ -488,7 +492,7 @@
 
             <div class="lg:col-span-6">
                 <div class="relative w-full h-[450px] glass-panel p-3 polygon-card border border-[#A8895F]/40 gold-glow bg-[#F8F5EF]">
-                    <img src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&q=80&w=1000" loading="lazy" decoding="async"
+                    <img src="{{ asset('images/hero-sozie-experience.jpg') }}" loading="lazy" decoding="async"
                          alt="{{ __('The Sozie Experience') }}"
                          class="w-full h-full object-cover polygon-card border border-[#D8C9B8]">
                 </div>
@@ -569,12 +573,17 @@
                 <template x-for="(slide, i) in slides" :key="'campaign-' + i">
                     <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 flex-shrink-0">
                         <div class="h-80 navy-card polygon-card overflow-hidden group relative border border-[#D8C9B8] bg-[#F8F5EF] shadow-lg">
-                            <img :src="slide.image" :alt="slide.title" loading="lazy" decoding="async"
+                            <img :src="slide.image" :alt="slide.title" data-sozie-fallback loading="lazy" decoding="async"
                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
 
-                            <!-- Instagram Handle Badge -->
+                            <!-- Instagram Handle Badge. The glyph is inlined, exactly like the
+                                 footer social links, because the self-hosted Lucide build has no
+                                 "instagram" icon: createIcons() warns and leaves the <i> empty, which
+                                 is what made all six gallery badges render with no icon. -->
                             <div class="absolute top-3 left-3 z-10 bg-[#F8F5EF]/90 backdrop-blur-md border border-[#D8C9B8] text-[9px] font-extrabold text-[#A8895F] uppercase px-2.5 py-1 polygon-badge flex items-center gap-1.5">
-                                <i data-lucide="instagram" class="w-3 h-3 text-[#A8895F]"></i>
+                                <svg class="w-3 h-3 fill-[#A8895F] flex-shrink-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-.059-1.28-.073-1.689-.073-4.949zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                                </svg>
                                 <span x-text="slide.tag"></span>
                             </div>
 
@@ -632,7 +641,7 @@
     function heroSlider(serverSlides) {
         const fallbackSlides = [
             {
-                image: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=1200',
+                image: @js(asset('images/hero-signature-scent.jpg')),
                 mobile_image: null,
                 eyebrow: @js(__('THE ATELIER VISUAL EXPERIENCE')),
                 headline: @js(__('YOUR SCENT.')),
@@ -644,7 +653,7 @@
                 secondary_button_link: '#scent-finder'
             },
             {
-                image: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&q=80&w=1200',
+                image: @js(asset('images/hero-sozie-experience.jpg')),
                 mobile_image: null,
                 eyebrow: @js(__('LIMITED RESERVE')),
                 headline: 'SOZIE NOIR',
@@ -656,7 +665,7 @@
                 secondary_button_link: null
             },
             {
-                image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=1200',
+                image: @js(asset('images/hero-signature-scent.jpg')),
                 mobile_image: null,
                 eyebrow: @js(__('NEW ARRIVAL')),
                 headline: 'SOZIE GOLDEN',
@@ -709,47 +718,58 @@
     }
 
     function gallerySlider() {
+        {{--
+            The gallery used to hardcode six remote stock-photo URLs, so the whole
+            section depended on a third-party image host being reachable. The two
+            bundled hero photographs are alternated instead: same brand look, no
+            third-party host, and it degrades to something sensible offline.
+        --}}
+        const galleryImages = [
+            @js(asset('images/hero-signature-scent.jpg')),
+            @js(asset('images/hero-sozie-experience.jpg'))
+        ];
+
         return {
             currentIndex: 0,
             itemsToShow: 4,
             slides: [
                 {
-                    image: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=800',
+                    image: galleryImages[0],
                     title: 'SOZIE ELEGANCE',
                     subtitle: @js(__('Floral Fruity • Eau de Parfum')),
                     tag: '@sozie_collection',
                     handle: '#SozieElegance'
                 },
                 {
-                    image: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&q=80&w=800',
+                    image: galleryImages[1],
                     title: 'SOZIE NOIR IMPERIAL',
                     subtitle: @js(__('Woody Oud • Extrait de Parfum')),
                     tag: '@sozie_collection',
                     handle: '#SozieNoir'
                 },
                 {
-                    image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=800',
+                    image: galleryImages[0],
                     title: 'SOZIE GOLDEN AURA',
                     subtitle: @js(__('Saffron Amber • Limited Reserve')),
                     tag: '@sozie_collection',
                     handle: '#GoldenAura'
                 },
                 {
-                    image: 'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&q=80&w=800',
+                    image: galleryImages[1],
                     title: 'SOZIE VELVET ROSE',
                     subtitle: @js(__('Turkish Rose Gourmand')),
                     tag: '@sozie_collection',
                     handle: '#VelvetRose'
                 },
                 {
-                    image: 'https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&q=80&w=800',
+                    image: galleryImages[0],
                     title: 'SOZIE ROYAL OUD OIL',
                     subtitle: @js(__('0% Alcohol Concentrated Elixir')),
                     tag: '@sozie_collection',
                     handle: '#RoyalOud'
                 },
                 {
-                    image: 'https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&q=80&w=800',
+                    image: galleryImages[1],
                     title: 'SOZIE BLOSSOM BLISS',
                     subtitle: @js(__('Cherry Blossom & White Peach')),
                     tag: '@sozie_collection',

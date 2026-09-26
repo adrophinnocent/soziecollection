@@ -50,7 +50,11 @@
                 @foreach($order->items as $item)
                 <article class="flex items-center gap-4 p-3 bg-white border border-[#D8C9B8] polygon-card">
                     @if($item->product_image_url)
-                    <img src="{{ $item->product_image_url }}" loading="lazy" decoding="async" alt="{{ $item->product_name }}" class="w-24 h-24 object-cover border border-[#D8C9B8] shrink-0">
+                    {{-- This page is deliberately standalone (no Alpine, no layouts.app), so it
+                         carries its own inline handler. `this.onerror = null` first, so a
+                         placeholder that itself fails cannot start a loop. --}}
+                    <img src="{{ $item->product_image_url }}" loading="lazy" decoding="async" alt="{{ $item->product_name }}" class="w-24 h-24 object-cover border border-[#D8C9B8] shrink-0"
+                         onerror="this.onerror=null;this.src='{{ asset('images/product-placeholder.svg') }}';">
                     @else
                     <div class="w-24 h-24 bg-[#EDE5D8] border border-[#D8C9B8] flex items-center justify-center shrink-0">
                         <span class="text-[10px] font-extrabold text-[#A8895F] text-center px-2">SOZIE</span>

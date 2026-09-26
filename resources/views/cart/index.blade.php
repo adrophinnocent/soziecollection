@@ -28,7 +28,7 @@
             @foreach($cart as $item)
             <div class="navy-card p-4 polygon-card border border-[#D8C9B8] flex flex-col sm:flex-row gap-4 items-center justify-between bg-[#F8F5EF]">
                 <div class="flex items-center gap-4 w-full sm:w-auto">
-                    <img src="{{ $item['image'] }}" loading="lazy" decoding="async" alt="{{ $item['name'] }}" class="w-20 h-20 object-cover polygon-card border border-[#D8C9B8]">
+                    <img src="{{ $item['image'] }}" data-sozie-fallback loading="lazy" decoding="async" alt="{{ $item['name'] }}" class="w-20 h-20 object-cover polygon-card border border-[#D8C9B8]">
                     <div>
                         <h3 class="font-serif font-bold text-lg text-[#29241F]">{{ $item['name'] }}</h3>
                         <span class="text-xs font-extrabold text-[#A8895F] block">{{ $item['size'] }}</span>

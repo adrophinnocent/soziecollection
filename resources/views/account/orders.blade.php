@@ -85,7 +85,7 @@
                 <div class="flex flex-col gap-1.5 text-center">
                     <div class="aspect-square bg-[#EDE5D8] polygon-card border border-[#D8C9B8] overflow-hidden">
                         @if(!empty($item->product?->primary_image))
-                        <img src="{{ $item->product->primary_image }}" loading="lazy" decoding="async" alt="{{ $item->name }}" class="w-full h-full object-cover">
+                        <img src="{{ $item->product->primary_image }}" data-sozie-fallback loading="lazy" decoding="async" alt="{{ $item->name }}" class="w-full h-full object-cover">
                         @else
                         <div class="w-full h-full flex items-center justify-center text-[#A8895F]/60">
                             <i data-lucide="bottle-wine" class="w-6 h-6"></i>

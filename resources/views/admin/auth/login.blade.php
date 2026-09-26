@@ -8,9 +8,25 @@
     <meta name="theme-color" content="#EDE5D8">
     <title>Admin Portal Login | Sozie Collection</title>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    {{-- Guarded icon renderer: defined before Alpine boots and safe to call even when
+         the icon script is unavailable, so a CDN/network failure can never break a
+         feature. Lucide itself is self-hosted (public/vendor/lucide.min.js). --}}
+    <script>
+        window.sozieIcons = function () {
+            try {
+                if (window.lucide && typeof window.lucide.createIcons === 'function') {
+                    window.lucide.createIcons();
+                }
+            } catch (e) {
+                /* Icons are decorative: never let them break a feature. */
+            }
+        };
+        window.addEventListener('load', function () { window.sozieIcons(); });
+    </script>
 
-    <script src="https://unpkg.com/lucide@1.48.0/dist/umd/lucide.min.js" defer></script>
+    <script src="{{ asset('vendor/lucide.min.js') }}" defer onerror="void 0"></script>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-[#EDE5D8] text-[#29241F] font-sans min-h-screen flex items-center justify-center relative overflow-hidden">
 
@@ -197,8 +213,8 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
+        document.addEventListener('DOMContentLoaded', function () {
+            sozieIcons();
         });
     </script>
 </body>
