@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="color-scheme" content="light">
+    <meta name="theme-color" content="#EDE5D8">
     <title>@yield('title', __('Sozie Collection | Premium Perfume E-Commerce'))</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -59,25 +61,25 @@
     </div>
 
     <!-- HEADER / NAVIGATION -->
-    <header class="sticky top-0 z-40 glass-panel border-b border-[#D8C9B8] transition-all duration-300 bg-[#F8F5EF]/95 shadow-sm">
+    <header class="sticky top-0 z-40 glass-panel-dark border-b border-[#A8895F]/25 transition-all duration-300 bg-[#12100E]/95 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
 
                 <!-- BRAND LOGO -->
                 <a href="{{ route('home') }}" class="flex items-center gap-3 group">
                     <div class="w-10 h-10 bg-gradient-to-br from-[#A8895F] via-[#D8C9B8] to-[#29241F] polygon-card flex items-center justify-center p-[1px] shadow-md group-hover:scale-105 transition-transform duration-300">
-                        <div class="w-full h-full bg-[#29241F] polygon-card flex items-center justify-center">
+                        <div class="w-full h-full bg-[#12100E] polygon-card flex items-center justify-center">
                             <span class="font-serif font-bold text-lg text-[#A8895F]">S</span>
                         </div>
                     </div>
                     <div>
-                        <span class="font-serif font-bold text-2xl tracking-[0.2em] text-[#29241F] group-hover:text-[#A8895F] transition-colors">SOZIE</span>
+                        <span class="font-serif font-bold text-2xl tracking-[0.2em] text-[#F8F5EF] group-hover:text-[#D4AF37] transition-colors">SOZIE</span>
                         <span class="block text-[9px] tracking-[0.35em] text-[#A8895F] uppercase -mt-1 font-extrabold">COLLECTION</span>
                     </div>
                 </a>
 
                 <!-- DESKTOP NAVIGATION -->
-                <nav class="hidden md:flex items-center space-x-8 text-xs font-bold tracking-widest uppercase text-[#29241F]">
+                <nav class="hidden md:flex items-center space-x-8 text-xs font-bold tracking-widest uppercase text-[#F8F5EF]">
                     <a href="{{ route('home') }}" class="hover:text-[#A8895F] transition-colors relative py-1 {{ request()->routeIs('home') ? 'text-[#A8895F]' : '' }}">
                         {{ __('Home') }}
                         @if(request()->routeIs('home'))
@@ -98,26 +100,26 @@
                     </a>
 
                     @guest
-                        <div class="flex items-center space-x-3 pl-2 ml-1 border-l border-[#D8C9B8]">
+                        <div class="flex items-center space-x-3 pl-2 ml-1 border-l border-[#A8895F]/25">
                             <a href="{{ route('login') }}"
-                               class="text-xs font-bold uppercase tracking-[0.2em] text-[#29241F] hover:text-[#A8895F] transition-colors">
+                               class="text-xs font-bold uppercase tracking-[0.2em] text-[#F8F5EF] hover:text-[#D4AF37] transition-colors">
                                 {{ __('Sign In') }}
                             </a>
                             <a href="{{ route('register') }}"
-                               class="text-xs text-white font-extrabold uppercase tracking-[0.2em] bg-[#A8895F] hover:bg-[#29241F] px-3 py-1.5 polygon-btn transition-all shadow-md">
+                               class="text-xs text-white hover:text-[#12100E] font-extrabold uppercase tracking-[0.2em] bg-[#A8895F] hover:bg-[#D4AF37] px-3 py-1.5 polygon-btn transition-all shadow-md">
                                 {{ __('Join') }}
                             </a>
                         </div>
                     @else
                         @if(Auth::user()->isAdmin())
                         <a href="{{ route('admin.dashboard') }}"
-                           class="flex items-center gap-1.5 text-xs text-[#A8895F] hover:text-[#29241F] transition-colors border border-[#A8895F]/50 px-3 py-1.5 rounded polygon-btn bg-[#F8F5EF] font-bold">
+                           class="flex items-center gap-1.5 text-xs text-[#D4AF37] hover:text-[#F3E5AB] transition-colors border border-[#A8895F]/50 px-3 py-1.5 rounded polygon-btn bg-[#A8895F]/10 font-bold">
                             <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
                             {{ __('Admin Portal') }}
                         </a>
                         @endif
 
-                        <div x-data="{ accountOpen: false }" class="relative pl-2 ml-1 border-l border-[#D8C9B8]">
+                        <div x-data="{ accountOpen: false }" class="relative pl-2 ml-1 border-l border-[#A8895F]/25">
                             <button @click="accountOpen = !accountOpen"
                                     class="flex items-center gap-2 group"
                                     aria-haspopup="menu">
@@ -130,7 +132,7 @@
                                 </div>
                                 <span class="hidden lg:flex flex-col items-start leading-tight">
                                     <span class="text-[10px] text-[#A8895F] uppercase tracking-[0.2em] font-extrabold">{{ __('My Account') }}</span>
-                                    <span class="text-[11px] text-[#29241F] font-bold max-w-[140px] truncate">{{ Auth::user()->name }}</span>
+                                    <span class="text-[11px] text-[#F8F5EF] font-bold max-w-[140px] truncate">{{ Auth::user()->name }}</span>
                                 </span>
                                 <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-[#A8895F]"></i>
                             </button>
@@ -203,7 +205,7 @@
 
                     <!-- Search Trigger -->
                     <div x-data="{ open: false }" class="relative">
-                        <button @click="open = !open" class="p-2 text-[#29241F] hover:text-[#A8895F] transition-colors">
+                        <button @click="open = !open" class="p-2 text-[#F8F5EF] hover:text-[#D4AF37] transition-colors">
                             <i data-lucide="search" class="w-5 h-5"></i>
                         </button>
 
@@ -222,7 +224,7 @@
                     </div>
 
                     <!-- Wishlist Trigger Button -->
-                    <button @click="wishlistOpen = true" class="relative p-2 text-[#29241F] hover:text-[#A8895F] transition-colors">
+                    <button @click="wishlistOpen = true" class="relative p-2 text-[#F8F5EF] hover:text-[#D4AF37] transition-colors">
                         <i data-lucide="heart" class="w-5 h-5"></i>
                         <span x-show="wishlist.length > 0"
                               x-text="wishlist.length"
@@ -230,9 +232,9 @@
                     </button>
 
                     <!-- Cart Trigger Button -->
-                    <button @click="cartOpen = true" class="relative p-2 text-[#29241F] hover:text-[#A8895F] transition-colors flex items-center gap-2 group">
+                    <button @click="cartOpen = true" class="relative p-2 text-[#F8F5EF] hover:text-[#D4AF37] transition-colors flex items-center gap-2 group">
                         <div class="relative">
-                            <i data-lucide="shopping-bag" class="w-5 h-5 group-hover:scale-110 transition-transform text-[#29241F]"></i>
+                            <i data-lucide="shopping-bag" class="w-5 h-5 group-hover:scale-110 transition-transform text-[#F8F5EF]"></i>
                             <span x-show="cartCount > 0"
                                   x-text="cartCount"
                                   class="absolute -top-2 -right-2 bg-[#A8895F] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
@@ -243,7 +245,7 @@
                     <!-- Direct WhatsApp Contact lives in the floating button, see below -->
 
                     <!-- Mobile Menu Button -->
-                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 text-[#29241F] hover:text-[#A8895F]">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 text-[#F8F5EF] hover:text-[#D4AF37]">
                         <i data-lucide="menu" class="w-6 h-6"></i>
                     </button>
                 </div>
@@ -344,14 +346,19 @@
     @if(config('payment.whatsapp.enabled') && config('payment.whatsapp.phone_number'))
     <a href="https://wa.me/{{ config('payment.whatsapp.phone_number') }}?text={{ rawurlencode(__('Hello Sozie Collection! I would like some help with your products.')) }}"
        target="_blank" rel="noopener"
-       class="fixed bottom-5 right-5 z-40 inline-flex items-center rounded-full bg-[#25D366] hover:bg-[#1EBE5A] text-white shadow-2xl ring-1 ring-black/5 transition-transform duration-200 hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#25D366]/50"
+       class="group fixed bottom-6 right-5 z-40 inline-flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] focus-visible:ring-offset-2 focus-visible:ring-offset-[#EDE5D8] sm:right-6"
        aria-label="{{ __('Chat with us on WhatsApp') }}"
        title="{{ __('Chat with us on WhatsApp') }}">
-        <span class="relative p-3.5">
-            <i data-lucide="message-circle" class="w-6 h-6 block"></i>
-            <span class="absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-white ring-2 ring-[#25D366]"></span>
+
+        <span class="pointer-events-none absolute -inset-2 -z-10 rounded-full bg-[#D4AF37]/25 blur-2xl animate-pulse-glow" aria-hidden="true"></span>
+
+        <span class="relative flex h-14 w-14 items-center justify-center overflow-hidden border border-[#C5A059]/40 bg-gradient-to-br from-[#221D19] via-[#151210] to-[#0C0A09] shadow-[0_18px_40px_-14px_rgba(18,16,14,0.7)] transition-all duration-500 group-hover:-translate-y-0.5 group-hover:border-[#D4AF37]/70 group-hover:shadow-[0_22px_55px_-14px_rgba(212,175,55,0.45)]"
+              style="clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);">
+
+            <span class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-[#F3E5AB]/20 to-transparent transition-transform duration-[900ms] ease-out group-hover:translate-x-full" aria-hidden="true"></span>
+
+            <i data-lucide="message-circle" class="relative h-7 w-7 text-[#25D366]" aria-hidden="true"></i>
         </span>
-        <span class="hidden sm:inline text-xs font-extrabold uppercase tracking-[0.15em] pr-5 whitespace-nowrap">{{ __('Chat with us') }}</span>
     </a>
     @endif
 

@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light">
+    <meta name="theme-color" content="#EDE5D8">
     <title>@yield('page_title', 'Dashboard') | Admin | Sozie Collection</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])

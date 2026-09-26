@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
+    <meta name="color-scheme" content="light">
+    <meta name="theme-color" content="#EDE5D8">
     <title>{{ __('Sozie Collection | Order :order', ['order' => $order->order_number]) }}</title>
 
     <meta property="og:type" content="website">

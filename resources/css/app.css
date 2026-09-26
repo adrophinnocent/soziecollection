@@ -77,12 +77,12 @@ body {
     overflow-x: hidden;
 }
 
-html.dark {
+/* Document colour scheme is pinned to light unconditionally.
+   The previous `html.dark` rules were dead code (no layout ever adds a `dark`
+   class to <html>), so the document never told the user agent it is light-only
+   and Chrome on Android was free to auto-invert the palette in OS dark mode. */
+:root {
     color-scheme: light;
-    background-color: #EDE5D8;
-}
-
-html.dark body {
     background-color: #EDE5D8;
     color: #29241F;
 }
@@ -154,6 +154,16 @@ input:focus, select:focus, textarea:focus {
     background: linear-gradient(135deg, rgba(248, 245, 239, 0.98) 0%, rgba(216, 201, 184, 0.4) 100%) !important;
     backdrop-filter: blur(14px);
     border: 1px solid rgba(168, 137, 95, 0.45) !important;
+}
+
+/* Dark Obsidian Bar — used by the sticky header so it reads as one
+   luxury dark theme with the obsidian footer. */
+.glass-panel-dark {
+    background: radial-gradient(circle at 50% 0%, #1D1814 0%, #12100E 100%) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(168, 137, 95, 0.25) !important;
+    box-shadow: 0 10px 30px rgba(18, 16, 14, 0.35) !important;
 }
 
 /* Ivory Cards & Containers */
