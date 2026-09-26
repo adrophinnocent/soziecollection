@@ -8,7 +8,7 @@
 <!-- SECTION 01: HERO / SPLASH EXPERIENCE (#EDE5D8 Warm Sand & #A8895F Champagne Gold) -->
 <!-- ================================================================= -->
 <section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-10 pb-20 border-b border-[#D8C9B8] bg-[#EDE5D8]"
-         x-data="heroSlider()"
+         x-data="heroSlider({{ \Illuminate\Support\Js::from($heroSlides) }})"
          x-init="startAutoSlide()">
 
     <!-- SLIDING BACKGROUND PICTURE OVERLAY -->
@@ -21,8 +21,13 @@
                  x-transition:leave="transition ease-in duration-1000"
                  x-transition:leave-start="opacity-100 scale-100"
                  x-transition:leave-end="opacity-0 scale-95"
-                 class="absolute inset-0 bg-cover bg-center opacity-30 transition-all duration-1000"
-                 :style="'background-image: url(' + slide.image + ');'">
+                 class="absolute inset-0 opacity-30 transition-all duration-1000">
+                <img :src="slide.mobile_image || slide.image"
+                     alt=""
+                     class="w-full h-full object-cover md:hidden">
+                <img :src="slide.image"
+                     alt=""
+                     class="hidden w-full h-full object-cover md:block">
             </div>
         </template>
 
@@ -46,33 +51,35 @@
 
                 <div class="inline-flex items-center gap-2 bg-[#F8F5EF] border border-[#A8895F]/40 px-3.5 py-1.5 polygon-badge shadow-sm">
                     <span class="w-2 h-2 rounded-full bg-[#A8895F] animate-ping"></span>
-                    <span class="text-[11px] font-extrabold tracking-[0.25em] text-[#A8895F] uppercase">THE ATELIER VISUAL EXPERIENCE</span>
+                    <span class="text-[11px] font-extrabold tracking-[0.25em] text-[#A8895F] uppercase"
+                          x-text="slides[activeSlide].eyebrow">THE ATELIER VISUAL EXPERIENCE</span>
                 </div>
 
                 <div class="space-y-2">
                     <h2 class="text-xs sm:text-sm font-extrabold tracking-[0.4em] text-[#A8895F] uppercase">SOZIE COLLECTION</h2>
                     <h1 class="font-serif font-bold text-5xl sm:text-7xl lg:text-8xl leading-none text-[#29241F] tracking-tight">
-                        {{ __('YOUR SCENT.') }}<br>
-                        <span class="gold-gradient-text italic font-normal">{{ __('YOUR SIGNATURE.') }}</span>
+                        <span x-text="slides[activeSlide].headline">{{ __('YOUR SCENT.') }}</span><br>
+                        <span class="gold-gradient-text italic font-normal"
+                              x-text="slides[activeSlide].highlight_text">{{ __('YOUR SIGNATURE.') }}</span>
                     </h1>
                 </div>
 
-                <p class="text-gray-700 text-sm sm:text-base leading-relaxed max-w-xl font-semibold">
-                    {{ __('Hero Description') }}
-                </p>
+                <p class="text-gray-700 text-sm sm:text-base leading-relaxed max-w-xl font-semibold"
+                   x-text="slides[activeSlide].description">{{ __('Hero Description') }}</p>
 
                 <!-- CTAs -->
                 <div class="flex flex-wrap items-center gap-4 pt-4">
-                    <a href="{{ route('shop.index') }}"
+                    <a :href="slides[activeSlide].button_link"
                        class="px-8 py-4 bg-[#A8895F] border border-[#A8895F] text-white font-extrabold text-xs tracking-[0.25em] uppercase polygon-btn shadow-xl shadow-[#A8895F]/20 hover:bg-[#29241F] flex items-center gap-3">
-                        <span>{{ __('EXPLORE COLLECTION') }}</span>
+                        <span x-text="slides[activeSlide].button_text">{{ __('EXPLORE COLLECTION') }}</span>
                         <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </a>
 
-                    <a href="#scent-finder"
+                    <a x-show="slides[activeSlide].secondary_button_text"
+                       :href="slides[activeSlide].secondary_button_link"
                        class="px-8 py-4 bg-[#F8F5EF] border border-[#A8895F]/40 text-[#29241F] font-extrabold text-xs tracking-[0.2em] uppercase polygon-btn hover:bg-white transition-all backdrop-blur-md flex items-center gap-2 shadow-sm">
                         <i data-lucide="sparkles" class="w-4 h-4 text-[#A8895F]"></i>
-                        <span>{{ __('FIND YOUR SCENT') }}</span>
+                        <span x-text="slides[activeSlide].secondary_button_text">{{ __('FIND YOUR SCENT') }}</span>
                     </a>
                 </div>
 
@@ -115,9 +122,12 @@
                                  x-transition:leave-end="opacity-0 -translate-x-8 scale-95"
                                  class="absolute inset-0 w-full h-full">
 
+                                <img :src="slide.mobile_image || slide.image"
+                                     :alt="slides[activeSlide].headline"
+                                     class="w-full h-full object-cover object-center transform hover:scale-110 transition-transform duration-700 md:hidden">
                                 <img :src="slide.image"
-                                     :alt="slide.name"
-                                     class="w-full h-full object-cover object-center transform hover:scale-110 transition-transform duration-700">
+                                     :alt="slides[activeSlide].headline"
+                                     class="hidden w-full h-full object-cover object-center transform hover:scale-110 transition-transform duration-700 md:block">
 
                                 <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#EDE5D8]/90 via-[#EDE5D8]/40 to-transparent"></div>
                             </div>
@@ -126,10 +136,13 @@
                         <!-- Floating Glass Product Tag -->
                         <div class="absolute bottom-4 left-4 right-4 glass-panel p-3.5 polygon-card border border-[#A8895F]/40 flex justify-between items-center z-20 shadow-2xl backdrop-blur-md bg-[#F8F5EF]">
                             <div>
-                                <span class="text-[10px] text-[#A8895F] font-extrabold uppercase tracking-widest block" x-text="slides[activeSlide].badge"></span>
-                                <h4 class="font-serif font-bold text-[#29241F] text-base tracking-wide" x-text="slides[activeSlide].name"></h4>
+                                <span class="text-[10px] text-[#A8895F] font-extrabold uppercase tracking-widest block"
+                                      x-text="slides[activeSlide].eyebrow"></span>
+                                <h4 class="font-serif font-bold text-[#29241F] text-base tracking-wide"
+                                    x-text="slides[activeSlide].headline"></h4>
                             </div>
-                            <span class="text-xs font-extrabold text-[#A8895F] font-mono" x-text="slides[activeSlide].price"></span>
+                            <span class="text-[10px] text-[#A8895F] font-extrabold uppercase text-right max-w-[120px] leading-tight"
+                                  x-text="slides[activeSlide].button_text"></span>
                         </div>
 
                     </div>
@@ -616,39 +629,63 @@
 
 @push('scripts')
 <script>
-    function heroSlider() {
+    function heroSlider(serverSlides) {
+        const fallbackSlides = [
+            {
+                image: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=1200',
+                mobile_image: null,
+                eyebrow: 'THE ATELIER VISUAL EXPERIENCE',
+                headline: 'YOUR SCENT.',
+                highlight_text: 'YOUR SIGNATURE.',
+                description: 'Discover handcrafted fragrances designed to leave a memorable impression.',
+                button_text: 'EXPLORE COLLECTION',
+                button_link: '{{ route('shop.index') }}',
+                secondary_button_text: 'FIND YOUR SCENT',
+                secondary_button_link: '#scent-finder'
+            },
+            {
+                image: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&q=80&w=1200',
+                mobile_image: null,
+                eyebrow: 'LIMITED RESERVE',
+                headline: 'SOZIE NOIR',
+                highlight_text: 'IMPERIAL.',
+                description: 'Bold woods, spice and amber for an unforgettable signature.',
+                button_text: 'DISCOVER THE COLLECTION',
+                button_link: '{{ route('shop.index') }}',
+                secondary_button_text: null,
+                secondary_button_link: null
+            },
+            {
+                image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=1200',
+                mobile_image: null,
+                eyebrow: 'NEW ARRIVAL',
+                headline: 'SOZIE GOLDEN',
+                highlight_text: 'AURA.',
+                description: 'Saffron, warm honeycomb and crystal amber blended to perfection.',
+                button_text: 'SHOP THE NEW ARRIVAL',
+                button_link: '{{ route('shop.index') }}',
+                secondary_button_text: null,
+                secondary_button_link: null
+            }
+        ];
+
         return {
             activeSlide: 0,
-            slides: [
-                {
-                    image: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=1200',
-                    name: 'SOZIE ELEGANCE',
-                    price: 'TZS 55,000',
-                    badge: 'SIGNATURE RELEASE'
-                },
-                {
-                    image: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&q=80&w=1200',
-                    name: 'SOZIE NOIR IMPERIAL',
-                    price: 'TZS 68,000',
-                    badge: 'LIMITED RESERVE'
-                },
-                {
-                    image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=1200',
-                    name: 'SOZIE GOLDEN AURA',
-                    price: 'TZS 85,000',
-                    badge: 'NEW ARRIVAL'
-                },
-                {
-                    image: 'https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&q=80&w=1200',
-                    name: 'SOZIE ROYAL OUD OIL',
-                    price: 'TZS 40,000',
-                    badge: 'PURE ELIXIR'
-                }
-            ],
+            slides: serverSlides && serverSlides.length > 0 ? serverSlides : fallbackSlides,
+            timer: null,
             startAutoSlide() {
-                setInterval(() => {
+                if (this.slides.length < 2) {
+                    return;
+                }
+
+                this.timer = setInterval(() => {
                     this.activeSlide = (this.activeSlide + 1) % this.slides.length;
                 }, 4000);
+            },
+            destroy() {
+                if (this.timer) {
+                    clearInterval(this.timer);
+                }
             }
         }
     }

@@ -323,7 +323,7 @@ class AdminController extends Controller
 
     public function marketing()
     {
-        $banners = Banner::orderBy('sort_order')->get();
+        $banners = Banner::ordered()->get();
         $coupons = Coupon::latest()->get();
 
         return view('admin.marketing.index', compact('banners', 'coupons'));
@@ -349,7 +349,7 @@ class AdminController extends Controller
 
     public function content()
     {
-        $banners = Banner::orderBy('sort_order')->get();
+        $banners = Banner::ordered()->get();
 
         return view('admin.content.index', compact('banners'));
     }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\HomepageSlideController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\CustomerAuthController;
 use App\Http\Controllers\CartController;
@@ -145,6 +146,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::middleware('can:homepage_content')->group(function () {
             Route::get('/content', [AdminController::class, 'content'])->name('content');
+            Route::post('/content/slides', [HomepageSlideController::class, 'store'])->name('slides.store');
+            Route::put('/content/slides/{banner}', [HomepageSlideController::class, 'update'])->name('slides.update');
+            Route::delete('/content/slides/{banner}', [HomepageSlideController::class, 'destroy'])->name('slides.destroy');
         });
 
         Route::middleware('can:admin_users')->group(function () {

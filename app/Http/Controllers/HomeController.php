@@ -6,12 +6,29 @@ use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Review;
+use Illuminate\View\View;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(): View
     {
-        $heroBanner = Banner::where('is_active', true)->orderBy('sort_order')->first();
+        $heroSlides = Banner::query()
+            ->active()
+            ->ordered()
+            ->get()
+            ->map(fn (Banner $banner): array => [
+                'image' => $banner->image_url,
+                'mobile_image' => $banner->mobile_image_url,
+                'eyebrow' => $banner->eyebrow ?: $banner->title,
+                'headline' => $banner->headline ?: $banner->title,
+                'highlight_text' => $banner->highlight_text,
+                'description' => $banner->subtitle ?: __('Hero Description'),
+                'button_text' => $banner->button_text ?: __('SHOP COLLECTION'),
+                'button_link' => $banner->button_link ?: route('shop.index'),
+                'secondary_button_text' => $banner->secondary_button_text,
+                'secondary_button_link' => $banner->secondary_button_link,
+            ])
+            ->values();
 
         $categories = Category::withCount('products')->get();
 
@@ -41,7 +58,7 @@ class HomeController extends Controller
         $allProducts = Product::with('variants')->where('is_available', true)->get();
 
         return view('home', compact(
-            'heroBanner',
+            'heroSlides',
             'categories',
             'bestSellers',
             'newArrivals',

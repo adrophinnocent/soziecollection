@@ -947,14 +947,21 @@ class DatabaseSeeder extends Seeder
         }
 
         // 3. Marketing Banners
-        Banner::create([
-            'title' => 'SOZIE COLLECTION',
-            'subtitle' => 'YOUR SCENT. YOUR SIGNATURE.',
-            'image' => 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=1200',
-            'button_text' => 'EXPLORE COLLECTION',
-            'button_link' => '/shop',
-            'is_active' => true,
-            'sort_order' => 1,
-        ]);
+        Banner::updateOrCreate(
+            ['title' => 'SOZIE COLLECTION'],
+            [
+                'eyebrow' => 'THE ATELIER VISUAL EXPERIENCE',
+                'headline' => 'YOUR SCENT.',
+                'highlight_text' => 'YOUR SIGNATURE.',
+                'subtitle' => 'Discover handcrafted fragrances designed to leave a memorable impression.',
+                'image' => 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=1200',
+                'button_text' => 'EXPLORE COLLECTION',
+                'button_link' => '/shop',
+                'secondary_button_text' => 'FIND YOUR SCENT',
+                'secondary_button_link' => '/#scent-finder',
+                'is_active' => true,
+                'sort_order' => 1,
+            ]
+        );
     }
 }
