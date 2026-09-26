@@ -147,8 +147,8 @@
                         @can('homepage_content')
                         <a href="{{ route('admin.content') }}" @click="adminMenuOpen = false"
                            class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.content*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#A8895F] hover:bg-[#A8895F]/10' }}">
-                            <i data-lucide="layout-template" class="w-4 h-4 text-[#A8895F]"></i>
-                            <span>Website Content</span>
+                            <i data-lucide="images" class="w-4 h-4 text-[#A8895F]"></i>
+                            <span>Hero Slides & Instagram</span>
                         </a>
                         @endcan
 

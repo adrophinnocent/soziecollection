@@ -137,6 +137,34 @@
         </div>
     </div>
 
+    <!-- Instagram Gallery & Campaign Visuals -->
+    <div class="bg-[#F8F5EF] border border-[#D8C9B8] polygon-card shadow-sm p-6 space-y-4">
+        <div class="border-b border-[#D8C9B8] pb-3 flex justify-between items-center">
+            <div>
+                <h4 class="font-serif font-bold text-lg text-[#29241F]">📸 Instagram & Campaign Visuals Gallery</h4>
+                <p class="text-xs text-gray-600 mt-1">Uploaded slides automatically feed the high-resolution <span class="font-bold text-[#A8895F]">#SOZIECOLLECTION GALLERY</span> interactive carousel on the homepage.</p>
+            </div>
+            <a href="{{ route('home') }}" target="_blank" class="px-3.5 py-1.5 bg-[#A8895F] text-white text-[10px] font-extrabold uppercase polygon-btn hover:bg-[#29241F]">
+                View Live Gallery
+            </a>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
+            @foreach($banners as $banner)
+            <div class="relative aspect-square border border-[#D8C9B8] polygon-card overflow-hidden bg-white group shadow-sm">
+                <img src="{{ $banner->image_url }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="absolute top-2 left-2 px-2 py-0.5 bg-[#17130F]/90 text-[#A8895F] text-[9px] font-extrabold uppercase polygon-badge border border-[#322B23]">
+                    @soziecollection
+                </div>
+                <div class="absolute inset-0 bg-[#12100E]/80 opacity-0 group-hover:opacity-100 transition-opacity p-3 flex flex-col justify-end text-white">
+                    <span class="text-[9px] font-extrabold text-[#A8895F] uppercase">{{ $banner->title }}</span>
+                    <p class="text-xs font-serif font-bold truncate">{{ $banner->headline }}</p>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+
 </div>
 
 <script>
