@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductVariant;
@@ -14,6 +13,20 @@ use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
+    /**
+     * The storefront ships no stock photography of its own. A fresh install
+     * therefore points every catalogue image at the bundled brand placeholder
+     * until the owner uploads real product photography through
+     * Admin -> Products, and real homepage slide designs through
+     * Admin -> Store Setup -> Website Content. Same-origin, always served, and
+     * nothing a third party can throttle decides whether a card renders.
+     *
+     * Root-relative on purpose: OrderItem::product_image_url() reads a leading
+     * slash as an app-absolute path, so an order saved from a seeded product
+     * still resolves to the real file rather than to /storage/...
+     */
+    private const PLACEHOLDER_IMAGE = '/images/product-placeholder.svg';
+
     public function run(): void
     {
         // 0. Test Auth Accounts — 6 role-based users (password: password123)
@@ -95,42 +108,42 @@ class DatabaseSeeder extends Seeder
                 'name' => "Women's Perfumes",
                 'slug' => 'womens-perfumes',
                 'description' => 'Sensual, elegant, and enchanting floral and fruity scents designed for women.',
-                'image' => 'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&q=80&w=800',
+                'image' => self::PLACEHOLDER_IMAGE,
                 'mood_tag' => 'Floral',
             ],
             [
                 'name' => "Men's Perfumes",
                 'slug' => 'mens-perfumes',
                 'description' => 'Bold, masculine, and charismatic woody, spicy, and amber creations.',
-                'image' => 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&q=80&w=800',
+                'image' => self::PLACEHOLDER_IMAGE,
                 'mood_tag' => 'Woody',
             ],
             [
                 'name' => 'Unisex Perfumes',
                 'slug' => 'unisex-perfumes',
                 'description' => 'Sophisticated genderless blends crafted with rare notes and timeless character.',
-                'image' => 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=800',
+                'image' => self::PLACEHOLDER_IMAGE,
                 'mood_tag' => 'Intense',
             ],
             [
                 'name' => 'Perfume Oils',
                 'slug' => 'perfume-oils',
                 'description' => 'Pure concentrated elixir oil formulas offering incredible depth and all-day longevity.',
-                'image' => 'https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&q=80&w=800',
+                'image' => self::PLACEHOLDER_IMAGE,
                 'mood_tag' => 'Spicy',
             ],
             [
                 'name' => 'Body Mists',
                 'slug' => 'body-mists',
                 'description' => 'Refreshing, airy, and light fragrance mists perfect for daily hydration and fragrance layering.',
-                'image' => 'https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&q=80&w=800',
+                'image' => self::PLACEHOLDER_IMAGE,
                 'mood_tag' => 'Fresh',
             ],
             [
                 'name' => 'Perfume Gift Sets',
                 'slug' => 'perfume-gift-sets',
                 'description' => 'Exquisite curations of signature fragrances beautifully presented for special moments.',
-                'image' => 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=800',
+                'image' => self::PLACEHOLDER_IMAGE,
                 'mood_tag' => 'Sweet',
             ],
         ];
@@ -175,11 +188,11 @@ class DatabaseSeeder extends Seeder
                 'sillage' => 'Enormous',
                 'video_url' => 'https://youtu.be/WhKJl9W_1Fw',
                 'images' => [
-                    'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=800',
-                    'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&q=80&w=800',
-                    'https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&q=80&w=800',
+                    self::PLACEHOLDER_IMAGE,
+                    self::PLACEHOLDER_IMAGE,
+                    self::PLACEHOLDER_IMAGE,
                 ],
-                'campaign_image' => 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&q=80&w=1200',
+                'campaign_image' => self::PLACEHOLDER_IMAGE,
             ],
             [
                 'category' => 'womens-perfumes',
@@ -212,10 +225,10 @@ class DatabaseSeeder extends Seeder
                 'sillage' => 'Moderate',
                 'video_url' => 'https://youtu.be/WhKJl9W_1Fw',
                 'images' => [
-                    'https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&q=80&w=800',
-                    'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&q=80&w=800',
+                    self::PLACEHOLDER_IMAGE,
+                    self::PLACEHOLDER_IMAGE,
                 ],
-                'campaign_image' => 'https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&q=80&w=1200',
+                'campaign_image' => self::PLACEHOLDER_IMAGE,
             ],
             [
                 'category' => 'womens-perfumes',
@@ -248,10 +261,10 @@ class DatabaseSeeder extends Seeder
                 'sillage' => 'Moderate',
                 'video_url' => 'https://youtu.be/WhKJl9W_1Fw',
                 'images' => [
-                    'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&q=80&w=800',
-                    'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=800',
+                    self::PLACEHOLDER_IMAGE,
+                    self::PLACEHOLDER_IMAGE,
                 ],
-                'campaign_image' => 'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&q=80&w=1200',
+                'campaign_image' => self::PLACEHOLDER_IMAGE,
             ],
             [
                 'category' => 'womens-perfumes',
@@ -284,9 +297,9 @@ class DatabaseSeeder extends Seeder
                 'sillage' => 'Strong',
                 'video_url' => 'https://youtu.be/WhKJl9W_1Fw',
                 'images' => [
-                    'https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&q=80&w=800',
+                    self::PLACEHOLDER_IMAGE,
                 ],
-                'campaign_image' => 'https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&q=80&w=1200',
+                'campaign_image' => self::PLACEHOLDER_IMAGE,
             ],
             [
                 'category' => 'womens-perfumes',
@@ -319,9 +332,9 @@ class DatabaseSeeder extends Seeder
                 'sillage' => 'Enormous',
                 'video_url' => 'https://youtu.be/WhKJl9W_1Fw',
                 'images' => [
-                    'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=800',
+                    self::PLACEHOLDER_IMAGE,
                 ],
-                'campaign_image' => 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=1200',
+                'campaign_image' => self::PLACEHOLDER_IMAGE,
             ],
             [
                 'category' => 'womens-perfumes',
@@ -354,9 +367,9 @@ class DatabaseSeeder extends Seeder
                 'sillage' => 'Strong',
                 'video_url' => 'https://youtu.be/WhKJl9W_1Fw',
                 'images' => [
-                    'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=800',
+                    self::PLACEHOLDER_IMAGE,
                 ],
-                'campaign_image' => 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=1200',
+                'campaign_image' => self::PLACEHOLDER_IMAGE,
             ],
 
             // ================= MEN'S PERFUMES =================
@@ -392,10 +405,10 @@ class DatabaseSeeder extends Seeder
                 'sillage' => 'Enormous',
                 'video_url' => 'https://youtu.be/WhKJl9W_1Fw',
                 'images' => [
-                    'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&q=80&w=800',
-                    'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=800',
+                    self::PLACEHOLDER_IMAGE,
+                    self::PLACEHOLDER_IMAGE,
                 ],
-                'campaign_image' => 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&q=80&w=1200',
+                'campaign_image' => self::PLACEHOLDER_IMAGE,
             ],
             [
                 'category' => 'mens-perfumes',
@@ -428,10 +441,10 @@ class DatabaseSeeder extends Seeder
                 'sillage' => 'Moderate',
                 'video_url' => 'https://youtu.be/WhKJl9W_1Fw',
                 'images' => [
-                    'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=800',
-                    'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&q=80&w=800',
+                    self::PLACEHOLDER_IMAGE,
+                    self::PLACEHOLDER_IMAGE,
                 ],
-                'campaign_image' => 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=1200',
+                'campaign_image' => self::PLACEHOLDER_IMAGE,
             ],
             [
                 'category' => 'mens-perfumes',
@@ -464,9 +477,9 @@ class DatabaseSeeder extends Seeder
                 'sillage' => 'Strong',
                 'video_url' => 'https://youtu.be/WhKJl9W_1Fw',
                 'images' => [
-                    'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&q=80&w=800',
+                    self::PLACEHOLDER_IMAGE,
                 ],
-                'campaign_image' => 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&q=80&w=1200',
+                'campaign_image' => self::PLACEHOLDER_IMAGE,
             ],
             [
                 'category' => 'mens-perfumes',
@@ -499,9 +512,9 @@ class DatabaseSeeder extends Seeder
                 'sillage' => 'Enormous',
                 'video_url' => 'https://youtu.be/WhKJl9W_1Fw',
                 'images' => [
-                    'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=800',
+                    self::PLACEHOLDER_IMAGE,
                 ],
-                'campaign_image' => 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=1200',
+                'campaign_image' => self::PLACEHOLDER_IMAGE,
             ],
             [
                 'category' => 'mens-perfumes',
@@ -534,9 +547,9 @@ class DatabaseSeeder extends Seeder
                 'sillage' => 'Moderate',
                 'video_url' => 'https://youtu.be/WhKJl9W_1Fw',
                 'images' => [
-                    'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&q=80&w=800',
+                    self::PLACEHOLDER_IMAGE,
                 ],
-                'campaign_image' => 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&q=80&w=1200',
+                'campaign_image' => self::PLACEHOLDER_IMAGE,
             ],
             [
                 'category' => 'mens-perfumes',
@@ -569,9 +582,9 @@ class DatabaseSeeder extends Seeder
                 'sillage' => 'Strong',
                 'video_url' => 'https://youtu.be/WhKJl9W_1Fw',
                 'images' => [
-                    'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=800',
+                    self::PLACEHOLDER_IMAGE,
                 ],
-                'campaign_image' => 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=1200',
+                'campaign_image' => self::PLACEHOLDER_IMAGE,
             ],
 
             // ================= UNISEX PERFUMES =================
@@ -607,10 +620,10 @@ class DatabaseSeeder extends Seeder
                 'sillage' => 'Strong',
                 'video_url' => 'https://youtu.be/WhKJl9W_1Fw',
                 'images' => [
-                    'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=800',
-                    'https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&q=80&w=800',
+                    self::PLACEHOLDER_IMAGE,
+                    self::PLACEHOLDER_IMAGE,
                 ],
-                'campaign_image' => 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=1200',
+                'campaign_image' => self::PLACEHOLDER_IMAGE,
             ],
             [
                 'category' => 'unisex-perfumes',
@@ -643,9 +656,9 @@ class DatabaseSeeder extends Seeder
                 'sillage' => 'Strong',
                 'video_url' => 'https://youtu.be/WhKJl9W_1Fw',
                 'images' => [
-                    'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=800',
+                    self::PLACEHOLDER_IMAGE,
                 ],
-                'campaign_image' => 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=1200',
+                'campaign_image' => self::PLACEHOLDER_IMAGE,
             ],
             [
                 'category' => 'unisex-perfumes',
@@ -678,9 +691,9 @@ class DatabaseSeeder extends Seeder
                 'sillage' => 'Enormous',
                 'video_url' => 'https://youtu.be/WhKJl9W_1Fw',
                 'images' => [
-                    'https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&q=80&w=800',
+                    self::PLACEHOLDER_IMAGE,
                 ],
-                'campaign_image' => 'https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&q=80&w=1200',
+                'campaign_image' => self::PLACEHOLDER_IMAGE,
             ],
 
             // ================= PERFUME OILS =================
@@ -715,9 +728,9 @@ class DatabaseSeeder extends Seeder
                 'sillage' => 'Strong',
                 'video_url' => 'https://youtu.be/WhKJl9W_1Fw',
                 'images' => [
-                    'https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&q=80&w=800',
+                    self::PLACEHOLDER_IMAGE,
                 ],
-                'campaign_image' => 'https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&q=80&w=1200',
+                'campaign_image' => self::PLACEHOLDER_IMAGE,
             ],
             [
                 'category' => 'perfume-oils',
@@ -750,9 +763,9 @@ class DatabaseSeeder extends Seeder
                 'sillage' => 'Moderate',
                 'video_url' => 'https://youtu.be/WhKJl9W_1Fw',
                 'images' => [
-                    'https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&q=80&w=800',
+                    self::PLACEHOLDER_IMAGE,
                 ],
-                'campaign_image' => 'https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&q=80&w=1200',
+                'campaign_image' => self::PLACEHOLDER_IMAGE,
             ],
 
             // ================= BODY MISTS =================
@@ -787,9 +800,9 @@ class DatabaseSeeder extends Seeder
                 'sillage' => 'Moderate',
                 'video_url' => 'https://youtu.be/WhKJl9W_1Fw',
                 'images' => [
-                    'https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&q=80&w=800',
+                    self::PLACEHOLDER_IMAGE,
                 ],
-                'campaign_image' => 'https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&q=80&w=1200',
+                'campaign_image' => self::PLACEHOLDER_IMAGE,
             ],
             [
                 'category' => 'body-mists',
@@ -822,9 +835,9 @@ class DatabaseSeeder extends Seeder
                 'sillage' => 'Moderate',
                 'video_url' => 'https://youtu.be/WhKJl9W_1Fw',
                 'images' => [
-                    'https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&q=80&w=800',
+                    self::PLACEHOLDER_IMAGE,
                 ],
-                'campaign_image' => 'https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&q=80&w=1200',
+                'campaign_image' => self::PLACEHOLDER_IMAGE,
             ],
 
             // ================= GIFT SETS =================
@@ -859,9 +872,9 @@ class DatabaseSeeder extends Seeder
                 'sillage' => 'Enormous',
                 'video_url' => 'https://youtu.be/WhKJl9W_1Fw',
                 'images' => [
-                    'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=800',
+                    self::PLACEHOLDER_IMAGE,
                 ],
-                'campaign_image' => 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=1200',
+                'campaign_image' => self::PLACEHOLDER_IMAGE,
             ],
             [
                 'category' => 'perfume-gift-sets',
@@ -894,9 +907,9 @@ class DatabaseSeeder extends Seeder
                 'sillage' => 'Enormous',
                 'video_url' => 'https://youtu.be/WhKJl9W_1Fw',
                 'images' => [
-                    'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=800',
+                    self::PLACEHOLDER_IMAGE,
                 ],
-                'campaign_image' => 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=1200',
+                'campaign_image' => self::PLACEHOLDER_IMAGE,
             ],
         ];
 
@@ -946,22 +959,14 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // 3. Marketing Banners
-        Banner::updateOrCreate(
-            ['title' => 'SOZIE COLLECTION'],
-            [
-                'eyebrow' => 'THE ATELIER VISUAL EXPERIENCE',
-                'headline' => 'YOUR SCENT.',
-                'highlight_text' => 'YOUR SIGNATURE.',
-                'subtitle' => 'Discover handcrafted fragrances designed to leave a memorable impression.',
-                'image' => 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=1200',
-                'button_text' => 'EXPLORE COLLECTION',
-                'button_link' => '/shop',
-                'secondary_button_text' => 'FIND YOUR SCENT',
-                'secondary_button_link' => '/#scent-finder',
-                'is_active' => true,
-                'sort_order' => 1,
-            ]
-        );
+        // 3. Homepage hero slides are deliberately NOT seeded.
+        //
+        // A slide is only worth creating with a design the owner has uploaded
+        // through Admin -> Store Setup -> Website Content, and there is no
+        // bundled photograph left to seed one with: pointing banners.image at
+        // the placeholder would resolve through Storage::url() to a
+        // /storage/... path that does not exist. A fresh install therefore
+        // starts in the state the homepage is now designed for — no slides, the
+        // default hero, no gallery — and the owner adds slides from the admin.
     }
 }

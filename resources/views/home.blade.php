@@ -4,6 +4,22 @@
 
 @section('content')
 
+{{--
+    Every image on this page is a design the owner uploaded through
+    Admin -> Store Setup -> Website Content. Nothing photographic ships with the
+    storefront, so each large frame below either shows a configured slide or
+    falls back to the brand's own warm-sand and champagne-gold treatment, never
+    to stock photography. A slide with no design yet still drives the copy, so
+    $heroSlides is filtered only where an actual image is needed.
+--}}
+@php
+    $configuredSlides = $heroSlides
+        ->filter(fn (array $slide): bool => filled($slide['image'] ?? null) || filled($slide['mobile_image'] ?? null))
+        ->values();
+
+    $campaignSlide = $configuredSlides->first();
+@endphp
+
 <!-- ================================================================= -->
 <!-- SECTION 01: HERO / SPLASH EXPERIENCE (#EDE5D8 Warm Sand & #A8895F Champagne Gold) -->
 <!-- ================================================================= -->
@@ -22,14 +38,20 @@
                  x-transition:leave-start="opacity-100 scale-100"
                  x-transition:leave-end="opacity-0 scale-95"
                  class="absolute inset-0 opacity-30 transition-all duration-1000">
-                <img :src="slide.mobile_image || slide.image"
-                     data-sozie-fallback
-                     alt=""
-                     class="w-full h-full object-cover md:hidden">
-                <img :src="slide.image"
-                     data-sozie-fallback
-                     alt=""
-                     class="hidden w-full h-full object-cover md:block">
+                <!-- x-if, not x-show: a slide design that was never uploaded must not
+                     leave an <img> in the document with no src to load. -->
+                <template x-if="slide.mobile_image || slide.image">
+                    <img :src="slide.mobile_image || slide.image"
+                         data-sozie-fallback
+                         alt=""
+                         class="w-full h-full object-cover md:hidden">
+                </template>
+                <template x-if="slide.image || slide.mobile_image">
+                    <img :src="slide.image || slide.mobile_image"
+                         data-sozie-fallback
+                         alt=""
+                         class="hidden w-full h-full object-cover md:block">
+                </template>
             </div>
         </template>
 
@@ -54,34 +76,34 @@
                 <div class="inline-flex items-center gap-2 bg-[#F8F5EF] border border-[#A8895F]/40 px-3.5 py-1.5 polygon-badge shadow-sm">
                     <span class="w-2 h-2 rounded-full bg-[#A8895F] animate-ping"></span>
                     <span class="text-[11px] font-extrabold tracking-[0.25em] text-[#A8895F] uppercase"
-                          x-text="slides[activeSlide].eyebrow">{{ __('THE ATELIER VISUAL EXPERIENCE') }}</span>
+                          x-text="currentSlide.eyebrow">{{ __('THE ATELIER VISUAL EXPERIENCE') }}</span>
                 </div>
 
                 <div class="space-y-2">
                     <h2 class="text-xs sm:text-sm font-extrabold tracking-[0.4em] text-[#A8895F] uppercase">{{ __('SOZIE COLLECTION') }}</h2>
                     <h1 class="font-serif font-bold text-5xl sm:text-7xl lg:text-8xl leading-none text-[#29241F] tracking-tight">
-                        <span x-text="slides[activeSlide].headline">{{ __('YOUR SCENT.') }}</span><br>
+                        <span x-text="currentSlide.headline">{{ __('YOUR SCENT.') }}</span><br>
                         <span class="gold-gradient-text italic font-normal"
-                              x-text="slides[activeSlide].highlight_text">{{ __('YOUR SIGNATURE.') }}</span>
+                              x-text="currentSlide.highlight_text">{{ __('YOUR SIGNATURE.') }}</span>
                     </h1>
                 </div>
 
                 <p class="text-gray-700 text-sm sm:text-base leading-relaxed max-w-xl font-semibold"
-                   x-text="slides[activeSlide].description">{{ __('Hero Description') }}</p>
+                   x-text="currentSlide.description">{{ __('Hero Description') }}</p>
 
                 <!-- CTAs -->
                 <div class="flex flex-wrap items-center gap-4 pt-4">
-                    <a :href="slides[activeSlide].button_link"
+                    <a :href="currentSlide.button_link"
                        class="px-8 py-4 bg-[#A8895F] border border-[#A8895F] text-white font-extrabold text-xs tracking-[0.25em] uppercase polygon-btn shadow-xl shadow-[#A8895F]/20 hover:bg-[#29241F] flex items-center gap-3">
-                        <span x-text="slides[activeSlide].button_text">{{ __('EXPLORE COLLECTION') }}</span>
+                        <span x-text="currentSlide.button_text">{{ __('EXPLORE COLLECTION') }}</span>
                         <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </a>
 
-                    <a x-show="slides[activeSlide].secondary_button_text"
-                       :href="slides[activeSlide].secondary_button_link"
+                    <a x-show="currentSlide.secondary_button_text"
+                       :href="currentSlide.secondary_button_link"
                        class="px-8 py-4 bg-[#F8F5EF] border border-[#A8895F]/40 text-[#29241F] font-extrabold text-xs tracking-[0.2em] uppercase polygon-btn hover:bg-white transition-all backdrop-blur-md flex items-center gap-2 shadow-sm">
                         <i data-lucide="sparkles" class="w-4 h-4 text-[#A8895F]"></i>
-                        <span x-text="slides[activeSlide].secondary_button_text">{{ __('FIND YOUR SCENT') }}</span>
+                        <span x-text="currentSlide.secondary_button_text">{{ __('FIND YOUR SCENT') }}</span>
                     </a>
                 </div>
 
@@ -113,6 +135,13 @@
                     <!-- Main Image Container Box -->
                     <div class="absolute inset-2 bg-[#F8F5EF] polygon-card overflow-hidden shadow-2xl border border-[#D8C9B8]">
 
+                        <!-- Brand plate. Stands in for the slide design until the owner
+                             uploads one, so the frame keeps its size and never reads as
+                             an empty image box. -->
+                        <template x-if="! currentSlide.image && ! currentSlide.mobile_image">
+                            <div class="absolute inset-0 bg-gradient-to-br from-[#A8895F]/25 via-[#D8C9B8]/40 to-[#F8F5EF]/60"></div>
+                        </template>
+
                         <!-- Sliding Perfume Images inside Frame -->
                         <template x-for="(slide, index) in slides" :key="'bottle-' + index">
                             <div x-show="activeSlide === index"
@@ -124,14 +153,18 @@
                                  x-transition:leave-end="opacity-0 -translate-x-8 scale-95"
                                  class="absolute inset-0 w-full h-full">
 
-                                <img :src="slide.mobile_image || slide.image"
-                                     data-sozie-fallback
-                                     :alt="slides[activeSlide].headline"
-                                     class="w-full h-full object-cover object-center transform hover:scale-110 transition-transform duration-700 md:hidden">
-                                <img :src="slide.image"
-                                     data-sozie-fallback
-                                     :alt="slides[activeSlide].headline"
-                                     class="hidden w-full h-full object-cover object-center transform hover:scale-110 transition-transform duration-700 md:block">
+                                <template x-if="slide.mobile_image || slide.image">
+                                    <img :src="slide.mobile_image || slide.image"
+                                         data-sozie-fallback
+                                         :alt="slide.headline"
+                                         class="w-full h-full object-cover object-center transform hover:scale-110 transition-transform duration-700 md:hidden">
+                                </template>
+                                <template x-if="slide.image || slide.mobile_image">
+                                    <img :src="slide.image || slide.mobile_image"
+                                         data-sozie-fallback
+                                         :alt="slide.headline"
+                                         class="hidden w-full h-full object-cover object-center transform hover:scale-110 transition-transform duration-700 md:block">
+                                </template>
 
                                 <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#EDE5D8]/90 via-[#EDE5D8]/40 to-transparent"></div>
                             </div>
@@ -141,25 +174,29 @@
                         <div class="absolute bottom-4 left-4 right-4 glass-panel p-3.5 polygon-card border border-[#A8895F]/40 flex justify-between items-center z-20 shadow-2xl backdrop-blur-md bg-[#F8F5EF]">
                             <div>
                                 <span class="text-[10px] text-[#A8895F] font-extrabold uppercase tracking-widest block"
-                                      x-text="slides[activeSlide].eyebrow"></span>
+                                      x-text="currentSlide.eyebrow"></span>
                                 <h4 class="font-serif font-bold text-[#29241F] text-base tracking-wide"
-                                    x-text="slides[activeSlide].headline"></h4>
+                                    x-text="currentSlide.headline"></h4>
                             </div>
                             <span class="text-[10px] text-[#A8895F] font-extrabold uppercase text-right max-w-[120px] leading-tight"
-                                  x-text="slides[activeSlide].button_text"></span>
+                                  x-text="currentSlide.button_text"></span>
                         </div>
 
                     </div>
 
-                    <!-- Slide Controls / Navigation Dots -->
-                    <div class="absolute -bottom-8 left-0 right-0 flex justify-center items-center gap-2 z-20">
-                        <template x-for="(slide, index) in slides" :key="'dot-' + index">
-                            <button @click="activeSlide = index"
-                                    :class="activeSlide === index ? 'w-8 bg-[#A8895F]' : 'w-2 bg-[#29241F]/30 hover:bg-[#29241F]/60'"
-                                    class="h-2 rounded-full transition-all duration-300"
-                                    :aria-label="@js(__('Slide :number')).replace(':number', index + 1)"></button>
-                        </template>
-                    </div>
+                    <!-- Slide Controls / Navigation Dots. A single slide has nothing to
+                         page through, so no indicator is drawn at all rather than one
+                         dead dot. -->
+                    <template x-if="slides.length > 1">
+                        <div class="absolute -bottom-8 left-0 right-0 flex justify-center items-center gap-2 z-20">
+                            <template x-for="(slide, index) in slides" :key="'dot-' + index">
+                                <button @click="activeSlide = index"
+                                        :class="activeSlide === index ? 'w-8 bg-[#A8895F]' : 'w-2 bg-[#29241F]/30 hover:bg-[#29241F]/60'"
+                                        class="h-2 rounded-full transition-all duration-300"
+                                        :aria-label="@js(__('Slide :number')).replace(':number', index + 1)"></button>
+                            </template>
+                        </div>
+                    </template>
 
                 </div>
             </div>
@@ -184,9 +221,16 @@
             <div class="lg:col-span-6 relative">
                 <div class="w-full h-[500px] glass-panel p-2 polygon-card border border-[#A8895F]/40 shadow-2xl gold-glow bg-[#F8F5EF]">
                     <div class="w-full h-full polygon-card overflow-hidden relative">
-                        <img src="{{ asset('images/hero-signature-scent.jpg') }}" loading="lazy" decoding="async"
-                             alt="{{ __('Sozie Signature Scent') }}"
+                        @if($campaignSlide)
+                        <img src="{{ $campaignSlide['image'] ?? $campaignSlide['mobile_image'] }}" loading="lazy" decoding="async"
+                             alt="{{ $campaignSlide['headline'] ?? __('Sozie Signature Scent') }}"
                              class="w-full h-full object-cover">
+                        @else
+                        {{-- No slide design uploaded yet: the campaign frame keeps its
+                             shape and becomes the brand's own editorial plate rather
+                             than an empty image box. --}}
+                        <div class="w-full h-full bg-gradient-to-t from-[#29241F] via-[#3a332d] to-[#A8895F]/40"></div>
+                        @endif
                         <div class="absolute inset-0 bg-gradient-to-t from-[#29241F]/90 via-[#29241F]/30 to-transparent opacity-90"></div>
                         <div class="absolute bottom-8 left-8 right-8 text-white space-y-1">
                             <span class="text-xs font-extrabold text-[#D8C9B8] tracking-[0.3em] uppercase block">{{ __('Sozie Signature Scent') }} &bull; {{ __('CROWN JEWEL COLLECTION') }}</span>
@@ -492,9 +536,15 @@
 
             <div class="lg:col-span-6">
                 <div class="relative w-full h-[450px] glass-panel p-3 polygon-card border border-[#A8895F]/40 gold-glow bg-[#F8F5EF]">
-                    <img src="{{ asset('images/hero-sozie-experience.jpg') }}" loading="lazy" decoding="async"
-                         alt="{{ __('The Sozie Experience') }}"
+                    @if($campaignSlide)
+                    <img src="{{ $campaignSlide['image'] ?? $campaignSlide['mobile_image'] }}" loading="lazy" decoding="async"
+                         alt="{{ $campaignSlide['headline'] ?? __('The Sozie Experience') }}"
                          class="w-full h-full object-cover polygon-card border border-[#D8C9B8]">
+                    @else
+                    {{-- Same story as the campaign frame above: a designed warm-sand
+                         plate instead of an empty picture. --}}
+                    <div class="w-full h-full polygon-card border border-[#D8C9B8] bg-gradient-to-br from-[#A8895F]/25 via-[#D8C9B8]/40 to-[#F8F5EF]/60"></div>
+                    @endif
                 </div>
             </div>
 
@@ -543,8 +593,15 @@
 <!-- ================================================================= -->
 <!-- SECTION 09: SOCIAL / CAMPAIGN GALLERY INTERACTIVE SLIDER -->
 <!-- ================================================================= -->
+{{--
+    The gallery is the owner's own slide photography, captioned with the copy they
+    typed in Admin -> Store Setup -> Website Content. With no active slide
+    carrying a design the whole section is withheld rather than rendered as an
+    empty carousel with orphan arrows.
+--}}
+@if($configuredSlides->isNotEmpty())
 <section class="py-20 relative border-b border-[#D8C9B8] bg-[#EDE5D8] overflow-hidden"
-         x-data="gallerySlider()"
+         x-data="gallerySlider({{ \Illuminate\Support\Js::from($configuredSlides) }})"
          x-init="initSlider()">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
 
@@ -554,15 +611,18 @@
                 <h2 class="font-serif font-bold text-3xl sm:text-4xl text-[#29241F]">{{ __('#SOZIECOLLECTION GALLERY') }}</h2>
             </div>
 
-            <!-- Slide Navigation Controls -->
-            <div class="flex items-center gap-3">
-                <button @click="prevSlide()" class="p-2.5 bg-[#F8F5EF] border border-[#D8C9B8] text-[#A8895F] hover:bg-[#A8895F] hover:text-white transition-colors polygon-btn">
-                    <i data-lucide="chevron-left" class="w-5 h-5"></i>
-                </button>
-                <button @click="nextSlide()" class="p-2.5 bg-[#F8F5EF] border border-[#D8C9B8] text-[#A8895F] hover:bg-[#A8895F] hover:text-white transition-colors polygon-btn">
-                    <i data-lucide="chevron-right" class="w-5 h-5"></i>
-                </button>
-            </div>
+            <!-- Slide Navigation Controls. Hidden until there is more than one screen
+                 of cards, so a single slide never leaves dead arrows behind. -->
+            <template x-if="canPage">
+                <div class="flex items-center gap-3">
+                    <button @click="prevSlide()" class="p-2.5 bg-[#F8F5EF] border border-[#D8C9B8] text-[#A8895F] hover:bg-[#A8895F] hover:text-white transition-colors polygon-btn">
+                        <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                    </button>
+                    <button @click="nextSlide()" class="p-2.5 bg-[#F8F5EF] border border-[#D8C9B8] text-[#A8895F] hover:bg-[#A8895F] hover:text-white transition-colors polygon-btn">
+                        <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </template>
         </div>
 
         <!-- Interactive Sliding Track -->
@@ -604,16 +664,19 @@
         </div>
 
         <!-- Slide Progress Dots -->
-        <div class="flex justify-center items-center gap-2 mt-6">
-            <template x-for="(slide, i) in slides" :key="'dot-camp-' + i">
-                <button @click="currentIndex = i"
-                        :class="currentIndex === i ? 'w-8 bg-[#A8895F]' : 'w-2 bg-[#29241F]/30 hover:bg-[#29241F]/60'"
-                        class="h-2 rounded-full transition-all duration-300"></button>
-            </template>
-        </div>
+        <template x-if="canPage">
+            <div class="flex justify-center items-center gap-2 mt-6">
+                <template x-for="(slide, i) in slides" :key="'dot-camp-' + i">
+                    <button @click="currentIndex = i"
+                            :class="currentIndex === i ? 'w-8 bg-[#A8895F]' : 'w-2 bg-[#29241F]/30 hover:bg-[#29241F]/60'"
+                            class="h-2 rounded-full transition-all duration-300"></button>
+                </template>
+            </div>
+        </template>
 
     </div>
 </section>
+@endif
 
 <!-- ================================================================= -->
 <!-- SECTION 10: FINAL CTA -->
@@ -639,49 +702,40 @@
 @push('scripts')
 <script>
     function heroSlider(serverSlides) {
-        const fallbackSlides = [
-            {
-                image: @js(asset('images/hero-signature-scent.jpg')),
-                mobile_image: null,
-                eyebrow: @js(__('THE ATELIER VISUAL EXPERIENCE')),
-                headline: @js(__('YOUR SCENT.')),
-                highlight_text: @js(__('YOUR SIGNATURE.')),
-                description: @js(__('Discover handcrafted fragrances designed to leave a memorable impression.')),
-                button_text: @js(__('EXPLORE COLLECTION')),
-                button_link: '{{ route('shop.index') }}',
-                secondary_button_text: @js(__('FIND YOUR SCENT')),
-                secondary_button_link: '#scent-finder'
-            },
-            {
-                image: @js(asset('images/hero-sozie-experience.jpg')),
-                mobile_image: null,
-                eyebrow: @js(__('LIMITED RESERVE')),
-                headline: 'SOZIE NOIR',
-                highlight_text: 'IMPERIAL.',
-                description: @js(__('Bold woods, spice and amber for an unforgettable signature.')),
-                button_text: @js(__('DISCOVER THE COLLECTION')),
-                button_link: '{{ route('shop.index') }}',
-                secondary_button_text: null,
-                secondary_button_link: null
-            },
-            {
-                image: @js(asset('images/hero-signature-scent.jpg')),
-                mobile_image: null,
-                eyebrow: @js(__('NEW ARRIVAL')),
-                headline: 'SOZIE GOLDEN',
-                highlight_text: 'AURA.',
-                description: @js(__('Saffron, warm honeycomb and crystal amber blended to perfection.')),
-                button_text: @js(__('SHOP THE NEW ARRIVAL')),
-                button_link: '{{ route('shop.index') }}',
-                secondary_button_text: null,
-                secondary_button_link: null
-            }
-        ];
+        {{--
+            The storefront ships no photography of its own: every hero image is a
+            slide design the owner uploaded through Admin -> Store Setup ->
+            Website Content. Until the first one exists this object is the hero —
+            the same typography, description and calls to action the markup already
+            ships as its no-JavaScript default.
+
+            `image` deliberately stays null: the frame binds to `currentSlide` and
+            substitutes the brand plate rather than rendering an <img> with nothing
+            to load, so an unconfigured hero is a designed page and never a broken
+            or blank one. Every binding reads `currentSlide`, not
+            `slides[activeSlide]`, so no expression can index a slide that is not
+            there.
+        --}}
+        const defaultSlide = {
+            image: null,
+            mobile_image: null,
+            eyebrow: @js(__('THE ATELIER VISUAL EXPERIENCE')),
+            headline: @js(__('YOUR SCENT.')),
+            highlight_text: @js(__('YOUR SIGNATURE.')),
+            description: @js(__('Hero Description')),
+            button_text: @js(__('EXPLORE COLLECTION')),
+            button_link: @js(route('shop.index')),
+            secondary_button_text: @js(__('FIND YOUR SCENT')),
+            secondary_button_link: '#scent-finder'
+        };
 
         return {
             activeSlide: 0,
-            slides: serverSlides && serverSlides.length > 0 ? serverSlides : fallbackSlides,
+            slides: Array.isArray(serverSlides) ? serverSlides : [],
             timer: null,
+            get currentSlide() {
+                return this.slides[this.activeSlide] || defaultSlide;
+            },
             startAutoSlide() {
                 if (this.slides.length < 2) {
                     return;
@@ -717,69 +771,41 @@
         }
     }
 
-    function gallerySlider() {
+    function gallerySlider(serverSlides) {
         {{--
-            The gallery used to hardcode six remote stock-photo URLs, so the whole
-            section depended on a third-party image host being reachable. The two
-            bundled hero photographs are alternated instead: same brand look, no
-            third-party host, and it degrades to something sensible offline.
+            The gallery is made of the owner's own slide photography, captioned with
+            the copy they typed in Admin -> Store Setup -> Website Content: the mobile
+            design when they uploaded one, otherwise the desktop design, the eyebrow
+            as the badge, the highlight line above the headline, and the headline and
+            description on the card. Nothing is invented and nothing is bundled, which
+            is also why the whole section is only rendered when at least one active
+            slide carries a design.
         --}}
-        const galleryImages = [
-            @js(asset('images/hero-signature-scent.jpg')),
-            @js(asset('images/hero-sozie-experience.jpg'))
-        ];
-
         return {
             currentIndex: 0,
             itemsToShow: 4,
-            slides: [
-                {
-                    image: galleryImages[0],
-                    title: 'SOZIE ELEGANCE',
-                    subtitle: @js(__('Floral Fruity • Eau de Parfum')),
-                    tag: '@sozie_collection',
-                    handle: '#SozieElegance'
-                },
-                {
-                    image: galleryImages[1],
-                    title: 'SOZIE NOIR IMPERIAL',
-                    subtitle: @js(__('Woody Oud • Extrait de Parfum')),
-                    tag: '@sozie_collection',
-                    handle: '#SozieNoir'
-                },
-                {
-                    image: galleryImages[0],
-                    title: 'SOZIE GOLDEN AURA',
-                    subtitle: @js(__('Saffron Amber • Limited Reserve')),
-                    tag: '@sozie_collection',
-                    handle: '#GoldenAura'
-                },
-                {
-                    image: galleryImages[1],
-                    title: 'SOZIE VELVET ROSE',
-                    subtitle: @js(__('Turkish Rose Gourmand')),
-                    tag: '@sozie_collection',
-                    handle: '#VelvetRose'
-                },
-                {
-                    image: galleryImages[0],
-                    title: 'SOZIE ROYAL OUD OIL',
-                    subtitle: @js(__('0% Alcohol Concentrated Elixir')),
-                    tag: '@sozie_collection',
-                    handle: '#RoyalOud'
-                },
-                {
-                    image: galleryImages[1],
-                    title: 'SOZIE BLOSSOM BLISS',
-                    subtitle: @js(__('Cherry Blossom & White Peach')),
-                    tag: '@sozie_collection',
-                    handle: '#BlossomBliss'
-                }
-            ],
+            timer: null,
+            slides: (Array.isArray(serverSlides) ? serverSlides : []).map((slide) => ({
+                image: slide.mobile_image || slide.image,
+                title: slide.headline,
+                handle: slide.highlight_text,
+                subtitle: slide.description,
+                tag: slide.eyebrow
+            })),
+            get canPage() {
+                return this.slides.length > this.itemsToShow;
+            },
             initSlider() {
                 this.updateItemsToShow();
-                window.addEventListener('resize', () => this.updateItemsToShow());
-                setInterval(() => {
+
+                this.onResize = () => this.updateItemsToShow();
+                window.addEventListener('resize', this.onResize);
+
+                if (!this.canPage) {
+                    return;
+                }
+
+                this.timer = setInterval(() => {
                     this.nextSlide();
                 }, 3500);
             },
@@ -795,7 +821,7 @@
                 }
             },
             nextSlide() {
-                const maxIndex = this.slides.length - this.itemsToShow;
+                const maxIndex = Math.max(0, this.slides.length - this.itemsToShow);
                 if (this.currentIndex >= maxIndex) {
                     this.currentIndex = 0;
                 } else {
@@ -803,11 +829,17 @@
                 }
             },
             prevSlide() {
-                const maxIndex = this.slides.length - this.itemsToShow;
+                const maxIndex = Math.max(0, this.slides.length - this.itemsToShow);
                 if (this.currentIndex <= 0) {
                     this.currentIndex = maxIndex > 0 ? maxIndex : 0;
                 } else {
                     this.currentIndex--;
+                }
+            },
+            destroy() {
+                window.removeEventListener('resize', this.onResize);
+                if (this.timer) {
+                    clearInterval(this.timer);
                 }
             }
         }

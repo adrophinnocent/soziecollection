@@ -109,7 +109,10 @@ class AdminController extends Controller
         }
 
         if (empty($images)) {
-            $images[] = 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=800';
+            // Nothing was uploaded and no URL was given: use the bundled brand
+            // placeholder rather than a third-party photo, so a product created
+            // without artwork never depends on a host we do not control.
+            $images[] = asset('images/product-placeholder.svg');
         }
 
         $validated['slug'] = $request->filled('slug') ? Str::slug($request->slug) : Str::slug($request->name).'-'.Str::random(4);

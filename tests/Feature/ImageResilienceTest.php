@@ -20,6 +20,12 @@ use Tests\TestCase;
  * the marked images are replaced by a bundled local placeholder when they fail.
  * A page must never point at a third-party image host of its own accord, so a
  * blocked or throttled host can never decide whether a card renders.
+ *
+ * The second half of that rule is static: neither app/ nor resources/views/ may
+ * name a hosted stock-photo service at all. Images arrive only from what the
+ * owner uploads through the admin, and public/images may hold nothing but the
+ * brand placeholder, so there is no bundled photograph left for a view, a model
+ * accessor or a seeder to fall back to.
  */
 class ImageResilienceTest extends TestCase
 {
@@ -32,6 +38,29 @@ class ImageResilienceTest extends TestCase
     private const FALLBACK_MARKER = 'data-sozie-fallback';
 
     private const PLACEHOLDER = 'images/product-placeholder.svg';
+
+    /**
+     * Hosted stock-photo services, matched case-insensitively as plain substrings.
+     *
+     * The absolute-URL patterns below already catch a hardcoded remote image in
+     * any file; this list is the belt-and-braces half, because the way this
+     * regresses is a hostname appearing in a plain string — a PHP accessor, a
+     * seeder row, a JS slide object — where there is no <img> tag for the URL
+     * patterns to match. Unsplash is listed both bare and as its image CDN
+     * subdomain so a partial reintroduction is still caught.
+     */
+    private const THIRD_PARTY_IMAGE_HOSTS = [
+        'unsplash',
+        'pexels',
+        'pixabay',
+        'picsum.photos',
+        'placehold.co',
+        'placekitten.com',
+        'loremflickr.com',
+        'loremplixel.com',
+        'burst.shopify',
+        'imgix.net',
+    ];
 
     /** @return array<string, array{string}> */
     public static function pages(): array
@@ -138,23 +167,51 @@ class ImageResilienceTest extends TestCase
         $this->assertStringContainsString('#A8895F', $svg);
     }
 
-    public function test_no_view_file_hardcodes_a_third_party_image_url(): void
+    public function test_the_storefront_ships_no_bundled_photography(): void
+    {
+        // public/images is the only place photography could be committed, and the
+        // admin uploads to the public disk instead. So the one branded vector here
+        // is the whole inventory: the mirrored stock photographs the homepage used
+        // to be built from are gone, and nothing can quietly bring them back.
+        $bundled = array_map(
+            'basename',
+            glob(public_path('images/*')) ?: []
+        );
+
+        sort($bundled);
+
+        $this->assertSame(
+            [basename(self::PLACEHOLDER)],
+            $bundled,
+            'public/images/ may only hold the brand placeholder. Photography the owner '
+            .'uploads belongs on the public disk, not committed to the repository.'
+        );
+    }
+
+    public function test_no_view_or_application_file_hardcodes_a_third_party_image_url(): void
     {
         $offenders = [];
 
-        // Any absolute URL an <img> or a bound :src/JS slide reads. The homepage
-        // fallback slides and the gallery are plain JS strings, so a view can
-        // name a remote image without ever writing an <img> tag.
+        // Any absolute URL an <img> or a bound :src/JS slide reads, plus any value
+        // stored under an image-shaped key. A model accessor, a seeder row or a JS
+        // slide object can name a remote image without ever writing an <img> tag.
+        // The key may be quoted, as a PHP array element or a JS object property is.
         $imageUrls = [
             '/<img\b[^>]*\bsrc\s*=\s*(["\'])(https?:\/\/.*?)\1/i',
-            '/\b(?:srcset|image)\s*[:=]\s*(["\'])(https?:\/\/.*?)\1/i',
+            '/\b(?:srcset|images?|image_url|campaign_image|thumbnail|poster)\b\s*["\']?\s*[:=]>\s*(["\'])(https?:\/\/.*?)\1/i',
         ];
 
-        foreach ($this->bladeViewFiles() as $file) {
+        // app/ is scanned as well as resources/views/: the homepage fallback that
+        // was removed lived in a Blade file, but Product::primaryImage() reached a
+        // remote host from PHP, and nothing in a view would ever have shown it.
+        foreach (array_merge($this->bladeViewFiles(), $this->applicationPhpFiles()) as $file) {
             $source = (string) file_get_contents($file);
+            $lower = mb_strtolower($source);
 
-            if (str_contains($source, 'images.unsplash.com')) {
-                $offenders[] = $file.' hardcodes images.unsplash.com';
+            foreach (self::THIRD_PARTY_IMAGE_HOSTS as $host) {
+                if (str_contains($lower, mb_strtolower($host))) {
+                    $offenders[] = $file.' names the third-party image host "'.$host.'"';
+                }
             }
 
             foreach ($imageUrls as $pattern) {
@@ -171,7 +228,7 @@ class ImageResilienceTest extends TestCase
         $this->assertSame(
             [],
             $offenders,
-            "These views still point a browser at a third-party image host:\n  ".implode("\n  ", $offenders)
+            "These views and application files still point a browser at a third-party image host:\n  ".implode("\n  ", $offenders)
         );
     }
 
@@ -180,10 +237,26 @@ class ImageResilienceTest extends TestCase
      */
     private function bladeViewFiles(): array
     {
+        return $this->phpFilesIn(resource_path('views'));
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function applicationPhpFiles(): array
+    {
+        return $this->phpFilesIn(app_path());
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function phpFilesIn(string $directory): array
+    {
         $files = [];
 
         $iterator = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator(resource_path('views'), \FilesystemIterator::SKIP_DOTS)
+            new \RecursiveDirectoryIterator($directory, \FilesystemIterator::SKIP_DOTS)
         );
 
         foreach ($iterator as $file) {

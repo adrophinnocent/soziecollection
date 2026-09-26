@@ -43,6 +43,7 @@
             <div>
                 <h4 class="font-serif font-bold text-lg text-[#29241F]">Homepage Hero Slides</h4>
                 <p class="text-xs text-gray-600 mt-1">Upload your own campaign design, control the text, and decide which slide appears first.</p>
+                <p class="text-[11px] text-[#A8895F] font-bold mt-1.5">Until you activate a slide, the homepage shows the default hero with no photography.</p>
             </div>
             <div class="flex items-center gap-3">
                 <span class="px-2.5 py-1 bg-[#EDE5D8] border border-[#D8C9B8] text-[10px] font-extrabold uppercase rounded">
@@ -130,7 +131,7 @@
             <div class="p-8 text-center bg-[#EDE5D8] border border-dashed border-[#A8895F]/50 polygon-card">
                 <i data-lucide="images" class="w-10 h-10 text-[#A8895F] mx-auto mb-3"></i>
                 <p class="font-serif font-bold text-lg text-[#29241F]">No homepage slides yet</p>
-                <p class="text-xs text-gray-600 mt-1">Use “Add New Homepage Slide” to upload your first design. The default hero remains active until you create one.</p>
+                <p class="text-xs text-gray-600 mt-1">Use “Add New Homepage Slide” to upload your first design.</p>
             </div>
             @endforelse
         </div>

@@ -98,13 +98,20 @@ class Product extends Model
         return 'TZS '.number_format($this->price, 0, '.', ',');
     }
 
-    public function getPrimaryImageAttribute()
+    public function getPrimaryImageAttribute(): string
     {
-        if (is_array($this->images) && count($this->images) > 0) {
-            return $this->images[0];
+        $first = is_array($this->images) ? ($this->images[0] ?? null) : null;
+
+        if (filled($first)) {
+            return (string) $first;
         }
 
-        return $this->campaign_image ?: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=800';
+        // The storefront ships no stock photography: a product's picture is what
+        // the owner uploads through Admin -> Products. A product with nothing
+        // stored yet resolves to the bundled brand placeholder, which is
+        // same-origin and always served, so a card can never end up pointing at
+        // a host we do not control (or at nothing at all).
+        return $this->campaign_image ?: asset('images/product-placeholder.svg');
     }
 
     public function getEmbedVideoUrlAttribute()

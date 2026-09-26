@@ -52,7 +52,19 @@ class WhatsappOrderTest extends TestCase
 
         $this->assertSame($product->id, $item->product_id);
         $this->assertSame($product->primary_image, $item->product_image);
-        $this->assertSame($product->primary_image, $item->product_image_url);
+
+        // The customer opens this link to look at the bottle they bought, so the
+        // resolved URL has to point at a file this repository actually serves.
+        // Seeded rows carry the bundled placeholder, which lives under public/
+        // rather than on the public disk.
+        $path = public_path(ltrim((string) parse_url((string) $item->product_image_url, PHP_URL_PATH), '/'));
+
+        $this->assertFileExists($path);
+        $this->assertSame(
+            realpath(public_path('images/product-placeholder.svg')),
+            realpath($path),
+            'The order share link must resolve to the committed brand placeholder, not a third-party photo.'
+        );
     }
 
     public function test_whatsapp_message_contains_product_image_and_signed_design_link(): void
@@ -78,7 +90,7 @@ class WhatsappOrderTest extends TestCase
         $response->assertOk();
         $response->assertSee('Your Signature Order');
         $response->assertSee($order->items->first()->product_name);
-        $response->assertSee('images.unsplash.com/photo-1592945403244-b3fbafd7f539', false);
+        $response->assertSee('images/product-placeholder.svg', false);
         $response->assertDontSee($order->customer_phone);
         $response->assertDontSee($order->shipping_address);
     }
