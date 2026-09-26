@@ -111,7 +111,7 @@
                     <div class="flex gap-4 p-3 bg-white border border-[#D8C9B8] polygon-card hover:border-[#A8895F]/50 transition-colors">
                         <div class="w-20 h-20 flex-shrink-0 bg-[#EDE5D8] polygon-card border border-[#D8C9B8] overflow-hidden">
                             @if(!empty($item->product?->primary_image))
-                            <img src="{{ $item->product->primary_image }}" alt="{{ $item->name }}" class="w-full h-full object-cover">
+                            <img src="{{ $item->product->primary_image }}" loading="lazy" decoding="async" alt="{{ $item->name }}" class="w-full h-full object-cover">
                             @else
                             <div class="w-full h-full flex items-center justify-center text-[#A8895F]/60">
                                 <i data-lucide="bottle-wine" class="w-7 h-7"></i>

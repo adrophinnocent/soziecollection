@@ -154,7 +154,7 @@
 
                     <div>
                         <div class="w-full h-64 bg-white polygon-card overflow-hidden mb-4 relative border border-[#D8C9B8]">
-                            <img src="{{ $product->primary_image }}"
+                            <img src="{{ $product->primary_image }}" loading="lazy" decoding="async"
                                  alt="{{ $product->name }}"
                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
 

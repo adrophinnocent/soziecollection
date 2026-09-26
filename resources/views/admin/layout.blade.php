@@ -5,13 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('page_title', 'Dashboard') | Admin | Sozie Collection</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <script src="https://unpkg.com/lucide@latest"></script>
-
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <script src="https://unpkg.com/lucide@1.48.0/dist/umd/lucide.min.js" defer></script>
 </head>
 <body x-data="{ adminMenuOpen: false }" class="bg-[#EDE5D8] text-[#29241F] font-sans min-h-screen flex">
 

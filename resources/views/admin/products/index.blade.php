@@ -29,7 +29,7 @@
                 @foreach($products as $p)
                 <tr>
                     <td class="py-3">
-                        <img src="{{ $p->primary_image }}" class="w-12 h-12 object-cover polygon-card border border-[#D8C9B8]">
+                        <img src="{{ $p->primary_image }}" loading="lazy" decoding="async" class="w-12 h-12 object-cover polygon-card border border-[#D8C9B8]">
                     </td>
                     <td class="py-3">
                         <span class="font-serif font-bold text-sm text-[#29241F] block">{{ $p->name }}</span>

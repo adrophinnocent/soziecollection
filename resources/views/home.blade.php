@@ -180,7 +180,7 @@
             <div class="lg:col-span-6 relative">
                 <div class="w-full h-[500px] glass-panel p-2 polygon-card border border-[#A8895F]/40 shadow-2xl gold-glow bg-[#F8F5EF]">
                     <div class="w-full h-full polygon-card overflow-hidden relative">
-                        <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=1000"
+                        <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=1000" loading="lazy" decoding="async"
                              alt="Sozie Signature Scent"
                              class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-[#29241F]/90 via-[#29241F]/30 to-transparent opacity-90"></div>
@@ -206,7 +206,7 @@
                 <div class="space-y-4">
                     @foreach($featuredProducts->take(2) as $fp)
                     <div class="navy-card p-5 polygon-card border border-[#D8C9B8] flex gap-4 items-center hover:border-[#A8895F] transition-all bg-[#F8F5EF]">
-                        <img src="{{ $fp->primary_image }}" alt="{{ $fp->name }}" class="w-20 h-20 object-cover polygon-card border border-[#D8C9B8]">
+                        <img src="{{ $fp->primary_image }}" loading="lazy" decoding="async" alt="{{ $fp->name }}" class="w-20 h-20 object-cover polygon-card border border-[#D8C9B8]">
                         <div class="flex-grow">
                             <div class="flex justify-between items-start">
                                 <h4 class="font-serif font-bold text-lg text-[#29241F]">{{ $fp->name }}</h4>
@@ -274,7 +274,7 @@
                 <div>
                     <!-- Image Frame -->
                     <div class="w-full h-64 bg-white polygon-card overflow-hidden mb-4 relative border border-[#D8C9B8]">
-                        <img src="{{ $product->primary_image }}"
+                        <img src="{{ $product->primary_image }}" loading="lazy" decoding="async"
                              alt="{{ $product->name }}"
                              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
 
@@ -363,7 +363,7 @@
                         <template x-for="p in matches" :key="p.id">
                             <div class="navy-card p-4 polygon-card border border-[#D8C9B8] text-center flex flex-col justify-between bg-white">
                                 <div>
-                                    <img :src="p.images ? p.images[0] : p.campaign_image" class="w-full h-40 object-cover polygon-card mb-3 border border-[#D8C9B8]">
+                                    <img :src="p.images ? p.images[0] : p.campaign_image" loading="lazy" decoding="async" class="w-full h-40 object-cover polygon-card mb-3 border border-[#D8C9B8]">
                                     <h4 class="font-serif font-bold text-lg text-[#29241F]" x-text="p.name"></h4>
                                     <p class="text-[10px] text-[#A8895F] uppercase tracking-widest font-extrabold mt-1" x-text="p.scent_type + ' • ' + p.fragrance_family"></p>
                                 </div>
@@ -412,7 +412,7 @@
 
                 <div>
                     <div class="w-full h-64 bg-white polygon-card overflow-hidden mb-4 relative border border-[#D8C9B8]">
-                        <img src="{{ $product->primary_image }}"
+                        <img src="{{ $product->primary_image }}" loading="lazy" decoding="async"
                              alt="{{ $product->name }}"
                              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
 
@@ -488,7 +488,7 @@
 
             <div class="lg:col-span-6">
                 <div class="relative w-full h-[450px] glass-panel p-3 polygon-card border border-[#A8895F]/40 gold-glow bg-[#F8F5EF]">
-                    <img src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&q=80&w=1000"
+                    <img src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&q=80&w=1000" loading="lazy" decoding="async"
                          alt="The Sozie Experience"
                          class="w-full h-full object-cover polygon-card border border-[#D8C9B8]">
                 </div>
@@ -569,7 +569,7 @@
                 <template x-for="(slide, i) in slides" :key="'campaign-' + i">
                     <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 flex-shrink-0">
                         <div class="h-80 navy-card polygon-card overflow-hidden group relative border border-[#D8C9B8] bg-[#F8F5EF] shadow-lg">
-                            <img :src="slide.image" :alt="slide.title"
+                            <img :src="slide.image" :alt="slide.title" loading="lazy" decoding="async"
                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
 
                             <!-- Instagram Handle Badge -->

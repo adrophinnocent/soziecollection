@@ -6,15 +6,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Sozie Collection | Premium Perfume E-Commerce')</title>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Lucide Icons CDN -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <script src="https://unpkg.com/lucide@1.48.0/dist/umd/lucide.min.js" defer></script>
     @stack('styles')
 </head>
 <body class="bg-[#EDE5D8] text-[#29241F] font-sans selection:bg-[#A8895F] selection:text-white min-h-screen flex flex-col relative transition-colors duration-500"
@@ -400,7 +394,7 @@
 
                     <template x-for="item in cartItems" :key="item.cart_key">
                         <div class="navy-card p-3 polygon-card flex gap-3 relative border border-[#D8C9B8] bg-white">
-                            <img :src="item.image" :alt="item.name" class="w-16 h-16 object-cover polygon-card border border-[#D8C9B8]">
+                            <img :src="item.image" :alt="item.name" loading="lazy" decoding="async" class="w-16 h-16 object-cover polygon-card border border-[#D8C9B8]">
                             <div class="flex-grow">
                                 <h4 class="font-serif font-bold text-sm text-[#29241F]" x-text="item.name"></h4>
                                 <span class="text-[10px] text-[#A8895F] font-extrabold tracking-wider uppercase block" x-text="item.size"></span>
@@ -485,7 +479,7 @@
 
                     <template x-for="item in wishlistItems" :key="item.id">
                         <div class="navy-card p-3 polygon-card flex gap-3 relative border border-[#D8C9B8] bg-white">
-                            <img :src="item.image" class="w-16 h-16 object-cover polygon-card border border-[#D8C9B8]">
+                            <img :src="item.image" loading="lazy" decoding="async" class="w-16 h-16 object-cover polygon-card border border-[#D8C9B8]">
                             <div class="flex-grow">
                                 <h4 class="font-serif font-bold text-sm text-[#29241F]" x-text="item.name"></h4>
                                 <span class="text-sm sm:text-xs text-[#A8895F] font-extrabold" x-text="item.formatted_price"></span>
@@ -517,7 +511,7 @@
 
                 <template x-if="quickViewData">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <img :src="quickViewData.image" class="w-full h-64 object-cover polygon-card border border-[#D8C9B8]">
+                        <img :src="quickViewData.image" loading="lazy" decoding="async" class="w-full h-64 object-cover polygon-card border border-[#D8C9B8]">
                         <div class="space-y-3">
                             <span class="text-[10px] font-extrabold text-[#A8895F] uppercase tracking-widest" x-text="quickViewData.category + ' • ' + quickViewData.concentration"></span>
                             <h3 class="font-serif font-bold text-2xl text-[#29241F]" x-text="quickViewData.name"></h3>

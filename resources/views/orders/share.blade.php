@@ -48,7 +48,7 @@
                 @foreach($order->items as $item)
                 <article class="flex items-center gap-4 p-3 bg-white border border-[#D8C9B8] polygon-card">
                     @if($item->product_image_url)
-                    <img src="{{ $item->product_image_url }}" alt="{{ $item->product_name }}" class="w-24 h-24 object-cover border border-[#D8C9B8] shrink-0">
+                    <img src="{{ $item->product_image_url }}" loading="lazy" decoding="async" alt="{{ $item->product_name }}" class="w-24 h-24 object-cover border border-[#D8C9B8] shrink-0">
                     @else
                     <div class="w-24 h-24 bg-[#EDE5D8] border border-[#D8C9B8] flex items-center justify-center shrink-0">
                         <span class="text-[10px] font-extrabold text-[#A8895F] text-center px-2">SOZIE</span>

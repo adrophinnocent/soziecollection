@@ -32,7 +32,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             @forelse($topSelling as $product)
             <div class="border border-[#D8C9B8] p-4 bg-white polygon-card flex gap-4">
-                <img src="{{ $product->primary_image }}" class="w-16 h-16 object-cover polygon-card border border-[#D8C9B8]">
+                <img src="{{ $product->primary_image }}" loading="lazy" decoding="async" class="w-16 h-16 object-cover polygon-card border border-[#D8C9B8]">
                 <div class="space-y-1 min-w-0 flex-1">
                     <h5 class="font-serif font-bold text-sm text-[#29241F] truncate">{{ $product->name }}</h5>
                     <span class="text-[10px] text-[#A8895F] font-bold block uppercase">{{ $product->fragrance_family }}</span>

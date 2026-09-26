@@ -24,7 +24,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             @forelse($banners as $banner)
             <div class="border border-[#D8C9B8] p-4 bg-white polygon-card flex gap-4">
-                <img src="{{ $banner->image_url }}" class="w-24 h-24 object-cover polygon-card border border-[#D8C9B8] flex-shrink-0">
+                <img src="{{ $banner->image_url }}" loading="lazy" decoding="async" class="w-24 h-24 object-cover polygon-card border border-[#D8C9B8] flex-shrink-0">
                 <div class="space-y-1 min-w-0 flex-1">
                     <span class="text-[9px] font-extrabold uppercase text-[#A8895F] tracking-wider block">Banner #{{ $banner->sort_order }}</span>
                     <h5 class="font-serif font-bold text-base text-[#29241F] truncate">{{ $banner->title }}</h5>

@@ -6,12 +6,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Admin Portal Login | Sozie Collection</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <script src="https://unpkg.com/lucide@1.48.0/dist/umd/lucide.min.js" defer></script>
 </head>
 <body class="bg-[#EDE5D8] text-[#29241F] font-sans min-h-screen flex items-center justify-center relative overflow-hidden">
 

@@ -360,7 +360,7 @@
                     <div class="space-y-3 max-h-72 overflow-y-auto pr-1">
                         @foreach($cart as $item)
                         <div class="flex gap-3 items-center">
-                            <img src="{{ $item['image'] }}" class="w-12 h-12 object-cover polygon-card border border-[#D8C9B8]">
+                            <img src="{{ $item['image'] }}" loading="lazy" decoding="async" class="w-12 h-12 object-cover polygon-card border border-[#D8C9B8]">
                             <div class="flex-grow">
                                 <h4 class="font-serif font-bold text-xs text-[#29241F]">{{ $item['name'] }}</h4>
                                 <span class="text-[10px] text-[#A8895F] font-extrabold">{{ $item['size'] }} x {{ $item['quantity'] }}</span>

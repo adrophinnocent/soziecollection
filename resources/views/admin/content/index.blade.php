@@ -84,7 +84,7 @@
             <article class="border border-[#D8C9B8] bg-white polygon-card overflow-hidden">
                 <div class="p-4 flex flex-col md:flex-row gap-4 md:items-center">
                     <div class="w-full md:w-48 aspect-video md:aspect-square shrink-0 bg-[#EDE5D8] border border-[#D8C9B8] overflow-hidden">
-                        <img src="{{ $banner->image_url }}" alt="{{ $banner->title }}" class="w-full h-full object-cover">
+                        <img src="{{ $banner->image_url }}" loading="lazy" decoding="async" alt="{{ $banner->title }}" class="w-full h-full object-cover">
                     </div>
 
                     <div class="flex-grow min-w-0">

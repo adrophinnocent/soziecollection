@@ -51,7 +51,7 @@
             <div class="relative aspect-square bg-[#EDE5D8] polygon-card overflow-hidden mb-4 border border-[#D8C9B8]">
                 @if(!empty($product?->primary_image))
                 <a href="{{ $product ? route('shop.show', $product->slug) : '#' }}">
-                    <img src="{{ $product->primary_image }}" alt="{{ $product?->name ?? 'Scent' }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <img src="{{ $product->primary_image }}" loading="lazy" decoding="async" alt="{{ $product?->name ?? 'Scent' }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                 </a>
                 @else
                 <div class="w-full h-full flex flex-col items-center justify-center text-[#A8895F]/50 gap-2">
