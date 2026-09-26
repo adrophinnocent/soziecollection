@@ -150,7 +150,7 @@ class DatabaseSeeder extends Seeder
 
         $categories = [];
         foreach ($categoriesData as $cat) {
-            $categories[$cat['slug']] = Category::create($cat);
+            $categories[$cat['slug']] = Category::firstOrCreate(['slug' => $cat['slug']], $cat);
         }
 
         // 2. Comprehensive 22 Luxury Perfumes Catalog
@@ -918,45 +918,48 @@ class DatabaseSeeder extends Seeder
             unset($item['category']);
 
             $item['category_id'] = $categories[$catSlug]->id;
-            $item['slug'] = Str::slug($item['name']);
+            $slug = Str::slug($item['name']);
+            $item['slug'] = $slug;
             $item['sku'] = 'SZ-'.strtoupper(Str::random(5));
 
-            $product = Product::create($item);
+            $product = Product::firstOrCreate(['slug' => $slug], $item);
 
-            // Add standard clean size variants: 10ml, 30ml, 50ml, 100ml
-            $basePrice = $product->price;
-            $variants = [
-                ['size' => '10ml', 'price' => round($basePrice * 0.25, -3)],
-                ['size' => '30ml', 'price' => round($basePrice * 0.55, -3)],
-                ['size' => '50ml', 'price' => $basePrice],
-                ['size' => '100ml', 'price' => round($basePrice * 1.6, -3)],
-            ];
+            if ($product->wasRecentlyCreated) {
+                // Add standard clean size variants: 10ml, 30ml, 50ml, 100ml
+                $basePrice = $product->price;
+                $variants = [
+                    ['size' => '10ml', 'price' => round($basePrice * 0.25, -3)],
+                    ['size' => '30ml', 'price' => round($basePrice * 0.55, -3)],
+                    ['size' => '50ml', 'price' => $basePrice],
+                    ['size' => '100ml', 'price' => round($basePrice * 1.6, -3)],
+                ];
 
-            foreach ($variants as $v) {
-                ProductVariant::create([
+                foreach ($variants as $v) {
+                    ProductVariant::create([
+                        'product_id' => $product->id,
+                        'size' => $v['size'],
+                        'price' => $v['price'],
+                        'stock_quantity' => 50,
+                    ]);
+                }
+
+                // Reviews
+                Review::create([
                     'product_id' => $product->id,
-                    'size' => $v['size'],
-                    'price' => $v['price'],
-                    'stock_quantity' => 50,
+                    'customer_name' => 'Amina K.',
+                    'rating' => 5,
+                    'comment' => 'Harufu hii ni ya kipekee sana! Kila ninapopita watu wanaulizia perfume gani nimepaka. Highly recommended!',
+                    'is_verified' => true,
+                ]);
+
+                Review::create([
+                    'product_id' => $product->id,
+                    'customer_name' => 'David M.',
+                    'rating' => 5,
+                    'comment' => 'The longevity is unmatched. Stayed on my suit jacket for 2 full days. Amazing packaging!',
+                    'is_verified' => true,
                 ]);
             }
-
-            // Reviews
-            Review::create([
-                'product_id' => $product->id,
-                'customer_name' => 'Amina K.',
-                'rating' => 5,
-                'comment' => 'Harufu hii ni ya kipekee sana! Kila ninapopita watu wanaulizia perfume gani nimepaka. Highly recommended!',
-                'is_verified' => true,
-            ]);
-
-            Review::create([
-                'product_id' => $product->id,
-                'customer_name' => 'David M.',
-                'rating' => 5,
-                'comment' => 'The longevity is unmatched. Stayed on my suit jacket for 2 full days. Amazing packaging!',
-                'is_verified' => true,
-            ]);
         }
 
         // 3. Homepage hero slides are deliberately NOT seeded.
