@@ -58,6 +58,9 @@ Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.in
 Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 
 Route::get('/order/{orderNumber}', [OrderController::class, 'show'])->name('orders.show');
+Route::get('/order/{order}/share', [OrderController::class, 'share'])
+    ->middleware('signed')
+    ->name('orders.share');
 Route::get('/track-order', [OrderController::class, 'track'])->name('orders.track');
 Route::post('/track-order', [OrderController::class, 'handleTrack'])->name('orders.track.submit');
 

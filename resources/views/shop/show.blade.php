@@ -123,7 +123,7 @@
                 </div>
 
                 <!-- WhatsApp Direct Order Button -->
-                <a :href="'https://wa.me/{{ config('payment.whatsapp.phone_number') }}?text=Jambo%20Sozie%20Collection!%20Naomba%20agizo%20la%20perfume:%20{{ urlencode($product->name) }}%20Size:%20' + encodeURIComponent(selectedSize) + '%20Bei:%20TZS%20' + Number(currentPrice).toLocaleString()"
+                <a :href="whatsappUrl()"
                    target="_blank"
                    class="w-full py-3 bg-emerald-800 text-white font-extrabold text-xs uppercase tracking-[0.2em] polygon-btn text-center block hover:bg-emerald-900">
                     <i data-lucide="message-circle" class="w-4 h-4 inline-block mr-2 text-white"></i> ORDER DIRECTLY VIA WHATSAPP
@@ -334,14 +334,33 @@
     function productDetail(productId, variants, basePrice) {
         const firstVariant = variants && variants.length > 0 ? variants[0] : null;
         return {
-            activeImage: '{{ $product->primary_image }}',
-            selectedSize: firstVariant ? firstVariant.size : '{{ $product->default_size }}',
+            activeImage: {{ \Illuminate\Support\Js::from($product->primary_image) }},
+            productName: {{ \Illuminate\Support\Js::from($product->name) }},
+            productImage: {{ \Illuminate\Support\Js::from($product->primary_image) }},
+            productUrl: {{ \Illuminate\Support\Js::from(route('shop.show', $product->slug)) }},
+            whatsappPhone: {{ \Illuminate\Support\Js::from(config('payment.whatsapp.phone_number', '255691980178')) }},
+            selectedSize: firstVariant ? firstVariant.size : {{ \Illuminate\Support\Js::from($product->default_size) }},
             currentPrice: firstVariant ? firstVariant.price : basePrice,
             quantity: 1,
 
             selectVariant(size, price) {
                 this.selectedSize = size;
                 this.currentPrice = price;
+            },
+
+            whatsappUrl() {
+                const message = [
+                    'Jambo Sozie Collection! Naomba kujionyesha bidhaa hii:',
+                    '',
+                    '*Bidhaa:* ' + this.productName,
+                    'Size: ' + this.selectedSize,
+                    'Quantity: ' + this.quantity,
+                    'Bei: TZS ' + Number(this.currentPrice).toLocaleString(),
+                    this.productImage ? '📸 Picha: ' + this.productImage : '',
+                    '🔗 Bidhaa: ' + this.productUrl,
+                ].filter(Boolean).join('\n');
+
+                return 'https://wa.me/' + this.whatsappPhone + '?text=' + encodeURIComponent(message);
             }
         }
     }

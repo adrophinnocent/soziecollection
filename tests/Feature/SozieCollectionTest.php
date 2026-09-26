@@ -129,6 +129,9 @@ class SozieCollectionTest extends TestCase
         $response = $this->actingAs($admin)->get('/admin');
         $response->assertStatus(200);
         $response->assertSee('Analytics & Store Overview');
+        $response->assertSee('Daily Operations');
+        $response->assertSee('Growth & Reports', false);
+        $response->assertSee('Store Setup');
     }
 
     public function test_admin_modules_load()

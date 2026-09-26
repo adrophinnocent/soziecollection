@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class OrderItem extends Model
 {
@@ -12,6 +14,7 @@ class OrderItem extends Model
     protected $fillable = [
         'order_id',
         'product_id',
+        'product_image',
         'product_name',
         'variant_size',
         'quantity',
@@ -32,5 +35,24 @@ class OrderItem extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function getProductImageUrlAttribute(): ?string
+    {
+        $image = $this->product_image ?: $this->product?->primary_image;
+
+        if (blank($image)) {
+            return null;
+        }
+
+        if (Str::startsWith($image, ['http://', 'https://'])) {
+            return $image;
+        }
+
+        if (Str::startsWith($image, '/')) {
+            return rtrim((string) config('app.url'), '/').$image;
+        }
+
+        return Storage::disk('public')->url($image);
     }
 }

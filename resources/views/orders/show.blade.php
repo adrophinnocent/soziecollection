@@ -26,10 +26,15 @@
             <p class="text-xs text-gray-200 font-bold">
                 Bofya kitufe hapa chini kutuma taarifa kamili za oda yako moja kwa moja kwa huduma yetu ya WhatsApp kwa ajili ya usafirishaji wa haraka.
             </p>
-            <a href="{{ $whatsappUrl }}" target="_blank"
+            <a href="{{ $whatsappUrl }}" target="_blank" rel="noopener"
                class="inline-flex items-center justify-center gap-3 w-full py-3.5 bg-emerald-800 text-white font-extrabold text-xs uppercase tracking-[0.2em] polygon-btn hover:bg-emerald-950 shadow-xl">
                 <i data-lucide="message-circle" class="w-5 h-5"></i>
                 <span>TUMA ODA WHATSAPP SASA</span>
+            </a>
+            <a href="{{ $shareUrl }}" target="_blank" rel="noopener"
+               class="inline-flex items-center justify-center gap-2 w-full py-2.5 bg-emerald-950/60 border border-emerald-700 text-emerald-100 text-[10px] font-extrabold uppercase tracking-wider polygon-btn hover:bg-emerald-900">
+                <i data-lucide="image" class="w-4 h-4"></i>
+                <span>Angalia design na picha za oda</span>
             </a>
         </div>
 
@@ -60,12 +65,15 @@
             <div class="space-y-2 pt-2">
                 <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-wider block">Bidhaa Zilizowekwa:</span>
                 @foreach($order->items as $item)
-                <div class="navy-card p-3 polygon-card flex justify-between items-center text-xs border border-[#D8C9B8] bg-white">
-                    <div>
-                        <strong class="text-[#29241F] font-serif text-sm">{{ $item->product_name }}</strong>
+                <div class="navy-card p-3 polygon-card flex items-center gap-3 text-xs border border-[#D8C9B8] bg-white">
+                    @if($item->product_image_url)
+                    <img src="{{ $item->product_image_url }}" alt="{{ $item->product_name }}" class="w-14 h-14 object-cover border border-[#D8C9B8] shrink-0">
+                    @endif
+                    <div class="flex-grow min-w-0">
+                        <strong class="text-[#29241F] font-serif text-sm block truncate">{{ $item->product_name }}</strong>
                         <span class="text-[#A8895F] block text-[10px] font-extrabold">{{ $item->variant_size }} x {{ $item->quantity }}</span>
                     </div>
-                    <span class="font-extrabold text-[#29241F]">TZS {{ number_format($item->subtotal, 0) }}</span>
+                    <span class="font-extrabold text-[#29241F] shrink-0">TZS {{ number_format($item->subtotal, 0) }}</span>
                 </div>
                 @endforeach
             </div>

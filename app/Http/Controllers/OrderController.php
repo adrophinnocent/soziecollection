@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\User;
+use App\Support\WhatsappOrderMessage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,8 @@ use Illuminate\View\View;
 
 class OrderController extends Controller
 {
+    public function __construct(private WhatsappOrderMessage $whatsappOrderMessage) {}
+
     public function show(string $orderNumber): View|RedirectResponse
     {
         $order = Order::with('items.product')
@@ -20,25 +23,26 @@ class OrderController extends Controller
         $this->authorizeViewOrder($order, request());
 
         $paymentConfig = config('payment');
+        $waMessage = $this->whatsappOrderMessage->build($order);
+        $whatsappPhone = preg_replace('/\D+/', '', (string) config('payment.whatsapp.phone_number', '255691980178'));
+        $whatsappUrl = 'https://wa.me/'.$whatsappPhone.'?text='.urlencode($waMessage);
 
-        $waMessage = "Jambo Sozie Collection! Naomba kuthibitisha oda yangu:\n\n";
-        $waMessage .= "*Nambari ya Oda:* {$order->order_number}\n";
-        $waMessage .= "*Jina:* {$order->customer_name}\n";
-        $waMessage .= "*Simu:* {$order->customer_phone}\n";
-        $waMessage .= "*Mji/Eneo:* {$order->city} - {$order->shipping_address}\n\n";
-        $waMessage .= "*BIDHAA ZILIZOAGIZWA:*\n";
+        return view('orders.show', [
+            'order' => $order,
+            'whatsappUrl' => $whatsappUrl,
+            'shareUrl' => $this->whatsappOrderMessage->shareUrl($order),
+            'paymentConfig' => $paymentConfig,
+        ]);
+    }
 
-        foreach ($order->items as $item) {
-            $waMessage .= "• {$item->product_name} ({$item->variant_size}) x{$item->quantity} - TZS ".number_format($item->subtotal, 0, '.', ',')."\n";
-        }
+    public function share(Order $order): View
+    {
+        $order->load('items.product');
 
-        $waMessage .= "\n*Jumla Kuu:* TZS ".number_format($order->total_amount, 0, '.', ',')."\n";
-        $waMessage .= '*Njia ya Malipo:* '.ucfirst(str_replace('_', ' ', $order->payment_method))."\n";
-
-        $whatsappPhone = config('payment.whatsapp.phone_number', '255691980178');
-        $whatsappUrl = "https://wa.me/{$whatsappPhone}?text=".urlencode($waMessage);
-
-        return view('orders.show', compact('order', 'whatsappUrl', 'paymentConfig'));
+        return view('orders.share', [
+            'order' => $order,
+            'shareImageUrl' => $this->whatsappOrderMessage->primaryImageUrl($order),
+        ]);
     }
 
     public function track(Request $request): View
