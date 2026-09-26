@@ -73,23 +73,24 @@
             <!-- Hero Content (Left) -->
             <div class="lg:col-span-7 space-y-6 text-left">
 
-                <div class="inline-flex items-center gap-2 bg-[#17130F] border border-[#A8895F]/40 px-3.5 py-1.5 polygon-badge shadow-sm">
+                <div x-show="currentSlide.eyebrow" class="inline-flex items-center gap-2 bg-[#17130F] border border-[#A8895F]/40 px-3.5 py-1.5 polygon-badge shadow-sm">
                     <span class="w-2 h-2 rounded-full bg-[#A8895F] animate-ping"></span>
                     <span class="text-[11px] font-extrabold tracking-[0.25em] text-[#A8895F] uppercase"
-                          x-text="currentSlide.eyebrow">{{ __('THE ATELIER VISUAL EXPERIENCE') }}</span>
+                          x-text="currentSlide.eyebrow"></span>
                 </div>
 
                 <div class="space-y-2">
                     <h2 class="text-xs sm:text-sm font-extrabold tracking-[0.4em] text-[#A8895F] uppercase">{{ __('SOZIE COLLECTION') }}</h2>
-                    <h1 class="font-serif font-bold text-5xl sm:text-7xl lg:text-8xl leading-none text-[#EDE5D8] tracking-tight">
-                        <span x-text="currentSlide.headline">{{ __('YOUR SCENT.') }}</span><br>
-                        <span class="gold-gradient-text italic font-normal"
-                              x-text="currentSlide.highlight_text">{{ __('YOUR SIGNATURE.') }}</span>
+                    <h1 class="font-serif font-bold text-4xl sm:text-6xl lg:text-7xl leading-tight text-[#EDE5D8] tracking-tight">
+                        <span x-text="currentSlide.headline"></span>
+                        <template x-if="currentSlide.highlight_text">
+                            <span class="gold-gradient-text italic font-normal block mt-1" x-text="currentSlide.highlight_text"></span>
+                        </template>
                     </h1>
                 </div>
 
-                <p class="text-[#B5A897] text-sm sm:text-base leading-relaxed max-w-xl font-semibold"
-                   x-text="currentSlide.description">{{ __('Hero Description') }}</p>
+                <p x-show="currentSlide.description" class="text-[#B5A897] text-sm sm:text-base leading-relaxed max-w-xl font-semibold"
+                   x-text="currentSlide.description"></p>
 
                 <!-- CTAs -->
                 <div class="flex flex-wrap items-center gap-4 pt-4">
