@@ -34,10 +34,9 @@ class UpsertHomepageSlideRequest extends FormRequest
                 $this->isMethod('post') ? 'required' : 'nullable',
                 'image',
                 'mimes:jpg,jpeg,png,webp',
-                'max:5120',
-                'dimensions:min_width=800,min_height=500',
+                'max:10240',
             ],
-            'mobile_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'mobile_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
             'button_text' => ['nullable', 'string', 'max:60'],
             'button_link' => ['nullable', 'string', 'max:255', $this->safeLink()],
             'secondary_button_text' => ['nullable', 'string', 'max:60'],
@@ -54,14 +53,17 @@ class UpsertHomepageSlideRequest extends FormRequest
     {
         return [
             'image.required' => 'Upload a desktop design for this slide.',
-            'image.dimensions' => 'The desktop design must be at least 800px wide and 500px high.',
         ];
     }
 
     private function safeLink(): Closure
     {
         return function (string $attribute, mixed $value, Closure $fail): void {
-            if (! Str::startsWith($value, ['/', '#', 'http://', 'https://'])) {
+            if (is_null($value) || $value === '') {
+                return;
+            }
+
+            if (! Str::startsWith((string) $value, ['/', '#', 'http://', 'https://'])) {
                 $fail('The :attribute must be an internal path or a valid http(s) URL.');
             }
         };
