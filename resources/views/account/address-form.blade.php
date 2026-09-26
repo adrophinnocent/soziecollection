@@ -17,17 +17,17 @@
 @endsection
 
 @section('account_content')
-<div class="glass-panel-gold border-2 border-[#A8895F]/30 polygon-card bg-[#F8F5EF] p-6 sm:p-8 shadow-xl max-w-3xl mx-auto">
-    <div class="flex items-center gap-3 mb-8 pb-5 border-b border-[#D8C9B8]">
+<div class="glass-panel-gold border-2 border-[#A8895F]/30 polygon-card bg-[#17130F] p-6 sm:p-8 shadow-xl max-w-3xl mx-auto">
+    <div class="flex items-center gap-3 mb-8 pb-5 border-b border-[#322B23]">
         <a href="{{ route('account.addresses') }}"
-           class="w-10 h-10 rounded-full bg-white border border-[#D8C9B8] flex items-center justify-center text-[#29241F] hover:text-[#A8895F] hover:border-[#A8895F] transition-colors flex-shrink-0">
+           class="w-10 h-10 rounded-full bg-[#17130F] border border-[#322B23] flex items-center justify-center text-[#EDE5D8] hover:text-[#A8895F] hover:border-[#A8895F] transition-colors flex-shrink-0">
             <i data-lucide="arrow-left" class="w-4 h-4"></i>
         </a>
         <div>
             <span class="text-[10px] font-extrabold text-[#A8895F] uppercase tracking-[0.3em] block mb-0.5">
                 {{ $isEdit ? __('Update Delivery Location') : __('New Delivery Location') }}
             </span>
-            <h3 class="font-serif font-bold text-2xl text-[#29241F]">{{ $address->label ?? __('Address Details') }}</h3>
+            <h3 class="font-serif font-bold text-2xl text-[#EDE5D8]">{{ $address->label ?? __('Address Details') }}</h3>
         </div>
     </div>
 
@@ -42,18 +42,18 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div class="sm:col-span-2">
                 <label for="label" class="block text-[10px] font-extrabold text-[#A8895F] uppercase tracking-[0.25em] mb-2">
-                    {{ __('Address Label') }} <span class="text-gray-400 font-normal normal-case">{{ __('(e.g. Home, Office, Mum\'s House)') }}</span>
+                    {{ __('Address Label') }} <span class="text-[#A89C8C] font-normal normal-case">{{ __('(e.g. Home, Office, Mum\'s House)') }}</span>
                 </label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                        <i data-lucide="bookmark" class="w-4 h-4 text-[#A8895F]/60"></i>
+                        <i data-lucide="bookmark" class="w-4 h-4 text-[#A8895F]"></i>
                     </div>
                     <input id="label" name="label" type="text"
                            value="{{ old('label', $address?->label) }}"
                            required
                            placeholder="{{ __('e.g. Dar Home') }}"
                            maxlength="50"
-                           class="w-full bg-white border border-[#D8C9B8] text-xs text-[#29241F] pl-10 pr-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/20 font-bold transition-all placeholder:text-gray-400 placeholder:font-bold">
+                           class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] pl-10 pr-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/50 font-bold transition-all placeholder:text-[#A89C8C] placeholder:font-bold">
                 </div>
             </div>
 
@@ -66,7 +66,7 @@
                        required
                        placeholder="{{ __('Full name of who will receive the package') }}"
                        maxlength="255"
-                       class="w-full bg-white border border-[#D8C9B8] text-xs text-[#29241F] px-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/20 font-bold transition-all placeholder:text-gray-400 placeholder:font-bold">
+                       class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] px-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/50 font-bold transition-all placeholder:text-[#A89C8C] placeholder:font-bold">
             </div>
 
             <div class="sm:col-span-1">
@@ -75,14 +75,14 @@
                 </label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                        <i data-lucide="phone" class="w-4 h-4 text-[#A8895F]/60"></i>
+                        <i data-lucide="phone" class="w-4 h-4 text-[#A8895F]"></i>
                     </div>
                     <input id="phone" name="phone" type="tel"
                            value="{{ old('phone', $address?->phone ?? $user->phone) }}"
                            required
                            placeholder="{{ __('e.g. 0712345678') }}"
                            maxlength="50"
-                           class="w-full bg-white border border-[#D8C9B8] text-xs text-[#29241F] pl-10 pr-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/20 font-bold transition-all placeholder:text-gray-400 placeholder:font-bold">
+                           class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] pl-10 pr-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/50 font-bold transition-all placeholder:text-[#A89C8C] placeholder:font-bold">
                 </div>
             </div>
 
@@ -92,14 +92,14 @@
                 </label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                        <i data-lucide="building-2" class="w-4 h-4 text-[#A8895F]/60"></i>
+                        <i data-lucide="building-2" class="w-4 h-4 text-[#A8895F]"></i>
                     </div>
                     <input id="city" name="city" type="text"
                            value="{{ old('city', $address?->city) }}"
                            required
                            placeholder="{{ __('e.g. Dar es Salaam, Mwanza, Arusha') }}"
                            maxlength="100"
-                           class="w-full bg-white border border-[#D8C9B8] text-xs text-[#29241F] pl-10 pr-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/20 font-bold transition-all placeholder:text-gray-400 placeholder:font-bold">
+                           class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] pl-10 pr-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/50 font-bold transition-all placeholder:text-[#A89C8C] placeholder:font-bold">
                 </div>
             </div>
 
@@ -111,8 +111,8 @@
                           required
                           placeholder="{{ __('Street, Plot / House number, Area, Landmarks, Floor, Apartment... Include every detail the delivery rider will need!') }}"
                           maxlength="500"
-                          class="w-full bg-white border border-[#D8C9B8] text-xs text-[#29241F] px-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/20 font-bold transition-all placeholder:text-gray-400 placeholder:font-bold leading-relaxed">{{ old('street_address', $address?->street_address) }}</textarea>
-                <p class="mt-1.5 text-[10px] text-gray-500 font-bold uppercase tracking-wider flex items-center gap-1">
+                          class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] px-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/50 font-bold transition-all placeholder:text-[#A89C8C] placeholder:font-bold leading-relaxed">{{ old('street_address', $address?->street_address) }}</textarea>
+                <p class="mt-1.5 text-[10px] text-[#A89C8C] font-bold uppercase tracking-wider flex items-center gap-1">
                     <i data-lucide="info" class="w-3.5 h-3.5 text-[#A8895F]"></i>
                     {{ 500 - strlen(old('street_address', $address?->street_address ?? '')) }} {{ __('characters remaining') }}
                 </p>
@@ -124,14 +124,14 @@
                         <input id="is_default" name="is_default" type="checkbox" value="1"
                                {{ old('is_default', $address?->is_default ?? false) ? 'checked' : '' }}
                                class="peer sr-only">
-                        <span class="block w-5 h-5 rounded border-2 border-[#D8C9B8] bg-white peer-checked:bg-[#A8895F] peer-checked:border-[#A8895F] transition-colors"></span>
-                        <i data-lucide="check" class="w-3.5 h-3.5 absolute top-1 left-1 text-white opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                        <span class="block w-5 h-5 rounded border-2 border-[#322B23] bg-[#17130F] peer-checked:bg-[#A8895F] peer-checked:border-[#A8895F] transition-colors"></span>
+                        <i data-lucide="check" class="w-3.5 h-3.5 absolute top-1 left-1 text-[#12100E] opacity-0 peer-checked:opacity-100 transition-opacity"></i>
                     </div>
                     <div class="flex-1">
-                        <span class="text-[11px] font-extrabold text-[#29241F] uppercase tracking-[0.2em] block mb-0.5">
+                        <span class="text-[11px] font-extrabold text-[#EDE5D8] uppercase tracking-[0.2em] block mb-0.5">
                             {{ __('Use as my Default Delivery Address') }}
                         </span>
-                        <span class="text-[10px] text-gray-500 font-medium leading-relaxed">
+                        <span class="text-[10px] text-[#A89C8C] font-medium leading-relaxed">
                             {{ __('This location will be auto-selected at checkout for all future Sozie Collection fragrance orders.') }}
                         </span>
                     </div>
@@ -139,13 +139,13 @@
             </div>
         </div>
 
-        <div class="pt-6 mt-2 border-t border-[#D8C9B8] flex flex-wrap items-center gap-3 justify-end">
+        <div class="pt-6 mt-2 border-t border-[#322B23] flex flex-wrap items-center gap-3 justify-end">
             <a href="{{ route('account.addresses') }}"
-               class="px-5 py-2.5 bg-white border border-[#D8C9B8] text-[#29241F] text-[10px] font-extrabold uppercase tracking-[0.2em] polygon-btn hover:bg-[#EDE5D8] transition-all">
+               class="px-5 py-2.5 bg-[#17130F] border border-[#322B23] text-[#EDE5D8] text-[10px] font-extrabold uppercase tracking-[0.2em] polygon-btn hover:bg-[#221D19] transition-all">
                 {{ __('Cancel') }}
             </a>
             <button type="submit"
-                    class="px-6 py-2.5 bg-[#A8895F] text-white text-[10px] font-extrabold uppercase tracking-[0.25em] polygon-btn hover:bg-[#29241F] shadow-lg inline-flex items-center gap-2">
+                    class="px-6 py-2.5 bg-[#A8895F] text-[#12100E] text-[10px] font-extrabold uppercase tracking-[0.25em] polygon-btn hover:bg-[#12100E] hover:text-[#F8F5EF] shadow-lg inline-flex items-center gap-2">
                 <i data-lucide="{{ $isEdit ? 'save' : 'map-pin-plus' }}" class="w-4 h-4"></i>
                 {{ $isEdit ? __('Update Address') : __('Save Address') }}
             </button>

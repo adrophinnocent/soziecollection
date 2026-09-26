@@ -134,6 +134,16 @@ class TranslationCoverageTest extends TestCase
         $keys = [];
 
         foreach ($files as $file) {
+            // Published vendor views (resources/views/vendor/**) are framework code
+            // lifted verbatim out of a package. Their __() keys — "pagination.previous",
+            // "Showing", "Go to page :page" and friends — are already translated by
+            // Laravel itself, from its own lang files and its built-in fallback
+            // catalogue, so requiring this application's lang/{locale}.json to
+            // redefine them would be wrong.
+            if (str_contains(str_replace('\\', '/', $file), '/resources/views/vendor/')) {
+                continue;
+            }
+
             $contents = (string) file_get_contents($file);
             $lines = explode("\n", $contents);
 

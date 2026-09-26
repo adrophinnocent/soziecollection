@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}" class="scroll-smooth">
+<html lang="{{ app()->getLocale() }}" class="sozie-storefront scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="color-scheme" content="light">
-    <meta name="theme-color" content="#EDE5D8">
+    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#0C0A09">
     <title>@yield('title', __('Sozie Collection | Premium Perfume E-Commerce'))</title>
 
     {{--
@@ -78,16 +78,16 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
-<body class="bg-[#EDE5D8] text-[#29241F] font-sans selection:bg-[#A8895F] selection:text-white min-h-screen flex flex-col relative transition-colors duration-500"
+<body class="bg-[#0C0A09] text-[#EDE5D8] font-sans selection:bg-[#A8895F] selection:text-[#12100E] min-h-screen flex flex-col relative transition-colors duration-500"
       x-data="sozieApp()"
       x-init="initApp()"
       @open-quickview.window="openQuickView($event.detail.id)">
 
     <!-- BACKGROUND POLYGONAL GRAPHIC OVERLAYS (#EDE5D8 Warm Sand & #A8895F Champagne Gold) -->
     <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-40">
-        <div class="absolute -top-40 -left-40 w-96 h-96 bg-[#D8C9B8]/50 blur-[130px] rounded-full animate-pulse-glow"></div>
+        <div class="absolute -top-40 -left-40 w-96 h-96 bg-[#C5A059]/20 blur-[130px] rounded-full animate-pulse-glow"></div>
         <div class="absolute top-1/3 -right-40 w-[500px] h-[500px] bg-[#A8895F]/20 blur-[160px] rounded-full"></div>
-        <div class="absolute bottom-10 left-1/4 w-80 h-80 bg-[#D8C9B8]/30 blur-[120px] rounded-full"></div>
+        <div class="absolute bottom-10 left-1/4 w-80 h-80 bg-[#C5A059]/12 blur-[120px] rounded-full"></div>
         <!-- Geometric Grid Lines -->
         <svg class="absolute inset-0 w-full h-full opacity-15" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -105,19 +105,19 @@
         <div class="max-w-7xl mx-auto flex items-center justify-between w-full">
             <span class="truncate flex items-center gap-2.5">
                 <span class="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-ping"></span>
-                <span class="text-[#D8C9B8] font-bold tracking-normal sm:tracking-widest sm:hidden">{{ __('Announcement Bar Short') }}</span>
-                <span class="text-[#D8C9B8] font-bold tracking-widest hidden sm:inline">{{ __('Announcement Bar') }}</span>
+                <span class="text-[#A89C8C] font-bold tracking-normal sm:tracking-widest sm:hidden">{{ __('Announcement Bar Short') }}</span>
+                <span class="text-[#A89C8C] font-bold tracking-widest hidden sm:inline">{{ __('Announcement Bar') }}</span>
             </span>
 
             <div class="flex items-center space-x-2 pl-4 flex-shrink-0">
                 <!-- Language Switcher Buttons -->
                 <a href="{{ route('lang.switch', 'en') }}"
-                   class="px-2.5 py-1 rounded text-[10px] font-black border transition-all {{ app()->getLocale() === 'en' ? 'bg-gradient-to-r from-[#A8895F] to-[#D4AF37] text-[#12100E] border-[#D4AF37] shadow-sm' : 'text-[#D8C9B8] border-[#C5A059]/30 hover:border-[#D4AF37] hover:text-[#FFF5D0]' }}"
+                   class="px-2.5 py-1 rounded text-[10px] font-black border transition-all {{ app()->getLocale() === 'en' ? 'bg-gradient-to-r from-[#A8895F] to-[#D4AF37] text-[#12100E] border-[#D4AF37] shadow-sm' : 'text-[#A89C8C] border-[#C5A059]/30 hover:border-[#D4AF37] hover:text-[#FFF5D0]' }}"
                    title="{{ __('Switch to English') }}" aria-label="{{ __('Switch to English') }}">
                     🇬🇧 EN
                 </a>
                 <a href="{{ route('lang.switch', 'sw') }}"
-                   class="px-2.5 py-1 rounded text-[10px] font-black border transition-all {{ app()->getLocale() === 'sw' ? 'bg-gradient-to-r from-[#A8895F] to-[#D4AF37] text-[#12100E] border-[#D4AF37] shadow-sm' : 'text-[#D8C9B8] border-[#C5A059]/30 hover:border-[#D4AF37] hover:text-[#FFF5D0]' }}"
+                   class="px-2.5 py-1 rounded text-[10px] font-black border transition-all {{ app()->getLocale() === 'sw' ? 'bg-gradient-to-r from-[#A8895F] to-[#D4AF37] text-[#12100E] border-[#D4AF37] shadow-sm' : 'text-[#A89C8C] border-[#C5A059]/30 hover:border-[#D4AF37] hover:text-[#FFF5D0]' }}"
                    title="{{ __('Switch to Kiswahili') }}" aria-label="{{ __('Switch to Kiswahili') }}">
                     🇹🇿 SW
                 </a>
@@ -132,7 +132,7 @@
 
                 <!-- BRAND LOGO -->
                 <a href="{{ route('home') }}" class="flex items-center gap-3 group">
-                    <div class="w-10 h-10 bg-gradient-to-br from-[#A8895F] via-[#D8C9B8] to-[#29241F] polygon-card flex items-center justify-center p-[1px] shadow-md group-hover:scale-105 transition-transform duration-300">
+                    <div class="w-10 h-10 bg-gradient-to-br from-[#A8895F] via-[#C5A059] to-[#12100E] polygon-card flex items-center justify-center p-[1px] shadow-md group-hover:scale-105 transition-transform duration-300">
                         <div class="w-full h-full bg-[#12100E] polygon-card flex items-center justify-center">
                             <span class="font-serif font-bold text-lg text-[#A8895F]">S</span>
                         </div>
@@ -171,7 +171,7 @@
                                 {{ __('Sign In') }}
                             </a>
                             <a href="{{ route('register') }}"
-                               class="text-xs text-white hover:text-[#12100E] font-extrabold uppercase tracking-[0.2em] bg-[#A8895F] hover:bg-[#D4AF37] px-3 py-1.5 polygon-btn transition-all shadow-md">
+                               class="text-xs text-[#12100E] hover:text-[#12100E] font-extrabold uppercase tracking-[0.2em] bg-[#A8895F] hover:bg-[#D4AF37] px-3 py-1.5 polygon-btn transition-all shadow-md">
                                 {{ __('Join') }}
                             </a>
                         </div>
@@ -188,9 +188,9 @@
                             <button @click="accountOpen = !accountOpen"
                                     class="flex items-center gap-2 group"
                                     aria-haspopup="menu">
-                                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-[#A8895F] via-[#D8C9B8] to-[#29241F] p-[1.5px] shadow-sm group-hover:scale-105 transition-transform">
-                                    <div class="w-full h-full rounded-full bg-[#F8F5EF] flex items-center justify-center">
-                                        <span class="font-serif font-bold text-sm text-[#29241F]">
+                                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-[#A8895F] via-[#C5A059] to-[#12100E] p-[1.5px] shadow-sm group-hover:scale-105 transition-transform">
+                                    <div class="w-full h-full rounded-full bg-[#17130F] flex items-center justify-center">
+                                        <span class="font-serif font-bold text-sm text-[#EDE5D8]">
                                             {{ strtoupper(mb_substr(Auth::user()->name, 0, 1)) }}
                                         </span>
                                     </div>
@@ -205,56 +205,56 @@
                             <div x-show="accountOpen"
                                  @click.away="accountOpen = false"
                                  x-transition
-                                 class="absolute right-0 mt-3 w-72 glass-panel-gold border-2 border-[#A8895F]/30 shadow-2xl rounded-none polygon-card bg-[#F8F5EF] z-50 py-2 overflow-hidden">
-                                <div class="px-4 py-3 border-b border-[#D8C9B8] bg-[#EDE5D8]/70">
+                                 class="absolute right-0 mt-3 w-72 glass-panel-gold border-2 border-[#A8895F]/30 shadow-2xl rounded-none polygon-card bg-[#17130F] z-50 py-2 overflow-hidden">
+                                <div class="px-4 py-3 border-b border-[#322B23] bg-[#100E0C]/70">
                                     <div class="flex items-center gap-3">
-                                        <div class="w-11 h-11 rounded-full bg-gradient-to-br from-[#A8895F] via-[#D8C9B8] to-[#29241F] p-[1.5px]">
-                                            <div class="w-full h-full rounded-full bg-[#F8F5EF] flex items-center justify-center">
-                                                <span class="font-serif font-bold text-base text-[#29241F]">
+                                        <div class="w-11 h-11 rounded-full bg-gradient-to-br from-[#A8895F] via-[#C5A059] to-[#12100E] p-[1.5px]">
+                                            <div class="w-full h-full rounded-full bg-[#17130F] flex items-center justify-center">
+                                                <span class="font-serif font-bold text-base text-[#EDE5D8]">
                                                     {{ strtoupper(mb_substr(Auth::user()->name, 0, 1)) }}
                                                 </span>
                                             </div>
                                         </div>
                                         <div class="min-w-0 flex-1">
-                                            <p class="text-xs font-bold text-[#29241F] truncate">{{ Auth::user()->name }}</p>
-                                            <p class="text-[10px] text-gray-500 font-bold truncate">{{ Auth::user()->email }}</p>
+                                            <p class="text-xs font-bold text-[#EDE5D8] truncate">{{ Auth::user()->name }}</p>
+                                            <p class="text-[10px] text-[#A89C8C] font-bold truncate">{{ Auth::user()->email }}</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="py-1.5">
                                     <a href="{{ route('account.dashboard') }}"
-                                       class="flex items-center gap-3 px-4 py-2.5 text-[11px] font-bold text-[#29241F] hover:bg-[#A8895F]/10 transition-colors uppercase tracking-[0.2em]">
+                                       class="flex items-center gap-3 px-4 py-2.5 text-[11px] font-bold text-[#EDE5D8] hover:bg-[#A8895F]/10 transition-colors uppercase tracking-[0.2em]">
                                         <i data-lucide="layout-dashboard" class="w-4 h-4 text-[#A8895F]"></i>
                                         {{ __('Dashboard') }}
                                     </a>
                                     <a href="{{ route('account.orders') }}"
-                                       class="flex items-center gap-3 px-4 py-2.5 text-[11px] font-bold text-[#29241F] hover:bg-[#A8895F]/10 transition-colors uppercase tracking-[0.2em]">
+                                       class="flex items-center gap-3 px-4 py-2.5 text-[11px] font-bold text-[#EDE5D8] hover:bg-[#A8895F]/10 transition-colors uppercase tracking-[0.2em]">
                                         <i data-lucide="package-search" class="w-4 h-4 text-[#A8895F]"></i>
                                         {{ __('My Orders') }}
                                     </a>
                                     <a href="{{ route('account.wishlist') }}"
-                                       class="flex items-center gap-3 px-4 py-2.5 text-[11px] font-bold text-[#29241F] hover:bg-[#A8895F]/10 transition-colors uppercase tracking-[0.2em]">
+                                       class="flex items-center gap-3 px-4 py-2.5 text-[11px] font-bold text-[#EDE5D8] hover:bg-[#A8895F]/10 transition-colors uppercase tracking-[0.2em]">
                                         <i data-lucide="heart" class="w-4 h-4 text-[#A8895F]"></i>
                                         {{ __('Saved Wishlist') }}
                                     </a>
                                     <a href="{{ route('account.addresses') }}"
-                                       class="flex items-center gap-3 px-4 py-2.5 text-[11px] font-bold text-[#29241F] hover:bg-[#A8895F]/10 transition-colors uppercase tracking-[0.2em]">
+                                       class="flex items-center gap-3 px-4 py-2.5 text-[11px] font-bold text-[#EDE5D8] hover:bg-[#A8895F]/10 transition-colors uppercase tracking-[0.2em]">
                                         <i data-lucide="map-pin" class="w-4 h-4 text-[#A8895F]"></i>
                                         {{ __('Addresses') }}
                                     </a>
                                     <a href="{{ route('account.profile') }}"
-                                       class="flex items-center gap-3 px-4 py-2.5 text-[11px] font-bold text-[#29241F] hover:bg-[#A8895F]/10 transition-colors uppercase tracking-[0.2em]">
+                                       class="flex items-center gap-3 px-4 py-2.5 text-[11px] font-bold text-[#EDE5D8] hover:bg-[#A8895F]/10 transition-colors uppercase tracking-[0.2em]">
                                         <i data-lucide="user-cog" class="w-4 h-4 text-[#A8895F]"></i>
                                         {{ __('Profile') }}
                                     </a>
                                 </div>
 
-                                <div class="border-t border-[#D8C9B8] py-1.5">
+                                <div class="border-t border-[#322B23] py-1.5">
                                     <form method="POST" action="{{ route('logout') }}" class="block w-full">
                                         @csrf
                                         <button type="submit"
-                                                class="flex items-center gap-3 w-full px-4 py-2.5 text-[11px] font-bold text-rose-700 hover:bg-rose-50 transition-colors uppercase tracking-[0.2em] text-left">
+                                                class="flex items-center gap-3 w-full px-4 py-2.5 text-[11px] font-bold text-rose-300 hover:bg-[#2A1215] transition-colors uppercase tracking-[0.2em] text-left">
                                             <i data-lucide="log-out" class="w-4 h-4"></i>
                                             {{ __('Sign Out') }}
                                         </button>
@@ -277,11 +277,11 @@
                         <div x-show="open"
                              @click.away="open = false"
                              x-transition
-                             class="absolute right-0 mt-3 w-72 sm:w-96 glass-panel p-3 polygon-card shadow-2xl z-50 bg-[#F8F5EF] border border-[#D8C9B8]">
+                             class="absolute right-0 mt-3 w-72 sm:w-96 glass-panel p-3 polygon-card shadow-2xl z-50 bg-[#17130F] border border-[#322B23]">
                             <form action="{{ route('shop.index') }}" method="GET" class="flex items-center gap-2">
                                 <input type="text" name="q" placeholder="{{ __('Search perfumes, notes, mood...') }}"
-                                       class="w-full bg-white border border-[#D8C9B8] text-xs text-[#29241F] px-3 py-2 focus:outline-none focus:border-[#A8895F]">
-                                <button type="submit" class="bg-[#A8895F] border border-[#A8895F] text-white px-4 py-2 font-extrabold text-xs uppercase polygon-btn hover:bg-[#29241F]">
+                                       class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] px-3 py-2 focus:outline-none focus:border-[#A8895F]">
+                                <button type="submit" class="bg-[#A8895F] border border-[#A8895F] text-[#12100E] px-4 py-2 font-extrabold text-xs uppercase polygon-btn hover:bg-[#12100E] hover:text-[#F8F5EF]">
                                     {{ __('Search') }}
                                 </button>
                             </form>
@@ -293,7 +293,7 @@
                         <i data-lucide="heart" class="w-5 h-5"></i>
                         <span x-show="wishlist.length > 0"
                               x-text="wishlist.length"
-                              class="absolute -top-1 -right-1 bg-[#A8895F] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                              class="absolute -top-1 -right-1 bg-[#A8895F] text-[#12100E] text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
                     </button>
 
                     <!-- Cart Trigger Button -->
@@ -302,7 +302,7 @@
                             <i data-lucide="shopping-bag" class="w-5 h-5 group-hover:scale-110 transition-transform text-[#F8F5EF]"></i>
                             <span x-show="cartCount > 0"
                                   x-text="cartCount"
-                                  class="absolute -top-2 -right-2 bg-[#A8895F] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                                  class="absolute -top-2 -right-2 bg-[#A8895F] text-[#12100E] text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
                         </div>
                         <span class="hidden lg:inline text-xs font-bold uppercase tracking-wider text-[#A8895F]" x-text="formattedTotal">TZS 0</span>
                     </button>
@@ -320,57 +320,57 @@
         <!-- MOBILE MENU OVERLAY -->
         <div x-show="mobileMenuOpen"
              x-transition
-             class="md:hidden glass-panel border-t border-[#D8C9B8] px-4 py-6 space-y-5 font-bold text-sm tracking-widest uppercase text-[#29241F] bg-[#F8F5EF]">
+             class="md:hidden glass-panel border-t border-[#322B23] px-4 py-6 space-y-5 font-bold text-sm tracking-widest uppercase text-[#EDE5D8] bg-[#17130F]">
             <a href="{{ route('home') }}" class="block hover:text-[#A8895F]">{{ __('Home') }}</a>
             <a href="{{ route('shop.index') }}" class="block hover:text-[#A8895F]">{{ __('Shop Collection') }}</a>
-            <a href="{{ route('home') }}#scent-finder" class="block text-[#A8895F] hover:text-[#29241F]">{{ __('Fragrance Finder') }}</a>
+            <a href="{{ route('home') }}#scent-finder" class="block text-[#A8895F] hover:text-[#F8F5EF]">{{ __('Fragrance Finder') }}</a>
             <a href="{{ route('orders.track') }}" class="block hover:text-[#A8895F]">{{ __('Track Order') }}</a>
 
             @guest
-                <div class="pt-3 border-t border-[#D8C9B8] grid grid-cols-2 gap-3">
+                <div class="pt-3 border-t border-[#322B23] grid grid-cols-2 gap-3">
                     <a href="{{ route('login') }}"
-                       class="block text-center text-xs font-extrabold uppercase tracking-[0.2em] text-[#29241F] border border-[#A8895F]/50 px-3 py-2.5 polygon-btn">
+                       class="block text-center text-xs font-extrabold uppercase tracking-[0.2em] text-[#EDE5D8] border border-[#A8895F]/50 px-3 py-2.5 polygon-btn">
                         {{ __('Sign In') }}
                     </a>
                     <a href="{{ route('register') }}"
-                       class="block text-center text-xs font-extrabold uppercase tracking-[0.2em] text-white bg-[#A8895F] px-3 py-2.5 polygon-btn shadow-md">
+                       class="block text-center text-xs font-extrabold uppercase tracking-[0.2em] text-[#12100E] bg-[#A8895F] px-3 py-2.5 polygon-btn shadow-md">
                         {{ __('Join') }}
                     </a>
                 </div>
             @else
-                <div class="pt-3 border-t border-[#D8C9B8] space-y-3">
+                <div class="pt-3 border-t border-[#322B23] space-y-3">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#A8895F] via-[#D8C9B8] to-[#29241F] p-[1.5px]">
-                            <div class="w-full h-full rounded-full bg-[#F8F5EF] flex items-center justify-center">
-                                <span class="font-serif font-bold text-sm text-[#29241F]">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#A8895F] via-[#C5A059] to-[#12100E] p-[1.5px]">
+                            <div class="w-full h-full rounded-full bg-[#17130F] flex items-center justify-center">
+                                <span class="font-serif font-bold text-sm text-[#EDE5D8]">
                                     {{ strtoupper(mb_substr(Auth::user()->name, 0, 1)) }}
                                 </span>
                             </div>
                         </div>
                         <div class="min-w-0 flex-1">
-                            <p class="text-xs font-bold text-[#29241F] truncate leading-tight">{{ Auth::user()->name }}</p>
-                            <p class="text-[10px] text-gray-500 font-bold truncate">{{ Auth::user()->email }}</p>
+                            <p class="text-xs font-bold text-[#EDE5D8] truncate leading-tight">{{ Auth::user()->name }}</p>
+                            <p class="text-[10px] text-[#A89C8C] font-bold truncate">{{ Auth::user()->email }}</p>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2 pt-1">
                         <a href="{{ route('account.dashboard') }}"
-                           class="flex items-center gap-1.5 px-2.5 py-2 text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#29241F] bg-[#EDE5D8] polygon-btn">
+                           class="flex items-center gap-1.5 px-2.5 py-2 text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#EDE5D8] bg-[#0C0A09] polygon-btn">
                             <i data-lucide="layout-dashboard" class="w-3.5 h-3.5 text-[#A8895F]"></i>
                             {{ __('Dashboard') }}
                         </a>
                         <a href="{{ route('account.orders') }}"
-                           class="flex items-center gap-1.5 px-2.5 py-2 text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#29241F] bg-[#EDE5D8] polygon-btn">
+                           class="flex items-center gap-1.5 px-2.5 py-2 text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#EDE5D8] bg-[#0C0A09] polygon-btn">
                             <i data-lucide="package-search" class="w-3.5 h-3.5 text-[#A8895F]"></i>
                             {{ __('Orders') }}
                         </a>
                         <a href="{{ route('account.wishlist') }}"
-                           class="flex items-center gap-1.5 px-2.5 py-2 text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#29241F] bg-[#EDE5D8] polygon-btn">
+                           class="flex items-center gap-1.5 px-2.5 py-2 text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#EDE5D8] bg-[#0C0A09] polygon-btn">
                             <i data-lucide="heart" class="w-3.5 h-3.5 text-[#A8895F]"></i>
                             {{ __('Wishlist') }}
                         </a>
                         <a href="{{ route('account.profile') }}"
-                           class="flex items-center gap-1.5 px-2.5 py-2 text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#29241F] bg-[#EDE5D8] polygon-btn">
+                           class="flex items-center gap-1.5 px-2.5 py-2 text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#EDE5D8] bg-[#0C0A09] polygon-btn">
                             <i data-lucide="user-cog" class="w-3.5 h-3.5 text-[#A8895F]"></i>
                             {{ __('Profile') }}
                         </a>
@@ -378,7 +378,7 @@
 
                     @if(Auth::user()->isAdmin())
                     <a href="{{ route('admin.dashboard') }}"
-                       class="flex items-center justify-center gap-1.5 text-[11px] text-[#A8895F] border border-[#A8895F]/50 px-3 py-2.5 polygon-btn bg-[#F8F5EF] font-extrabold uppercase tracking-[0.2em]">
+                       class="flex items-center justify-center gap-1.5 text-[11px] text-[#A8895F] border border-[#A8895F]/50 px-3 py-2.5 polygon-btn bg-[#17130F] font-extrabold uppercase tracking-[0.2em]">
                         <i data-lucide="shield-check" class="w-4 h-4"></i>
                         {{ __('Admin Portal') }}
                     </a>
@@ -400,10 +400,10 @@
     <!-- FLASH MESSAGES -->
     @if(session('success'))
     <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)"
-         class="fixed bottom-5 left-5 z-50 max-w-[calc(100vw-2.5rem)] bg-[#F8F5EF] text-[#29241F] border-2 border-[#A8895F] p-4 polygon-card shadow-2xl flex items-center gap-3 backdrop-blur-md">
+         class="fixed bottom-5 left-5 z-50 max-w-[calc(100vw-2.5rem)] bg-[#17130F] text-[#EDE5D8] border-2 border-[#A8895F] p-4 polygon-card shadow-2xl flex items-center gap-3 backdrop-blur-md">
         <i data-lucide="check-circle-2" class="w-5 h-5 text-[#A8895F] shrink-0"></i>
         <span class="text-xs font-bold tracking-wider">{{ session('success') }}</span>
-        <button @click="show = false" class="ml-4 text-gray-500 hover:text-black">&times;</button>
+        <button @click="show = false" class="ml-4 text-[#A89C8C] hover:text-[#F8F5EF]">&times;</button>
     </div>
     @endif
 
@@ -411,7 +411,7 @@
     @if(config('payment.whatsapp.enabled') && config('payment.whatsapp.phone_number'))
     <a href="https://wa.me/{{ config('payment.whatsapp.phone_number') }}?text={{ rawurlencode(__('Hello Sozie Collection! I would like some help with your products.')) }}"
        target="_blank" rel="noopener"
-       class="group fixed bottom-6 right-5 z-40 inline-flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] focus-visible:ring-offset-2 focus-visible:ring-offset-[#EDE5D8] sm:right-6"
+       class="group fixed bottom-6 right-5 z-40 inline-flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0C0A09] sm:right-6"
        aria-label="{{ __('Chat with us on WhatsApp') }}"
        title="{{ __('Chat with us on WhatsApp') }}">
 
@@ -437,28 +437,28 @@
         <div class="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity" @click="cartOpen = false"></div>
 
         <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
-            <div class="w-screen max-w-md glass-panel border-l border-[#D8C9B8] shadow-2xl flex flex-col justify-between p-6 bg-[#F8F5EF]">
+            <div class="w-screen max-w-md glass-panel border-l border-[#322B23] shadow-2xl flex flex-col justify-between p-6 bg-[#17130F]">
 
                 <!-- Drawer Header -->
                 <div>
-                    <div class="flex items-center justify-between pb-4 border-b border-[#D8C9B8]">
+                    <div class="flex items-center justify-between pb-4 border-b border-[#322B23]">
                         <div class="flex items-center gap-2">
                             <i data-lucide="shopping-bag" class="w-5 h-5 text-[#A8895F]"></i>
-                            <h2 class="font-serif font-bold text-xl tracking-wider text-[#29241F]">{{ __('YOUR SELECTION') }}</h2>
+                            <h2 class="font-serif font-bold text-xl tracking-wider text-[#EDE5D8]">{{ __('YOUR SELECTION') }}</h2>
                         </div>
-                        <button @click="cartOpen = false" class="text-gray-500 hover:text-black">
+                        <button @click="cartOpen = false" class="text-[#A89C8C] hover:text-[#F8F5EF]">
                             <i data-lucide="x" class="w-6 h-6"></i>
                         </button>
                     </div>
 
                     <!-- Free Shipping Progress Bar -->
-                    <div class="py-3 px-1 border-b border-[#D8C9B8]">
+                    <div class="py-3 px-1 border-b border-[#322B23]">
                         <div class="flex justify-between text-[11px] font-bold mb-1">
-                            <span class="text-gray-700" x-text="total >= 100000 ? @js(__('🎉 Free Delivery unlocked!')) : @js(__('Add TZS :amount more for Free Delivery!')).replace(':amount', Number(100000 - total).toLocaleString())"></span>
+                            <span class="text-[#B5A897]" x-text="total >= 100000 ? @js(__('🎉 Free Delivery unlocked!')) : @js(__('Add TZS :amount more for Free Delivery!')).replace(':amount', Number(100000 - total).toLocaleString())"></span>
                             <span class="text-[#A8895F]" x-text="Math.min(100, Math.round((total / 100000) * 100)) + '%'"></span>
                         </div>
-                        <div class="w-full h-2 bg-[#EDE5D8] rounded-full overflow-hidden">
-                            <div class="h-full bg-gradient-to-r from-[#D8C9B8] to-[#A8895F] transition-all duration-500" :style="'width: ' + Math.min(100, (total / 100000) * 100) + '%'"></div>
+                        <div class="w-full h-2 bg-[#0C0A09] rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-[#C5A059] to-[#A8895F] transition-all duration-500" :style="'width: ' + Math.min(100, (total / 100000) * 100) + '%'"></div>
                         </div>
                     </div>
                 </div>
@@ -466,33 +466,33 @@
                 <!-- Items List -->
                 <div class="flex-grow overflow-y-auto py-4 space-y-4 pr-1">
                     <template x-if="cartItems.length === 0">
-                        <div class="text-center py-16 text-gray-600">
-                            <i data-lucide="sparkles" class="w-12 h-12 text-[#A8895F]/50 mx-auto mb-3"></i>
-                            <p class="font-serif text-lg font-bold text-[#29241F]">{{ __('Your cart is currently empty.') }}</p>
+                        <div class="text-center py-16 text-[#B5A897]">
+                            <i data-lucide="sparkles" class="w-12 h-12 text-[#A8895F] mx-auto mb-3"></i>
+                            <p class="font-serif text-lg font-bold text-[#EDE5D8]">{{ __('Your cart is currently empty.') }}</p>
                             <a href="{{ route('shop.index') }}" @click="cartOpen = false"
-                               class="inline-block mt-4 text-xs font-bold uppercase tracking-widest text-[#A8895F] underline hover:text-[#29241F]">
+                               class="inline-block mt-4 text-xs font-bold uppercase tracking-widest text-[#A8895F] underline hover:text-[#F8F5EF]">
                                 {{ __('EXPLORE COLLECTION') }}
                             </a>
                         </div>
                     </template>
 
                     <template x-for="item in cartItems" :key="item.cart_key">
-                        <div class="navy-card p-3 polygon-card flex gap-3 relative border border-[#D8C9B8] bg-white">
-                            <img :src="item.image" :alt="item.name" data-sozie-fallback loading="lazy" decoding="async" class="w-16 h-16 object-cover polygon-card border border-[#D8C9B8]">
+                        <div class="navy-card p-3 polygon-card flex gap-3 relative border border-[#322B23] bg-[#17130F]">
+                            <img :src="item.image" :alt="item.name" data-sozie-fallback loading="lazy" decoding="async" class="w-16 h-16 object-cover polygon-card border border-[#322B23]">
                             <div class="flex-grow">
-                                <h4 class="font-serif font-bold text-sm text-[#29241F]" x-text="item.name"></h4>
+                                <h4 class="font-serif font-bold text-sm text-[#EDE5D8]" x-text="item.name"></h4>
                                 <span class="text-[10px] text-[#A8895F] font-extrabold tracking-wider uppercase block" x-text="item.size"></span>
-                                <span class="text-sm sm:text-xs text-gray-700 font-extrabold" x-text="'TZS ' + Number(item.price).toLocaleString()"></span>
+                                <span class="text-sm sm:text-xs text-[#B5A897] font-extrabold" x-text="'TZS ' + Number(item.price).toLocaleString()"></span>
 
                                 <div class="flex items-center gap-2 mt-2">
                                     <button @click="updateQuantity(item.cart_key, item.quantity - 1)"
-                                            class="w-5 h-5 bg-[#EDE5D8] text-[#29241F] rounded flex items-center justify-center text-xs font-bold hover:bg-[#A8895F] hover:text-white">-</button>
-                                    <span class="text-xs font-bold text-[#29241F] px-1" x-text="item.quantity"></span>
+                                            class="w-5 h-5 bg-[#0C0A09] text-[#EDE5D8] rounded flex items-center justify-center text-xs font-bold hover:bg-[#A8895F] hover:text-[#12100E]">-</button>
+                                    <span class="text-xs font-bold text-[#EDE5D8] px-1" x-text="item.quantity"></span>
                                     <button @click="updateQuantity(item.cart_key, item.quantity + 1)"
-                                            class="w-5 h-5 bg-[#EDE5D8] text-[#29241F] rounded flex items-center justify-center text-xs font-bold hover:bg-[#A8895F] hover:text-white">+</button>
+                                            class="w-5 h-5 bg-[#0C0A09] text-[#EDE5D8] rounded flex items-center justify-center text-xs font-bold hover:bg-[#A8895F] hover:text-[#12100E]">+</button>
                                 </div>
                             </div>
-                            <button @click="removeItem(item.cart_key)" class="text-gray-400 hover:text-rose-600 p-1">
+                            <button @click="removeItem(item.cart_key)" class="text-[#A89C8C] hover:text-rose-400 p-1">
                                 <i data-lucide="trash-2" class="w-4 h-4"></i>
                             </button>
                         </div>
@@ -500,19 +500,19 @@
                 </div>
 
                 <!-- Footer Summary & Checkout CTA -->
-                <div class="pt-4 border-t border-[#D8C9B8] space-y-4">
+                <div class="pt-4 border-t border-[#322B23] space-y-4">
                     <div class="flex justify-between items-center text-sm font-bold tracking-wider">
-                        <span class="text-gray-700">{{ __('ESTIMATED TOTAL') }}</span>
+                        <span class="text-[#B5A897]">{{ __('ESTIMATED TOTAL') }}</span>
                         <span class="font-serif text-xl font-bold text-[#A8895F]" x-text="formattedTotal"></span>
                     </div>
 
                     <div class="space-y-2">
                         <a href="{{ route('checkout.index') }}"
-                           class="w-full py-3.5 bg-[#A8895F] text-white font-extrabold text-xs uppercase tracking-[0.2em] polygon-btn text-center block shadow-lg hover:bg-[#29241F]">
+                           class="w-full py-3.5 bg-[#A8895F] text-[#12100E] font-extrabold text-xs uppercase tracking-[0.2em] polygon-btn text-center block shadow-lg hover:bg-[#12100E] hover:text-[#F8F5EF]">
                             {{ __('PROCEED TO CHECKOUT') }}
                         </a>
                         <a href="{{ route('cart.index') }}"
-                           class="w-full py-2.5 bg-white border border-[#D8C9B8] text-[#29241F] font-bold text-xs uppercase tracking-wider polygon-btn text-center block hover:bg-[#EDE5D8]">
+                           class="w-full py-2.5 bg-[#17130F] border border-[#322B23] text-[#EDE5D8] font-bold text-xs uppercase tracking-wider polygon-btn text-center block hover:bg-[#221D19]">
                             {{ __('VIEW FULL CART') }}
                         </a>
                     </div>
@@ -526,54 +526,54 @@
     <div x-show="wishlistOpen" class="fixed inset-0 z-50 overflow-hidden" style="display: none;">
         <div class="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity" @click="wishlistOpen = false"></div>
         <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
-            <div class="w-screen max-w-md glass-panel border-l border-[#D8C9B8] shadow-2xl flex flex-col justify-between p-6 bg-[#F8F5EF]">
+            <div class="w-screen max-w-md glass-panel border-l border-[#322B23] shadow-2xl flex flex-col justify-between p-6 bg-[#17130F]">
 
-                <div class="flex items-center justify-between pb-4 border-b border-[#D8C9B8]">
+                <div class="flex items-center justify-between pb-4 border-b border-[#322B23]">
                     <div class="flex items-center gap-2">
                         <i data-lucide="heart" class="w-5 h-5 text-[#A8895F]"></i>
-                        <h2 class="font-serif font-bold text-xl tracking-wider text-[#29241F]">{{ __('SAVED WISHLIST') }}</h2>
+                        <h2 class="font-serif font-bold text-xl tracking-wider text-[#EDE5D8]">{{ __('SAVED WISHLIST') }}</h2>
                     </div>
-                    <button @click="wishlistOpen = false" class="text-gray-500 hover:text-black">
+                    <button @click="wishlistOpen = false" class="text-[#A89C8C] hover:text-[#F8F5EF]">
                         <i data-lucide="x" class="w-6 h-6"></i>
                     </button>
                 </div>
 
                 <div class="flex-grow overflow-y-auto py-4 space-y-4">
-                    <div x-show="!wishlistLoggedIn && wishlist.length > 0" class="mb-4 p-3 bg-amber-50 border border-amber-200 text-amber-900 polygon-card text-[11px] leading-relaxed" style="display: none;">
+                    <div x-show="!wishlistLoggedIn && wishlist.length > 0" class="mb-4 p-3 bg-[#241B0A] border border-[#78350F] text-amber-300 polygon-card text-[11px] leading-relaxed" style="display: none;">
                         <div class="flex items-start gap-2.5">
-                            <i data-lucide="key-round" class="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5"></i>
+                            <i data-lucide="key-round" class="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5"></i>
                             <div class="flex-grow">
-                                <p class="font-extrabold mb-1 uppercase tracking-[0.2em] text-[10px] text-amber-700">{{ __('Cross-Device Save Not Active') }}</p>
+                                <p class="font-extrabold mb-1 uppercase tracking-[0.2em] text-[10px] text-amber-300">{{ __('Cross-Device Save Not Active') }}</p>
                                 <p class="font-medium">{{ __('This wishlist is currently stored') }} <strong>{{ __('only on this browser/device') }}</strong>. {{ __('Create or sign into your Sozie Collection account to access these saved scents from phone, tablet, and desktop.') }}</p>
                                 <div class="flex flex-wrap gap-2 mt-3">
-                                    <a href="{{ route('register') }}" class="inline-block px-3 py-1.5 bg-[#A8895F] text-white text-[10px] font-extrabold uppercase tracking-[0.2em] polygon-btn shadow-sm">{{ __('Create Account') }}</a>
-                                    <a href="{{ route('login') }}" class="inline-block px-3 py-1.5 bg-white border border-[#D8C9B8] text-[#29241F] text-[10px] font-extrabold uppercase tracking-[0.2em] polygon-btn">{{ __('Sign In') }}</a>
+                                    <a href="{{ route('register') }}" class="inline-block px-3 py-1.5 bg-[#A8895F] text-[#12100E] text-[10px] font-extrabold uppercase tracking-[0.2em] polygon-btn shadow-sm">{{ __('Create Account') }}</a>
+                                    <a href="{{ route('login') }}" class="inline-block px-3 py-1.5 bg-[#17130F] border border-[#322B23] text-[#EDE5D8] text-[10px] font-extrabold uppercase tracking-[0.2em] polygon-btn">{{ __('Sign In') }}</a>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <template x-if="wishlist.length === 0">
-                        <div class="text-center py-16 text-gray-600">
-                            <i data-lucide="heart" class="w-12 h-12 text-[#A8895F]/50 mx-auto mb-3"></i>
-                            <p class="font-serif text-lg font-bold text-[#29241F]">{{ __('Your wishlist is empty.') }}</p>
-                            <p class="text-xs text-gray-500 mt-1">{{ __('Tap the heart icon on any perfume card to save items.') }}</p>
+                        <div class="text-center py-16 text-[#B5A897]">
+                            <i data-lucide="heart" class="w-12 h-12 text-[#A8895F] mx-auto mb-3"></i>
+                            <p class="font-serif text-lg font-bold text-[#EDE5D8]">{{ __('Your wishlist is empty.') }}</p>
+                            <p class="text-xs text-[#A89C8C] mt-1">{{ __('Tap the heart icon on any perfume card to save items.') }}</p>
                         </div>
                     </template>
 
                     <template x-for="item in wishlistItems" :key="item.id">
-                        <div class="navy-card p-3 polygon-card flex gap-3 relative border border-[#D8C9B8] bg-white">
-                            <img :src="item.image" data-sozie-fallback loading="lazy" decoding="async" class="w-16 h-16 object-cover polygon-card border border-[#D8C9B8]">
+                        <div class="navy-card p-3 polygon-card flex gap-3 relative border border-[#322B23] bg-[#17130F]">
+                            <img :src="item.image" data-sozie-fallback loading="lazy" decoding="async" class="w-16 h-16 object-cover polygon-card border border-[#322B23]">
                             <div class="flex-grow">
-                                <h4 class="font-serif font-bold text-sm text-[#29241F]" x-text="item.name"></h4>
+                                <h4 class="font-serif font-bold text-sm text-[#EDE5D8]" x-text="item.name"></h4>
                                 <span class="text-sm sm:text-xs text-[#A8895F] font-extrabold" x-text="item.formatted_price"></span>
                                 <div class="flex gap-2 mt-2">
-                                    <button @click="addToCart(item.id); toggleWishlist(item)" class="px-3 py-1 bg-[#A8895F] text-white text-[10px] font-bold uppercase polygon-btn hover:bg-[#29241F]">
+                                    <button @click="addToCart(item.id); toggleWishlist(item)" class="px-3 py-1 bg-[#A8895F] text-[#12100E] text-[10px] font-bold uppercase polygon-btn hover:bg-[#12100E] hover:text-[#F8F5EF]">
                                         {{ __('Move to Cart') }}
                                     </button>
                                 </div>
                             </div>
-                            <button @click="toggleWishlist(item)" class="text-gray-400 hover:text-rose-600 p-1">
+                            <button @click="toggleWishlist(item)" class="text-[#A89C8C] hover:text-rose-400 p-1">
                                 <i data-lucide="x" class="w-4 h-4"></i>
                             </button>
                         </div>
@@ -588,19 +588,19 @@
     <div x-show="quickViewOpen" class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
         <div class="fixed inset-0 bg-black/60 backdrop-blur-md" @click="quickViewOpen = false"></div>
         <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="relative max-w-2xl w-full glass-panel-gold p-6 sm:p-8 polygon-card border border-[#A8895F]/50 shadow-2xl z-10 bg-[#F8F5EF]" @click.stop>
-                <button @click="quickViewOpen = false" class="absolute top-4 right-4 text-gray-500 hover:text-black">
+            <div class="relative max-w-2xl w-full glass-panel-gold p-6 sm:p-8 polygon-card border border-[#A8895F]/50 shadow-2xl z-10 bg-[#17130F]" @click.stop>
+                <button @click="quickViewOpen = false" class="absolute top-4 right-4 text-[#A89C8C] hover:text-[#F8F5EF]">
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
 
                 <template x-if="quickViewData">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <img :src="quickViewData.image" data-sozie-fallback loading="lazy" decoding="async" class="w-full h-64 object-cover polygon-card border border-[#D8C9B8]">
+                        <img :src="quickViewData.image" data-sozie-fallback loading="lazy" decoding="async" class="w-full h-64 object-cover polygon-card border border-[#322B23]">
                         <div class="space-y-3">
                             <span class="text-[10px] font-extrabold text-[#A8895F] uppercase tracking-widest" x-text="quickViewData.category + ' • ' + quickViewData.concentration"></span>
-                            <h3 class="font-serif font-bold text-2xl text-[#29241F]" x-text="quickViewData.name"></h3>
+                            <h3 class="font-serif font-bold text-2xl text-[#EDE5D8]" x-text="quickViewData.name"></h3>
                             <span class="font-serif font-bold text-xl text-[#A8895F] block" x-text="quickViewSelectedPrice || quickViewData.formatted_price"></span>
-                            <p class="text-xs text-gray-700 line-clamp-2 leading-relaxed font-medium" x-text="quickViewData.description"></p>
+                            <p class="text-xs text-[#B5A897] line-clamp-2 leading-relaxed font-medium" x-text="quickViewData.description"></p>
 
                             <!-- Variant Size Pills -->
                             <template x-if="quickViewData.variants && quickViewData.variants.length > 0">
@@ -609,7 +609,7 @@
                                     <div class="flex flex-wrap gap-1.5">
                                         <template x-for="v in quickViewData.variants" :key="v.size">
                                             <button @click="quickViewSize = v.size; quickViewSelectedPrice = v.formatted_price"
-                                                    :class="quickViewSize === v.size ? 'bg-[#A8895F] text-white font-bold' : 'bg-white text-[#29241F] border border-[#D8C9B8]'"
+                                                    :class="quickViewSize === v.size ? 'bg-[#A8895F] text-[#12100E] font-bold' : 'bg-[#17130F] text-[#EDE5D8] border border-[#322B23]'"
                                                     class="px-2.5 py-1 text-[10px] polygon-btn transition-all font-bold">
                                                 <span x-text="v.size"></span>
                                             </button>
@@ -618,17 +618,17 @@
                                 </div>
                             </template>
 
-                            <div class="text-[11px] text-gray-700 space-y-1 pt-2 border-t border-[#D8C9B8] font-medium">
+                            <div class="text-[11px] text-[#B5A897] space-y-1 pt-2 border-t border-[#322B23] font-medium">
                                 <div><strong class="text-[#A8895F] font-bold">{{ __('Top Notes:') }}</strong> <span x-text="quickViewData.top_notes"></span></div>
                                 <div><strong class="text-[#A8895F] font-bold">{{ __('Heart Notes:') }}</strong> <span x-text="quickViewData.heart_notes"></span></div>
                                 <div><strong class="text-[#A8895F] font-bold">{{ __('Base Notes:') }}</strong> <span x-text="quickViewData.base_notes"></span></div>
                             </div>
 
                             <div class="pt-3 flex gap-2">
-                                <button @click="addToCart(quickViewData.id, quickViewSize); quickViewOpen = false" class="flex-grow py-3 bg-[#A8895F] text-white font-extrabold text-xs uppercase polygon-btn hover:bg-[#29241F]">
+                                <button @click="addToCart(quickViewData.id, quickViewSize); quickViewOpen = false" class="flex-grow py-3 bg-[#A8895F] text-[#12100E] font-extrabold text-xs uppercase polygon-btn hover:bg-[#12100E] hover:text-[#F8F5EF]">
                                     {{ __('ADD TO CART') }}
                                 </button>
-                                <a :href="'/product/' + quickViewData.slug" class="px-4 py-3 bg-[#EDE5D8] text-[#29241F] font-bold text-xs uppercase polygon-btn hover:bg-[#D8C9B8]">
+                                <a :href="'/product/' + quickViewData.slug" class="px-4 py-3 bg-[#0C0A09] text-[#EDE5D8] font-bold text-xs uppercase polygon-btn hover:bg-[#2C2620]">
                                     {{ __('Full Page') }}
                                 </a>
                             </div>
@@ -697,7 +697,7 @@
                 <!-- Col 1: Brand Info -->
                 <div class="space-y-5">
                     <div class="flex items-center gap-3.5">
-                        <div class="w-10 h-10 bg-gradient-to-br from-[#D4AF37] via-[#A8895F] to-[#29241F] polygon-card flex items-center justify-center p-[1px] shadow-lg">
+                        <div class="w-10 h-10 bg-gradient-to-br from-[#D4AF37] via-[#A8895F] to-[#12100E] polygon-card flex items-center justify-center p-[1px] shadow-lg">
                             <div class="w-full h-full bg-[#12100E] polygon-card flex items-center justify-center">
                                 <span class="font-serif font-bold text-lg text-[#D4AF37]">S</span>
                             </div>
@@ -708,7 +708,7 @@
                         </div>
                     </div>
 
-                    <p class="text-xs text-[#D8C9B8]/90 leading-relaxed font-normal pr-2">
+                    <p class="text-xs text-[#A89C8C] leading-relaxed font-normal pr-2">
                         {{ __('Exclusive haute parfumerie campaign & luxury sensory e-commerce destination. Every creation is meticulously crafted to evoke timeless elegance and leave an unforgettable signature aura.') }}
                     </p>
 
@@ -749,7 +749,7 @@
                         <span>{{ __('COLLECTIONS') }}</span>
                         <span class="w-1.5 h-1.5 rounded-full bg-[#D4AF37]"></span>
                     </h4>
-                    <ul class="space-y-3 text-xs text-[#D8C9B8] font-medium">
+                    <ul class="space-y-3 text-xs text-[#A89C8C] font-medium">
                         <li><a href="{{ route('shop.index', ['gender' => 'women']) }}" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> {{ __("Women's Perfumes") }}</a></li>
                         <li><a href="{{ route('shop.index', ['gender' => 'men']) }}" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> {{ __("Men's Perfumes") }}</a></li>
                         <li><a href="{{ route('shop.index', ['gender' => 'unisex']) }}" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> {{ __('Unisex Signature') }}</a></li>
@@ -764,7 +764,7 @@
                         <span>{{ __('CUSTOMER CARE') }}</span>
                         <span class="w-1.5 h-1.5 rounded-full bg-[#D4AF37]"></span>
                     </h4>
-                    <ul class="space-y-3 text-xs text-[#D8C9B8] font-medium">
+                    <ul class="space-y-3 text-xs text-[#A89C8C] font-medium">
                         <li><a href="{{ route('orders.track') }}" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> {{ __('Track Order') }}</a></li>
                         <li><a href="{{ route('home') }}#scent-finder" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> {{ __('Fragrance Finder') }}</a></li>
                         <li><a href="https://wa.me/{{ config('payment.whatsapp.phone_number') }}" target="_blank" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> {{ __('VIP WhatsApp Concierge') }}</a></li>
@@ -776,11 +776,11 @@
                 <div>
                     <div class="p-5 rounded-lg border border-[#C5A059]/30 bg-[#1A1613]/80 polygon-card shadow-2xl backdrop-blur-md">
                         <h4 class="font-serif font-bold text-sm tracking-[0.2em] text-[#D4AF37] uppercase mb-2">{{ __('THE VIP CIRCLE') }}</h4>
-                        <p class="text-[11px] text-[#D8C9B8] mb-4 font-normal leading-relaxed">
+                        <p class="text-[11px] text-[#A89C8C] mb-4 font-normal leading-relaxed">
                             {{ __('Subscribe for exclusive private access to unreleased perfume launches and private campaign invitations.') }}
                         </p>
                         <form @submit.prevent="alert(@js(__('Thank you for joining Sozie Collection VIP Circle!')))" class="space-y-3">
-                            <input type="email" placeholder="{{ __('Enter your email...') }}" required class="w-full bg-[#12100E] border border-[#C5A059]/40 text-xs text-[#FFF5D0] px-3.5 py-2.5 focus:outline-none focus:border-[#D4AF37] rounded font-medium placeholder-[#C5A059]/50">
+                            <input type="email" placeholder="{{ __('Enter your email...') }}" required class="w-full bg-[#12100E] border border-[#C5A059]/40 text-xs text-[#FFF5D0] px-3.5 py-2.5 focus:outline-none focus:border-[#D4AF37] rounded font-medium placeholder-[#A89C8C]">
                             <button type="submit" class="w-full py-2.5 bg-gradient-to-r from-[#A8895F] via-[#D4AF37] to-[#A8895F] hover:from-[#D4AF37] hover:to-[#A8895F] text-[#12100E] font-black text-[10px] uppercase tracking-[0.25em] polygon-btn transition-all shadow-lg">
                                 {{ __('JOIN VIP CIRCLE') }}
                             </button>

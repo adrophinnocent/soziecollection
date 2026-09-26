@@ -59,39 +59,104 @@
 @theme {
     --font-serif: 'Cormorant Garamond', Georgia, serif;
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
-    --color-warm-sand: #EDE5D8;
+    --color-warm-sand: #0C0A09;
     --color-ivory: #F8F5EF;
-    --color-taupe: #D8C9B8;
-    --color-espresso: #29241F;
+    --color-taupe: #A89C8C;
+    --color-espresso: #EDE5D8;
     --color-champagne-gold: #A8895F;
-    --color-primary: #29241F;
+    --color-primary: #EDE5D8;
     --color-accent: #A8895F;
-    --color-neutral: #EDE5D8;
+    --color-neutral: #0C0A09;
 }
 
-/* Base Light & Warm Sand Theme */
-body {
-    background-color: #EDE5D8;
-    color: #29241F;
-    font-family: var(--font-sans);
-    overflow-x: hidden;
+/* ======================================================================
+   SOZIE OBSIDIAN PALETTE
+   The storefront is a single unconditional dark theme. Every surface, text
+   and border value below is defined once here and reused by the rest of
+   this stylesheet, so the design lives in one place and no browser setting
+   (Samsung Internet "dark mode for websites", Chrome force-dark, OS dark
+   mode) has anything left to override or invert.
+
+   Surfaces run near-black -> obsidian -> raised -> inset, so depth reads as
+   luminance on a black page instead of as shadow. Text is the warm cream
+   family; gold is unchanged and is the only accent.
+   ====================================================================== */
+:root {
+    --surface-page: #0C0A09;
+    --surface-card: #17130F;
+    --surface-raised: #221D19;
+    --surface-inset: #100E0C;
+    --surface-header: #12100E;
+
+    --text-strong: #F8F5EF;
+    --text-primary: #EDE5D8;
+    --text-muted: #B5A897;
+    --text-muted-dim: #A89C8C;
+    --text-on-gold: #12100E;
+
+    --border-subtle: #322B23;
+    --border-gold: #A8895F;
+    --gold: #A8895F;
+    --gold-bright: #D4AF37;
+    --gold-light: #C5A059;
+    --gold-cream: #FFF5D0;
+
+    --state-rose-bg: #2A1215;
+    --state-rose-border: #7F1D3A;
+    --state-emerald-bg: #0C2119;
+    --state-emerald-border: #065F46;
+    --state-amber-bg: #241B0A;
+    --state-amber-border: #78350F;
 }
 
-/* Document colour scheme is pinned to light unconditionally.
-   The previous `html.dark` rules were dead code (no layout ever adds a `dark`
-   class to <html>), so the document never told the user agent it is light-only
-   and Chrome on Android was free to auto-invert the palette in OS dark mode. */
+/* The admin panel is deliberately still a light warm-sand document: it is the
+   owner's back office, not the storefront, and it declares its own
+   color-scheme/theme-color meta. It therefore keeps the light defaults below;
+   only `html.sozie-storefront` (the storefront layout) opts into the obsidian
+   palette. Scoping the dark rules this way is what keeps admin untouched. */
 :root {
     color-scheme: light;
     background-color: #EDE5D8;
     color: #29241F;
 }
 
-/* High Contrast Form Inputs */
+html.sozie-storefront {
+    color-scheme: dark;
+    background-color: var(--surface-page);
+    color: var(--text-primary);
+}
+
+body {
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+}
+
+html.sozie-storefront body {
+    background-color: var(--surface-page);
+    color: var(--text-primary);
+}
+
+/* High Contrast Form Inputs (admin: light) */
 input, select, textarea {
     color: #29241F !important;
     background-color: #F8F5EF !important;
     border: 1px solid rgba(168, 137, 95, 0.4) !important;
+}
+
+html.sozie-storefront input,
+html.sozie-storefront select,
+html.sozie-storefront textarea {
+    color: var(--text-primary) !important;
+    background-color: var(--surface-inset) !important;
+    border: 1px solid rgba(168, 137, 95, 0.35) !important;
+}
+
+::placeholder {
+    color: #9CA3AF;
+}
+
+html.sozie-storefront ::placeholder {
+    color: var(--text-muted-dim);
 }
 
 input:focus, select:focus, textarea:focus {
@@ -100,7 +165,15 @@ input:focus, select:focus, textarea:focus {
     box-shadow: 0 0 0 2px rgba(168, 137, 95, 0.2);
 }
 
-/* Custom Scrollbar */
+html.sozie-storefront input:focus,
+html.sozie-storefront select:focus,
+html.sozie-storefront textarea:focus {
+    border-color: var(--gold) !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(168, 137, 95, 0.45);
+}
+
+/* Custom Scrollbar (admin: light track) */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -114,6 +187,17 @@ input:focus, select:focus, textarea:focus {
 }
 ::-webkit-scrollbar-thumb:hover {
     background: #A8895F;
+}
+
+html.sozie-storefront ::-webkit-scrollbar-track {
+    background: var(--surface-page);
+}
+html.sozie-storefront ::-webkit-scrollbar-thumb {
+    background: var(--border-subtle);
+    border: 1px solid rgba(168, 137, 95, 0.35);
+}
+html.sozie-storefront ::-webkit-scrollbar-thumb:hover {
+    background: var(--gold);
 }
 
 /* Polygonal Clip Paths & Masks */
@@ -142,7 +226,7 @@ input:focus, select:focus, textarea:focus {
     clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
 }
 
-/* Glassmorphism & Ivory Panels */
+/* Glassmorphism & Ivory Panels (admin: light) */
 .glass-panel {
     background: rgba(248, 245, 239, 0.96) !important;
     backdrop-filter: blur(16px);
@@ -166,35 +250,58 @@ input:focus, select:focus, textarea:focus {
     box-shadow: 0 10px 30px rgba(18, 16, 14, 0.35) !important;
 }
 
-/* Ivory Cards & Containers */
+/* Storefront: the same panels, re-cut for a near-black page. The gold hairline
+   and the blur stay; only the fill changes, so they still read as glass over
+   the page rather than as opaque light boxes. */
+html.sozie-storefront .glass-panel {
+    background: rgba(23, 19, 15, 0.92) !important;
+    border: 1px solid rgba(168, 137, 95, 0.3) !important;
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.55) !important;
+}
+
+html.sozie-storefront .glass-panel-gold {
+    background: linear-gradient(135deg, rgba(34, 29, 25, 0.96) 0%, rgba(23, 19, 15, 0.86) 100%) !important;
+    border: 1px solid rgba(168, 137, 95, 0.4) !important;
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.55) !important;
+}
+
+/* Obsidian Cards & Containers */
 .glass-card, .wine-card, .navy-card {
-    background: #F8F5EF !important;
+    background: #17130F !important;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(216, 201, 184, 0.7) !important;
-    box-shadow: 0 8px 25px rgba(41, 36, 31, 0.06) !important;
+    border: 1px solid rgba(168, 137, 95, 0.18) !important;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.5) !important;
     transition: all 0.4s ease;
 }
 
 .glass-card:hover, .wine-card:hover, .navy-card:hover {
-    background: #FFFFFF !important;
+    background: #221D19 !important;
     border-color: #A8895F !important;
-    box-shadow: 0 12px 30px rgba(168, 137, 95, 0.2) !important;
+    box-shadow: 0 14px 34px rgba(168, 137, 95, 0.16) !important;
 }
 
-/* Gold Gradient Text */
+/* Gold Gradient Text.
+   Light-on-dark: a cream core fading through gold, so the highlight still
+   reads as the brightest thing on the page. `background-clip: text` is added
+   next to the -webkit- form because the standard property is what current
+   engines resolve; the -webkit- prefix alone is the legacy fallback. */
 .gold-gradient-text, .crimson-gradient-text {
-    background: linear-gradient(135deg, #29241F 0%, #A8895F 60%, #29241F 100%);
+    background: linear-gradient(135deg, #FFF5D0 0%, #D4AF37 45%, #C5A059 70%, #F8F5EF 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
+/* On black a shadow has nothing to darken, so the gold "glow" utilities are
+   re-tuned as bloom: a tight inner core plus a wide halo, so they read as
+   light spilling off the element instead of as a smudge. */
 .gold-glow, .crimson-glow {
-    box-shadow: 0 0 25px rgba(168, 137, 95, 0.3);
+    box-shadow: 0 0 18px rgba(212, 175, 55, 0.28), 0 0 6px rgba(212, 175, 55, 0.35);
 }
 
 .gold-glow-lg, .crimson-glow-lg {
-    box-shadow: 0 0 50px rgba(168, 137, 95, 0.4);
+    box-shadow: 0 0 26px rgba(212, 175, 55, 0.3), 0 0 60px rgba(168, 137, 95, 0.28);
 }
 
 /* Luxury Metallic Shimmer & Accent Utilities */
@@ -215,6 +322,7 @@ input:focus, select:focus, textarea:focus {
 .text-gold-metallic {
     background: linear-gradient(135deg, #D4AF37 0%, #FFF5D0 30%, #C5A059 70%, #9A7B3E 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 

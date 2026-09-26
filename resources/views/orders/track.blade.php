@@ -8,18 +8,18 @@
 
     <div class="text-center mb-10">
         <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.3em] block mb-1">{{ __('ORDER TRACKING') }}</span>
-        <h1 class="font-serif font-bold text-4xl text-[#29241F]">{{ __('TRACK YOUR SOZIE PARCEL') }}</h1>
-        <p class="text-xs text-gray-600 mt-2 font-semibold max-w-lg mx-auto">
-            {{ __('Enter your order number') }} <span class="font-extrabold text-[#29241F]">(e.g. SOZ-20260924-001)</span>
+        <h1 class="font-serif font-bold text-4xl text-[#EDE5D8]">{{ __('TRACK YOUR SOZIE PARCEL') }}</h1>
+        <p class="text-xs text-[#B5A897] mt-2 font-semibold max-w-lg mx-auto">
+            {{ __('Enter your order number') }} <span class="font-extrabold text-[#EDE5D8]">(e.g. SOZ-20260924-001)</span>
             {{ __('plus the phone number or email you used at checkout to view real-time delivery status.') }}
         </p>
     </div>
 
     @if($errors->any())
-    <div class="mb-7 p-4 bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold polygon-card space-y-1.5">
+    <div class="mb-7 p-4 bg-rose-50 border border-[#7F1D3A] text-rose-300 text-xs font-bold polygon-card space-y-1.5">
         @foreach($errors->all() as $err)
         <p class="flex items-start gap-1.5">
-            <i data-lucide="alert-circle" class="w-4 h-4 text-rose-600 mt-0.5 flex-shrink-0"></i>
+            <i data-lucide="alert-circle" class="w-4 h-4 text-rose-400 mt-0.5 flex-shrink-0"></i>
             <span>{{ $err }}</span>
         </p>
         @endforeach
@@ -27,23 +27,23 @@
     @endif
 
     @if(session('error'))
-    <div class="mb-7 p-4 bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold polygon-card flex items-center gap-2">
-        <i data-lucide="alert-circle" class="w-4 h-4 text-rose-600 flex-shrink-0"></i>
+    <div class="mb-7 p-4 bg-rose-50 border border-[#7F1D3A] text-rose-300 text-xs font-bold polygon-card flex items-center gap-2">
+        <i data-lucide="alert-circle" class="w-4 h-4 text-rose-400 flex-shrink-0"></i>
         <span>{{ session('error') }}</span>
     </div>
     @endif
 
     @if(! empty($lookupFailed))
-    <div class="mb-7 p-5 bg-rose-50 border-2 border-rose-300 text-rose-800 text-xs font-bold polygon-card">
+    <div class="mb-7 p-5 bg-[#2A1215] border-2 border-[#7F1D3A] text-rose-300 text-xs font-bold polygon-card">
         <div class="flex items-start gap-3">
-            <div class="w-10 h-10 rounded-full bg-rose-100 border border-rose-200 flex items-center justify-center flex-shrink-0">
-                <i data-lucide="shield-alert" class="w-5 h-5 text-rose-600"></i>
+            <div class="w-10 h-10 rounded-full bg-[#3A1418] border border-[#7F1D3A] flex items-center justify-center flex-shrink-0">
+                <i data-lucide="shield-alert" class="w-5 h-5 text-rose-400"></i>
             </div>
             <div>
-                <h5 class="font-serif font-bold text-base text-rose-900 mb-1">{{ __("For your privacy, we couldn't display this order") }}</h5>
+                <h5 class="font-serif font-bold text-base text-rose-300 mb-1">{{ __("For your privacy, we couldn't display this order") }}</h5>
                 <p class="font-medium leading-relaxed mb-3">
                     {{ __('Please double-check the order number and be sure to include the') }} <strong>{{ __('exact phone number or email address') }}</strong> {{ __('you used at checkout.') }}
-                    {{ __('Signed in members can view all orders directly in the') }} <a href="{{ route('account.orders') }}" class="underline text-rose-900 hover:text-rose-700 font-extrabold">{{ __('My Orders page') }}</a>.
+                    {{ __('Signed in members can view all orders directly in the') }} <a href="{{ route('account.orders') }}" class="underline text-rose-300 hover:text-rose-300 font-extrabold">{{ __('My Orders page') }}</a>.
                 </p>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                     <a href="https://wa.me/{{ config('payment.whatsapp.phone_number') }}" target="_blank"
@@ -53,19 +53,19 @@
                     </a>
                     @guest
                     <a href="{{ route('login') }}"
-                       class="inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-[#29241F] text-white text-[10px] font-extrabold uppercase tracking-[0.2em] polygon-btn">
+                       class="inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-[#221D19] text-white text-[10px] font-extrabold uppercase tracking-[0.2em] polygon-btn">
                         <i data-lucide="log-in" class="w-3.5 h-3.5 text-[#A8895F]"></i>
                         {{ __('Sign In') }}
                     </a>
                     @else
                     <a href="{{ route('account.orders') }}"
-                       class="inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-[#29241F] text-white text-[10px] font-extrabold uppercase tracking-[0.2em] polygon-btn">
+                       class="inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-[#221D19] text-white text-[10px] font-extrabold uppercase tracking-[0.2em] polygon-btn">
                         <i data-lucide="package-search" class="w-3.5 h-3.5 text-[#A8895F]"></i>
                         {{ __('My Orders') }}
                     </a>
                     @endguest
                     <a href="{{ route('shop.index') }}"
-                       class="inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-[#A8895F] text-white text-[10px] font-extrabold uppercase tracking-[0.2em] polygon-btn">
+                       class="inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-[#A8895F] text-[#12100E] text-[10px] font-extrabold uppercase tracking-[0.2em] polygon-btn">
                         <i data-lucide="store" class="w-3.5 h-3.5"></i>
                         {{ __('Shop Scents') }}
                     </a>
@@ -76,7 +76,7 @@
     @endif
 
     <!-- Search Form -->
-    <form action="{{ route('orders.track.submit') }}" method="POST" class="glass-panel-gold p-7 polygon-card border-2 border-[#A8895F]/30 mb-10 bg-[#F8F5EF] shadow-xl">
+    <form action="{{ route('orders.track.submit') }}" method="POST" class="glass-panel-gold p-7 polygon-card border-2 border-[#A8895F]/30 mb-10 bg-[#17130F] shadow-xl">
         @csrf
         <div class="space-y-4">
             <div>
@@ -85,45 +85,45 @@
                 </label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                        <i data-lucide="barcode" class="w-4 h-4 text-[#A8895F]/60"></i>
+                        <i data-lucide="barcode" class="w-4 h-4 text-[#A8895F]"></i>
                     </div>
                     <input id="order_number" type="text" name="order_number"
                            value="{{ old('order_number', $orderNumber) }}"
                            required
                            placeholder="{{ __('SOZ-YYYYMMDD-NNN or SZ-ORD-XXXXXX (e.g. SOZ-20260924-001)') }}"
-                           class="w-full bg-white border border-[#D8C9B8] text-xs text-[#29241F] pl-10 pr-4 py-3.5 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/20 font-bold transition-all placeholder:text-gray-400 placeholder:font-bold">
+                           class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] pl-10 pr-4 py-3.5 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/50 font-bold transition-all placeholder:text-[#A89C8C] placeholder:font-bold">
                 </div>
             </div>
 
             <div>
                 <label for="tracking_contact" class="block text-[10px] font-extrabold text-[#A8895F] uppercase tracking-[0.25em] mb-2">
-                    {{ __('Phone or Email used at Checkout') }} <span class="text-gray-500 font-normal normal-case tracking-normal">{{ __('(Required for guest orders)') }}</span>
+                    {{ __('Phone or Email used at Checkout') }} <span class="text-[#A89C8C] font-normal normal-case tracking-normal">{{ __('(Required for guest orders)') }}</span>
                 </label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                        <i data-lucide="user-round-search" class="w-4 h-4 text-[#A8895F]/60"></i>
+                        <i data-lucide="user-round-search" class="w-4 h-4 text-[#A8895F]"></i>
                     </div>
                     <input id="tracking_contact" type="text" name="tracking_contact"
                            value="{{ old('tracking_contact', $contact) }}"
                            placeholder="e.g. 0712345678 or you@example.com"
-                           class="w-full bg-white border border-[#D8C9B8] text-xs text-[#29241F] pl-10 pr-4 py-3.5 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/20 font-bold transition-all placeholder:text-gray-400 placeholder:font-bold">
+                           class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] pl-10 pr-4 py-3.5 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/50 font-bold transition-all placeholder:text-[#A89C8C] placeholder:font-bold">
                 </div>
-                <p class="mt-2 text-[10px] text-gray-500 font-bold flex items-start gap-1.5">
+                <p class="mt-2 text-[10px] text-[#A89C8C] font-bold flex items-start gap-1.5">
                     <i data-lucide="shield-check" class="w-3.5 h-3.5 text-[#A8895F] flex-shrink-0 mt-0.5"></i>
                     {{ __('For your privacy, Sozie never shows order details to anyone who cannot prove ownership with the exact contact info used for that order.') }}
                 </p>
             </div>
 
             <button type="submit"
-                    class="w-full py-4 bg-[#A8895F] text-white font-extrabold text-xs uppercase tracking-[0.3em] polygon-btn text-center block shadow-xl shadow-[#A8895F]/30 hover:bg-[#29241F] active:scale-[0.99] transition-all inline-flex items-center justify-center gap-2">
+                    class="w-full py-4 bg-[#A8895F] text-[#12100E] font-extrabold text-xs uppercase tracking-[0.3em] polygon-btn text-center block shadow-xl shadow-[#A8895F]/30 hover:bg-[#12100E] hover:text-[#F8F5EF] active:scale-[0.99] transition-all inline-flex items-center justify-center gap-2">
                 <i data-lucide="truck" class="w-4 h-4"></i>
                 {{ __('Track My Order Status') }}
             </button>
 
             @guest
-            <div class="pt-3 mt-1 border-t border-[#D8C9B8]/70 text-center">
+            <div class="pt-3 mt-1 border-t border-[#322B23]/70 text-center">
                 <a href="{{ route('login') }}"
-                   class="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#A8895F] hover:text-[#29241F] transition-colors flex items-center justify-center gap-1.5">
+                   class="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#A8895F] hover:text-[#F8F5EF] transition-colors flex items-center justify-center gap-1.5">
                     <i data-lucide="user-round-check" class="w-4 h-4"></i>
                     {{ __('Already a member? Sign in to see all orders automatically') }} →
                 </a>
@@ -133,13 +133,13 @@
     </form>
 
     @if($order)
-    <div class="glass-panel p-8 polygon-card border border-[#D8C9B8] space-y-6 bg-[#F8F5EF] shadow-lg">
-        <div class="flex flex-wrap justify-between items-start gap-4 pb-4 border-b border-[#D8C9B8]">
+    <div class="glass-panel p-8 polygon-card border border-[#322B23] space-y-6 bg-[#17130F] shadow-lg">
+        <div class="flex flex-wrap justify-between items-start gap-4 pb-4 border-b border-[#322B23]">
             <div>
-                <span class="text-[10px] text-gray-600 uppercase tracking-[0.25em] block font-extrabold mb-1">{{ __('Order Number') }}</span>
-                <span class="font-mono font-bold text-2xl tracking-wider text-[#29241F]">{{ $order->order_number }}</span>
+                <span class="text-[10px] text-[#B5A897] uppercase tracking-[0.25em] block font-extrabold mb-1">{{ __('Order Number') }}</span>
+                <span class="font-mono font-bold text-2xl tracking-wider text-[#EDE5D8]">{{ $order->order_number }}</span>
             </div>
-            <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#A8895F] text-white font-extrabold text-xs uppercase tracking-wider polygon-badge shadow">
+            <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#A8895F] text-[#12100E] font-extrabold text-xs uppercase tracking-wider polygon-badge shadow">
                 <i data-lucide="circle-dot" class="w-3.5 h-3.5"></i>
                 {{ strtoupper($order->statusLabel ?? $order->status) }}
             </span>
@@ -166,8 +166,8 @@
             @endphp
 
             @if($isCancelled)
-            <div class="col-span-4 py-4 px-3 bg-rose-50 border border-rose-200 polygon-card">
-                <p class="font-extrabold text-rose-700 uppercase tracking-[0.2em] flex items-center justify-center gap-1.5 text-sm">
+            <div class="col-span-4 py-4 px-3 bg-[#2A1215] border border-[#7F1D3A] polygon-card">
+                <p class="font-extrabold text-rose-300 uppercase tracking-[0.2em] flex items-center justify-center gap-1.5 text-sm">
                     <i data-lucide="ban" class="w-4 h-4"></i>
                     {{ __('This order has been cancelled') }}
                 </p>
@@ -181,12 +181,12 @@
             @endphp
             <div class="space-y-2">
                 <div class="w-11 h-11 mx-auto rounded-full flex items-center justify-center font-bold text-xs shadow-sm
-                     {{ $isDone ? 'bg-[#A8895F] text-white ring-2 ring-offset-2 ring-[#F8F5EF] ring-[#A8895F]/30' : 'bg-white text-gray-400 border-2 border-[#D8C9B8]' }}">
+                     {{ $isDone ? 'bg-[#A8895F] text-[#12100E] ring-2 ring-offset-2 ring-[#17130F] ring-[#A8895F]/30' : 'bg-[#221D19] text-[#A89C8C] border-2 border-[#322B23]' }}">
                     <i data-lucide="{{ $st['icon'] }}" class="w-4.5 h-4.5"></i>
                 </div>
                 <div class="space-y-0.5">
                     <span class="block text-[10px] font-extrabold uppercase tracking-[0.15em]
-                          {{ $isDone ? 'text-[#A8895F]' : 'text-gray-400' }}">
+                          {{ $isDone ? 'text-[#A8895F]' : 'text-[#A89C8C]' }}">
                         {{ $st['label'] }}
                     </span>
                     @if($isCurrent && !$isCancelled)
@@ -197,14 +197,14 @@
             @endforeach
         </div>
 
-        <div class="pt-4 border-t border-[#D8C9B8] text-xs text-gray-700 space-y-2 font-bold">
+        <div class="pt-4 border-t border-[#322B23] text-xs text-[#B5A897] space-y-2 font-bold">
             <div class="flex justify-between">
                 <span>{{ __('Customer:') }}</span>
-                <strong class="text-[#29241F] font-serif text-sm">{{ $order->customer_name }}</strong>
+                <strong class="text-[#EDE5D8] font-serif text-sm">{{ $order->customer_name }}</strong>
             </div>
             <div class="flex justify-between">
                 <span>{{ __('Delivery Address:') }}</span>
-                <strong class="text-[#29241F] font-serif text-sm max-w-[55%] text-right leading-snug">{{ $order->city }} — {{ $order->shipping_address }}</strong>
+                <strong class="text-[#EDE5D8] font-serif text-sm max-w-[55%] text-right leading-snug">{{ $order->city }} — {{ $order->shipping_address }}</strong>
             </div>
             <div class="flex justify-between">
                 <span>{{ __('Total Amount:') }}</span>
@@ -214,7 +214,7 @@
 
         <div class="pt-4 flex flex-wrap gap-2.5 justify-end">
             <a href="{{ route('orders.show', $order->order_number) }}?tracking_contact={{ urlencode($contact) }}"
-               class="px-5 py-2.5 bg-[#A8895F] text-white text-[10px] font-extrabold uppercase tracking-[0.22em] polygon-btn hover:bg-[#29241F] shadow-md inline-flex items-center gap-1.5">
+               class="px-5 py-2.5 bg-[#A8895F] text-[#12100E] text-[10px] font-extrabold uppercase tracking-[0.22em] polygon-btn hover:bg-[#12100E] hover:text-[#F8F5EF] shadow-md inline-flex items-center gap-1.5">
                 <i data-lucide="receipt-text" class="w-3.5 h-3.5"></i>
                 {{ __('View Full Order Details') }}
             </a>
