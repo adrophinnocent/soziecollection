@@ -6,6 +6,7 @@ use App\Models\Address;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\User;
+use App\Support\CartItems;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,16 +16,13 @@ class CheckoutController extends Controller
 {
     public function index(): View|RedirectResponse
     {
-        $cart = session()->get('cart', []);
+        $cart = CartItems::fromSession();
 
         if (empty($cart)) {
             return redirect()->route('shop.index')->with('info', __('Your cart is empty. Please choose a fragrance first.'));
         }
 
-        $subtotal = array_reduce($cart, function ($acc, $item) {
-            return $acc + ($item['price'] * $item['quantity']);
-        }, 0);
-
+        $subtotal = CartItems::subtotal($cart);
         $freeThreshold = config('payment.free_delivery_threshold', 100000);
         $shipping = ($subtotal >= $freeThreshold) ? 0 : config('payment.delivery_fee', 5000);
         $total = $subtotal + $shipping;
@@ -108,16 +106,13 @@ class CheckoutController extends Controller
             'checkout_mode' => 'required|string|in:guest,login,register,logged_in',
         ]);
 
-        $cart = session()->get('cart', []);
+        $cart = CartItems::fromSession();
 
         if (empty($cart)) {
             return redirect()->route('shop.index')->with('error', __('Your cart is empty.'));
         }
 
-        $subtotal = array_reduce($cart, function ($acc, $item) {
-            return $acc + ($item['price'] * $item['quantity']);
-        }, 0);
-
+        $subtotal = CartItems::subtotal($cart);
         $freeThreshold = config('payment.free_delivery_threshold', 100000);
         $shipping = ($subtotal >= $freeThreshold) ? 0 : config('payment.delivery_fee', 5000);
         $total = $subtotal + $shipping;

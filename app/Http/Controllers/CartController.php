@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\ProductVariant;
+use App\Support\CartItems;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -11,7 +12,7 @@ class CartController extends Controller
 {
     public function index()
     {
-        $cart = session()->get('cart', []);
+        $cart = CartItems::fromSession();
 
         return view('cart.index', compact('cart'));
     }
@@ -130,10 +131,8 @@ class CartController extends Controller
 
     public function getCartApi()
     {
-        $cart = session()->get('cart', []);
-        $total = array_reduce($cart, function ($acc, $item) {
-            return $acc + ($item['price'] * $item['quantity']);
-        }, 0);
+        $cart = CartItems::fromSession();
+        $total = CartItems::subtotal($cart);
 
         return response()->json([
             'cart' => array_values($cart),

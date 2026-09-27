@@ -12,7 +12,9 @@
     </div>
 
     @php
-        $isLoggedIn = Auth::check() && ! (Auth::user()->isAdmin ?? false);
+        // A method call, never the property: Eloquent resolves an unknown property
+        // as a relationship and throws a LogicException, which 500s the page.
+        $isLoggedIn = Auth::check() && ! Auth::user()->isAdmin();
     @endphp
 
     @if(! $isLoggedIn)
@@ -35,17 +37,17 @@
 
             <label @click="mode = 'guest'"
                    class="navy-card p-5 polygon-card cursor-pointer transition-all group
-                          ring-2 ring-offset-2 ring-offset-[#17130F] border-2 bg-[#17130F]
-                          :class="mode === 'guest' ? 'ring-[#A8895F] border-[#A8895F] shadow-xl' : 'ring-transparent border-[#322B23] hover:border-[#A8895F]/60 shadow-sm'\">
+                          ring-2 ring-offset-2 ring-offset-[#17130F] border-2 bg-[#17130F]"
+                          :class="mode === 'guest' ? 'ring-[#A8895F] border-[#A8895F] shadow-xl' : 'ring-transparent border-[#322B23] hover:border-[#A8895F]/60 shadow-sm'">
                 <input type="radio" name="checkout_mode_select" value="guest" x-model="mode" class="sr-only">
                 <div class="flex items-start justify-between mb-4">
                     <div class="w-11 h-11 rounded-full bg-gradient-to-br from-[#29241F] to-[#A8895F]/70 flex items-center justify-center shadow-md">
                         <i data-lucide="user-round-cog" class="w-5 h-5 text-white"></i>
                     </div>
                     <span
-                          :class="mode === 'guest' ? 'bg-[#A8895F] border-[#A8895F] text-[#12100E]' : 'bg-[#17130F] border-[#322B23] text-[#A89C8C]'\"
+                          :class="mode === 'guest' ? 'bg-[#A8895F] border-[#A8895F] text-[#12100E]' : 'bg-[#17130F] border-[#322B23] text-[#A89C8C]'"
                           class="inline-flex items-center justify-center w-6 h-6 rounded-full border-2 transition-colors flex-shrink-0">
-                        <i data-lucide="check" class="w-3.5 h-3.5" :class="mode === 'guest' ? 'opacity-100' : 'opacity-0'\"></i>
+                        <i data-lucide="check" class="w-3.5 h-3.5" :class="mode === 'guest' ? 'opacity-100' : 'opacity-0'"></i>
                     </span>
                 </div>
                 <h4 class="font-serif font-bold text-lg text-[#EDE5D8] mb-1.5 leading-tight group-hover:text-[#A8895F] transition-colors">
@@ -141,14 +143,14 @@
                             @foreach($savedAddresses as $addr)
                             <label @click="selected = {{ $addr->id }}"
                                    class="cursor-pointer p-4 polygon-card border-2 bg-[#17130F] transition-all
-                                          {{ $addr->is_default ? 'ring-1 ring-offset-1 ring-offset-[#17130F] ring-[#A8895F]/40' : '' }}
-                                          :class="selected === {{ $addr->id }} ? 'border-[#A8895F] shadow-lg bg-[#221D19]/60' : 'border-[#322B23] hover:border-[#A8895F]/60'\">
+                                          {{ $addr->is_default ? 'ring-1 ring-offset-1 ring-offset-[#17130F] ring-[#A8895F]/40' : '' }}"
+                                          :class="selected === {{ $addr->id }} ? 'border-[#A8895F] shadow-lg bg-[#221D19]/60' : 'border-[#322B23] hover:border-[#A8895F]/60'">
                                 <div class="flex items-start justify-between mb-2">
                                     <div class="flex items-center gap-2">
                                         <input type="radio" name="saved_address_id" value="{{ $addr->id }}" x-model="selected" class="sr-only">
                                         <span class="inline-flex items-center justify-center w-5 h-5 rounded-full border-2 transition-colors flex-shrink-0"
-                                              :class="selected === {{ $addr->id }} ? 'bg-[#A8895F] border-[#A8895F]' : 'bg-[#17130F] border-[#322B23]'\">
-                                            <i data-lucide="check" class="w-3 h-3 text-[#12100E]" :class="selected === {{ $addr->id }} ? 'opacity-100' : 'opacity-0'\"></i>
+                                              :class="selected === {{ $addr->id }} ? 'bg-[#A8895F] border-[#A8895F]' : 'bg-[#17130F] border-[#322B23]'">
+                                            <i data-lucide="check" class="w-3 h-3 text-[#12100E]" :class="selected === {{ $addr->id }} ? 'opacity-100' : 'opacity-0'"></i>
                                         </span>
                                         <span class="font-serif font-bold text-sm text-[#EDE5D8]">{{ $addr->label }}</span>
                                     </div>
@@ -161,8 +163,8 @@
                             </label>
                             @endforeach
                             <label @click="selected = 0"
-                                   class="cursor-pointer p-4 polygon-card border-2 border-dashed bg-[#100E0C]/40 transition-all flex flex-col items-center justify-center text-center min-h-[120px]
-                                          :class="selected === 0 ? 'border-[#A8895F] bg-[#17130F] shadow-lg' : 'border-[#322B23] hover:border-[#A8895F]/60'\">
+                                   class="cursor-pointer p-4 polygon-card border-2 border-dashed bg-[#100E0C]/40 transition-all flex flex-col items-center justify-center text-center min-h-[120px]"
+                                          :class="selected === 0 ? 'border-[#A8895F] bg-[#17130F] shadow-lg' : 'border-[#322B23] hover:border-[#A8895F]/60'">
                                 <input type="radio" name="saved_address_id" value="0" x-model="selected" class="sr-only">
                                 <div class="w-10 h-10 rounded-full bg-[#17130F] border-2 border-dashed border-[#A8895F]/60 flex items-center justify-center mb-2">
                                     <i data-lucide="pencil-line" class="w-5 h-5 text-[#A8895F]"></i>
