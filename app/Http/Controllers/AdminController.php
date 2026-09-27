@@ -8,6 +8,8 @@ use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductVariant;
+use App\Models\Review;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -419,5 +421,66 @@ class AdminController extends Controller
         $review->delete();
 
         return back()->with('success', 'Review deleted successfully.');
+    }
+
+    public function businessSettings()
+    {
+        $settings = Setting::getAllGroup('business');
+
+        return view('admin.settings.business', compact('settings'));
+    }
+
+    public function updateBusinessSettings(Request $request)
+    {
+        $keys = [
+            'business_name',
+            'business_description',
+            'logo_url',
+            'website_url',
+            'email',
+            'phone',
+            'whatsapp',
+            'country',
+            'city',
+            'address',
+            'opening_hours',
+            'instagram_url',
+            'facebook_url',
+            'tiktok_url',
+            'whatsapp_url',
+        ];
+
+        foreach ($keys as $key) {
+            Setting::set($key, $request->input($key, ''), 'business');
+        }
+
+        return back()->with('success', 'Business information updated successfully!');
+    }
+
+    public function seoSettings()
+    {
+        $settings = Setting::getAllGroup('seo');
+
+        return view('admin.settings.seo', compact('settings'));
+    }
+
+    public function updateSeoSettings(Request $request)
+    {
+        $keys = [
+            'site_title',
+            'meta_description',
+            'default_og_image',
+            'default_keywords',
+            'canonical_url',
+            'robots_setting',
+            'gsc_verification_code',
+            'google_analytics_id',
+        ];
+
+        foreach ($keys as $key) {
+            Setting::set($key, $request->input($key, ''), 'seo');
+        }
+
+        return back()->with('success', 'SEO settings updated successfully!');
     }
 }

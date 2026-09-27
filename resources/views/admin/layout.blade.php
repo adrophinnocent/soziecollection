@@ -174,6 +174,18 @@
                             <i data-lucide="credit-card" class="w-4 h-4 text-[#A8895F]"></i>
                             <span>Payment Setup</span>
                         </a>
+
+                        <a href="{{ route('admin.settings.business') }}" @click="adminMenuOpen = false"
+                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.settings.business*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#A8895F] hover:bg-[#A8895F]/10' }}">
+                            <i data-lucide="building-2" class="w-4 h-4 text-[#A8895F]"></i>
+                            <span>Business Info</span>
+                        </a>
+
+                        <a href="{{ route('admin.settings.seo') }}" @click="adminMenuOpen = false"
+                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.settings.seo*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#A8895F] hover:bg-[#A8895F]/10' }}">
+                            <i data-lucide="search" class="w-4 h-4 text-[#A8895F]"></i>
+                            <span>SEO & Google</span>
+                        </a>
                         @endcan
                     </div>
                 </div>

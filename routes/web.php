@@ -10,6 +10,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -42,6 +43,9 @@ Route::get('/lang/{locale}', function (string $locale) {
 
     return redirect()->back(fallback: route('home'));
 })->name('lang.switch');
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+Route::get('/robots.txt', [SitemapController::class, 'robots'])->name('robots');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -169,6 +173,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::middleware('can:settings')->group(function () {
             Route::get('/payments', [AdminController::class, 'payments'])->name('payments');
+            Route::get('/settings/business', [AdminController::class, 'businessSettings'])->name('settings.business');
+            Route::put('/settings/business', [AdminController::class, 'updateBusinessSettings'])->name('settings.business.update');
+            Route::get('/settings/seo', [AdminController::class, 'seoSettings'])->name('settings.seo');
+            Route::put('/settings/seo', [AdminController::class, 'updateSeoSettings'])->name('settings.seo.update');
         });
     });
 });

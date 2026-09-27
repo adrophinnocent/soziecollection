@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\Review;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -962,14 +963,36 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        // 3. Homepage hero slides are deliberately NOT seeded.
-        //
-        // A slide is only worth creating with a design the owner has uploaded
-        // through Admin -> Store Setup -> Website Content, and there is no
-        // bundled photograph left to seed one with: pointing banners.image at
-        // the placeholder would resolve through Storage::url() to a
-        // /storage/... path that does not exist. A fresh install therefore
-        // starts in the state the homepage is now designed for — no slides, the
-        // default hero, no gallery — and the owner adds slides from the admin.
+        // 3. Seed default SEO & Business settings if not present
+        $defaultSettings = [
+            'site_title' => ['group' => 'seo', 'value' => 'Sozie Collection | Premium Perfumes & Fragrances'],
+            'meta_description' => ['group' => 'seo', 'value' => "Discover Sozie Collection, Tanzania's premier luxury haute parfumerie destination. Shop handcrafted artisanal perfumes, concentrated oils, body mists, and luxury gift sets with fast delivery across Dar es Salaam, Arusha, Mwanza, Dodoma, and all regions."],
+            'default_og_image' => ['group' => 'seo', 'value' => '/images/sozie-logo.png'],
+            'default_keywords' => ['group' => 'seo', 'value' => 'Sozie Collection, Sozie Perfume, Luxury Perfume Tanzania, Perfumes Dar es Salaam, Eau de Parfum Tanzania, Oud Oils Dar es Salaam, Niche Fragrances Tanzania'],
+            'canonical_url' => ['group' => 'seo', 'value' => 'https://soziecollection.twinasafaris.com'],
+            'robots_setting' => ['group' => 'seo', 'value' => 'index, follow'],
+            'gsc_verification_code' => ['group' => 'seo', 'value' => ''],
+            'google_analytics_id' => ['group' => 'seo', 'value' => ''],
+
+            'business_name' => ['group' => 'business', 'value' => 'Sozie Collection'],
+            'business_description' => ['group' => 'business', 'value' => 'Haute Parfumerie & Luxury Sensory E-Commerce Destination in Tanzania.'],
+            'logo_url' => ['group' => 'business', 'value' => '/images/sozie-logo.png'],
+            'website_url' => ['group' => 'business', 'value' => 'https://soziecollection.twinasafaris.com'],
+            'email' => ['group' => 'business', 'value' => 'admin@soziecollection.com'],
+            'phone' => ['group' => 'business', 'value' => '+255 711 000 001'],
+            'whatsapp' => ['group' => 'business', 'value' => '255711000001'],
+            'country' => ['group' => 'business', 'value' => 'Tanzania'],
+            'city' => ['group' => 'business', 'value' => 'Dar es Salaam'],
+            'address' => ['group' => 'business', 'value' => 'Oysterbay, Toure Drive, Dar es Salaam, Tanzania'],
+            'opening_hours' => ['group' => 'business', 'value' => 'Mon - Sat: 9:00 AM - 8:00 PM'],
+            'instagram_url' => ['group' => 'business', 'value' => 'https://instagram.com/soziecollection'],
+            'facebook_url' => ['group' => 'business', 'value' => 'https://facebook.com/soziecollection'],
+            'tiktok_url' => ['group' => 'business', 'value' => 'https://tiktok.com/@soziecollection'],
+            'whatsapp_url' => ['group' => 'business', 'value' => 'https://wa.me/255711000001'],
+        ];
+
+        foreach ($defaultSettings as $key => $data) {
+            Setting::set($key, $data['value'], $data['group']);
+        }
     }
 }

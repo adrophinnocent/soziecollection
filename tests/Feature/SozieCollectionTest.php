@@ -144,5 +144,13 @@ class SozieCollectionTest extends TestCase
         $this->actingAs($admin)->get('/admin/content')->assertStatus(200);
         $this->actingAs($admin)->get('/admin/users')->assertStatus(200);
         $this->actingAs($admin)->get('/admin/payments')->assertStatus(200);
+        $this->actingAs($admin)->get('/admin/settings/business')->assertStatus(200);
+        $this->actingAs($admin)->get('/admin/settings/seo')->assertStatus(200);
+    }
+
+    public function test_sitemap_and_robots_txt_load()
+    {
+        $this->get('/sitemap.xml')->assertStatus(200)->assertHeader('Content-Type', 'text/xml; charset=UTF-8');
+        $this->get('/robots.txt')->assertStatus(200)->assertSee('Sitemap:');
     }
 }
