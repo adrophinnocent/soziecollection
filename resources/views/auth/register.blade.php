@@ -81,9 +81,8 @@
                             name="name"
                             value="{{ old('name') }}"
                             required
-                            placeholder="e.g. Amina Khamis"
                             autocomplete="name"
-                            class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] px-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/50 font-bold transition-all placeholder:text-[#A89C8C] placeholder:font-bold">
+                            class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] px-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/50 font-bold transition-all">
                     </div>
 
                     <div>
@@ -96,9 +95,8 @@
                             name="email"
                             value="{{ old('email') }}"
                             required
-                            placeholder="you@example.com"
                             autocomplete="email"
-                            class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] px-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/50 font-bold transition-all placeholder:text-[#A89C8C] placeholder:font-bold">
+                            class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] px-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/50 font-bold transition-all">
                     </div>
 
                     <div>
@@ -110,9 +108,8 @@
                             type="tel"
                             name="phone"
                             value="{{ old('phone') }}"
-                            placeholder="e.g. 0712345678"
                             autocomplete="tel"
-                            class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] px-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/50 font-bold transition-all placeholder:text-[#A89C8C] placeholder:font-bold">
+                            class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] px-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/50 font-bold transition-all">
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -126,8 +123,7 @@
                                 name="password"
                                 required
                                 autocomplete="new-password"
-                                placeholder="{{ __('Minimum 8 characters') }}"
-                                class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] px-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/50 font-bold transition-all placeholder:text-[#A89C8C] placeholder:font-bold">
+                                class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] px-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/50 font-bold transition-all">
                         </div>
                         <div>
                             <label for="password-confirm" class="block text-[10px] font-extrabold text-[#A8895F] uppercase tracking-[0.25em] mb-2">
@@ -139,8 +135,7 @@
                                 name="password_confirmation"
                                 required
                                 autocomplete="new-password"
-                                placeholder="{{ __('Re-enter password') }}"
-                                class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] px-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/50 font-bold transition-all placeholder:text-[#A89C8C] placeholder:font-bold">
+                                class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] px-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/50 font-bold transition-all">
                         </div>
                     </div>
 

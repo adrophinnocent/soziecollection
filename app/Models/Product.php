@@ -27,6 +27,7 @@ class Product extends Model
         'is_featured',
         'is_limited_edition',
         'description',
+        'fragrance_story',
         'why_you_will_love_it',
         'fragrance_family',
         'scent_type',
@@ -44,6 +45,8 @@ class Product extends Model
         'images',
         'campaign_image',
         'video_url',
+        'availability_status',
+        'low_stock_threshold',
         'ad_headline',
         'ad_copy',
         'ad_cta',
@@ -53,6 +56,7 @@ class Product extends Model
         'whatsapp_caption',
         'seo_title',
         'meta_description',
+        'focus_keyword',
         'image_alt',
     ];
 
@@ -81,6 +85,41 @@ class Product extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function approvedReviews()
+    {
+        return $this->reviews()->where('status', 'approved');
+    }
+
+    public function getAverageRatingAttribute(): float
+    {
+        $avg = $this->approvedReviews()->avg('rating');
+
+        return $avg ? round((float) $avg, 1) : 5.0;
+    }
+
+    public function getReviewsCountAttribute(): int
+    {
+        return $this->approvedReviews()->count();
+    }
+
+    public function getComputedStockStatusAttribute(): string
+    {
+        if ($this->availability_status === 'discontinued') {
+            return 'Discontinued';
+        }
+        if ($this->availability_status === 'coming_soon') {
+            return 'Coming Soon';
+        }
+        if (! $this->is_available || $this->stock_quantity <= 0) {
+            return 'Out of Stock';
+        }
+        if ($this->stock_quantity <= ($this->low_stock_threshold ?: 5)) {
+            return 'Low Stock';
+        }
+
+        return 'In Stock';
     }
 
     public function getEffectivePriceAttribute()

@@ -25,17 +25,31 @@ class Banner extends Model
         'secondary_button_text',
         'secondary_button_link',
         'is_active',
+        'show_in_hero',
+        'show_in_gallery',
         'sort_order',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'show_in_hero' => 'boolean',
+        'show_in_gallery' => 'boolean',
         'sort_order' => 'integer',
     ];
 
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
+    }
+
+    public function scopeForHero(Builder $query): Builder
+    {
+        return $query->where('show_in_hero', true);
+    }
+
+    public function scopeForGallery(Builder $query): Builder
+    {
+        return $query->where('show_in_gallery', true);
     }
 
     public function scopeOrdered(Builder $query): Builder

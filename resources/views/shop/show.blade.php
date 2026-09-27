@@ -4,7 +4,11 @@
 
 @section('content')
 
-<div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" x-data="productDetail({{ $product->id }}, {{ json_encode($product->variants) }}, {{ $product->effective_price }})">
+@php
+    $displayVariants = $product->variants->filter(fn($v) => $v->price > 0 && $v->is_available);
+@endphp
+
+<div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" x-data="productDetail({{ $product->id }}, {{ json_encode($displayVariants) }}, {{ $product->effective_price }})">
 
     <!-- Breadcrumb -->
     <nav class="flex text-xs text-[#B5A897] mb-8 uppercase tracking-widest gap-2 font-bold">
@@ -62,45 +66,62 @@
         <div class="lg:col-span-6 space-y-6">
 
             <div>
-                <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.3em] block mb-1">{{ __('SOZIE COLLECTION') }}</span>
+                <span class="text-xs font-extrabold text-[#A8895F] uppercase tracking-[0.3em] block mb-1">{{ $product->brand ?: 'SOZIE COLLECTION' }}</span>
                 <h1 class="font-serif font-bold text-4xl sm:text-5xl text-[#EDE5D8]">{{ $product->name }}</h1>
                 <p class="text-xs font-extrabold text-[#B5A897] uppercase tracking-widest mt-2">
-                    {{ $product->concentration }} • {{ $product->scent_type }} • {{ $product->gender }}
+                    {{ $product->concentration }} • {{ $product->fragrance_family ?: $product->scent_type }} • {{ $product->gender }}
                 </p>
             </div>
 
-            <!-- Rating Summary -->
-            <div class="flex items-center gap-3">
-                <div class="flex text-[#A8895F] gap-1">
-                    @for($i=0; $i<5; $i++)
-                    <i data-lucide="star" class="w-4 h-4 fill-[#A8895F]"></i>
+            <!-- Rating Summary & Badges -->
+            <div class="flex flex-wrap items-center gap-3">
+                <div class="flex text-[#A8895F] gap-1 items-center">
+                    @for($i=1; $i<=5; $i++)
+                    <i data-lucide="star" class="w-4 h-4 {{ $i <= round($product->average_rating) ? 'fill-[#A8895F] text-[#A8895F]' : 'text-[#322B23]' }}"></i>
                     @endfor
+                    <span class="text-xs font-bold text-[#EDE5D8] ml-1">{{ $product->average_rating }}</span>
                 </div>
-                <span class="text-xs text-[#EDE5D8] font-bold">{{ __('(:count Client Reviews)', ['count' => $product->reviews->count()]) }}</span>
+                <span class="text-xs text-[#EDE5D8] font-bold">({{ $product->reviews_count }} {{ __('Client Reviews') }})</span>
+
+                <div class="flex flex-wrap gap-1.5 ml-auto">
+                    @if($product->is_best_seller)
+                    <span class="px-2 py-0.5 bg-[#A8895F] text-[#12100E] text-[9px] font-extrabold uppercase polygon-badge">{{ __('Best Seller') }}</span>
+                    @endif
+                    @if($product->is_new_arrival)
+                    <span class="px-2 py-0.5 bg-emerald-900 text-emerald-200 text-[9px] font-extrabold uppercase polygon-badge">{{ __('New Arrival') }}</span>
+                    @endif
+                    @if($product->is_featured)
+                    <span class="px-2 py-0.5 bg-purple-900 text-purple-200 text-[9px] font-extrabold uppercase polygon-badge">{{ __('Featured') }}</span>
+                    @endif
+                    @if($product->is_limited_edition)
+                    <span class="px-2 py-0.5 bg-rose-900 text-rose-200 text-[9px] font-extrabold uppercase polygon-badge">{{ __('Limited Edition') }}</span>
+                    @endif
+                </div>
             </div>
 
-            <!-- Price Display (Dynamic based on selected size) -->
+            <!-- Price & Stock Display -->
             <div class="glass-panel p-4 polygon-card border border-[#A8895F]/40 flex items-center justify-between bg-[#17130F]">
                 <div>
                     <span class="text-xs text-[#B5A897] block uppercase tracking-wider font-extrabold">{{ __('Price') }}</span>
                     <span class="font-serif font-bold text-3xl text-[#A8895F]" x-text="'TZS ' + Number(currentPrice).toLocaleString()"></span>
                 </div>
-                <span class="bg-emerald-800 text-white text-[10px] font-extrabold uppercase px-3 py-1 polygon-badge">
-                    {{ __('In Stock') }}
+                <span class="px-3 py-1 text-[10px] font-extrabold uppercase polygon-badge
+                    {{ $product->computed_stock_status === 'In Stock' ? 'bg-emerald-800 text-white' : ($product->computed_stock_status === 'Low Stock' ? 'bg-amber-800 text-white' : 'bg-rose-900 text-white') }}">
+                    {{ __($product->computed_stock_status) }}
                 </span>
             </div>
 
             <!-- Size / Variant Selector -->
-            @if($product->variants->count() > 0)
+            @if($displayVariants->count() > 0)
             <div>
                 <label class="block text-xs font-extrabold text-[#A8895F] uppercase tracking-widest mb-3">{{ __('Select Bottle Size') }}</label>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    @foreach($product->variants as $variant)
-                    <button @click="selectVariant('{{ $variant->size }}', {{ $variant->price }})"
+                    @foreach($displayVariants as $variant)
+                    <button @click="selectVariant('{{ $variant->size }}', {{ $variant->effective_price }})"
                             :class="selectedSize === '{{ $variant->size }}' ? 'bg-[#A8895F] text-[#12100E] border-[#A8895F] shadow-md font-extrabold' : 'bg-[#17130F] text-[#EDE5D8] border-[#322B23] hover:border-[#A8895F] font-bold'"
                             class="py-3 px-3 border text-center polygon-btn transition-all">
                         <span class="block text-xs font-bold uppercase">{{ $variant->size }}</span>
-                        <span class="block text-xs sm:text-[10px] font-bold opacity-90">TZS {{ number_format($variant->price, 0) }}</span>
+                        <span class="block text-xs sm:text-[10px] font-bold opacity-90">{{ $variant->formatted_effective_price }}</span>
                     </button>
                     @endforeach
                 </div>
@@ -131,22 +152,18 @@
             </div>
 
             <!-- Fragrance Characteristics Badges -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-[#322B23] text-center">
+            <div class="grid grid-cols-3 gap-3 pt-4 border-t border-[#322B23] text-center">
                 <div class="navy-card p-3 polygon-card bg-[#17130F] border border-[#322B23]">
                     <span class="text-[9px] text-[#B5A897] uppercase block font-extrabold">{{ __('Longevity') }}</span>
-                    <span class="text-xs font-extrabold text-[#A8895F]">{{ $product->longevity }}</span>
+                    <span class="text-xs font-extrabold text-[#A8895F]">{{ $product->longevity ?: '8 - 12 Hours' }}</span>
                 </div>
                 <div class="navy-card p-3 polygon-card bg-[#17130F] border border-[#322B23]">
                     <span class="text-[9px] text-[#B5A897] uppercase block font-extrabold">{{ __('Sillage') }}</span>
-                    <span class="text-xs font-extrabold text-[#A8895F]">{{ $product->sillage }}</span>
+                    <span class="text-xs font-extrabold text-[#A8895F]">{{ $product->sillage ?: 'Strong' }}</span>
                 </div>
                 <div class="navy-card p-3 polygon-card bg-[#17130F] border border-[#322B23]">
                     <span class="text-[9px] text-[#B5A897] uppercase block font-extrabold">{{ __('Intensity') }}</span>
-                    <span class="text-xs font-extrabold text-[#A8895F]">{{ $product->intensity }}</span>
-                </div>
-                <div class="navy-card p-3 polygon-card bg-[#17130F] border border-[#322B23]">
-                    <span class="text-[9px] text-[#B5A897] uppercase block font-extrabold">{{ __('Occasion') }}</span>
-                    <span class="text-xs font-extrabold text-[#A8895F]">{{ $product->occasion }}</span>
+                    <span class="text-xs font-extrabold text-[#A8895F]">{{ $product->intensity ?: 'Intense' }}</span>
                 </div>
             </div>
 
@@ -155,39 +172,36 @@
     </div>
 
     <!-- ABOUT PERFUME & STORY -->
-    <div class="mt-20 glass-panel p-8 sm:p-12 polygon-card border border-[#A8895F]/40 bg-[#17130F]">
-        <div class="max-w-3xl mx-auto space-y-6 text-[#B5A897] text-sm leading-relaxed font-semibold">
-            <h3 class="font-serif font-bold text-3xl text-[#EDE5D8]">{{ __('ABOUT :name', ['name' => strtoupper($product->name)]) }}</h3>
-            <p>{{ $product->description }}</p>
+    <div class="mt-16 space-y-8">
+        @if($product->fragrance_story)
+        <div class="glass-panel p-8 sm:p-12 polygon-card border border-[#A8895F]/40 bg-[#17130F] text-center relative overflow-hidden">
+            <span class="text-[10px] font-extrabold text-[#A8895F] uppercase tracking-[0.4em] block mb-2">{{ __('FRAGRANCE STORY') }}</span>
+            <blockquote class="font-serif italic text-xl sm:text-2xl text-[#EDE5D8] max-w-2xl mx-auto leading-relaxed">
+                "{{ $product->fragrance_story }}"
+            </blockquote>
+        </div>
+        @endif
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 text-center">
-                <div class="navy-card p-4 polygon-card border border-[#322B23] bg-[#17130F]">
-                    <span class="text-[10px] font-extrabold text-[#A8895F] uppercase block mb-1">{{ __('Top Notes') }}</span>
-                    <span class="text-xs font-bold text-[#EDE5D8]">{{ $product->top_notes }}</span>
-                </div>
-                <div class="navy-card p-4 polygon-card border border-[#322B23] bg-[#17130F]">
-                    <span class="text-[10px] font-extrabold text-[#A8895F] uppercase block mb-1">{{ __('Heart Notes') }}</span>
-                    <span class="text-xs font-bold text-[#EDE5D8]">{{ $product->heart_notes }}</span>
-                </div>
-                <div class="navy-card p-4 polygon-card border border-[#322B23] bg-[#17130F]">
-                    <span class="text-[10px] font-extrabold text-[#A8895F] uppercase block mb-1">{{ __('Base Notes') }}</span>
-                    <span class="text-xs font-bold text-[#EDE5D8]">{{ $product->base_notes }}</span>
+        <div class="glass-panel p-8 sm:p-12 polygon-card border border-[#322B23] bg-[#17130F]">
+            <div class="max-w-3xl mx-auto space-y-6 text-[#B5A897] text-sm leading-relaxed font-semibold">
+                <h3 class="font-serif font-bold text-3xl text-[#EDE5D8]">{{ __('ABOUT :name', ['name' => strtoupper($product->name)]) }}</h3>
+                <p>{{ $product->description }}</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 text-center">
+                    <div class="navy-card p-4 polygon-card border border-[#322B23] bg-[#17130F]">
+                        <span class="text-[10px] font-extrabold text-[#A8895F] uppercase block mb-1">{{ __('Top Notes') }}</span>
+                        <span class="text-xs font-bold text-[#EDE5D8]">{{ $product->top_notes }}</span>
+                    </div>
+                    <div class="navy-card p-4 polygon-card border border-[#322B23] bg-[#17130F]">
+                        <span class="text-[10px] font-extrabold text-[#A8895F] uppercase block mb-1">{{ __('Heart Notes') }}</span>
+                        <span class="text-xs font-bold text-[#EDE5D8]">{{ $product->heart_notes }}</span>
+                    </div>
+                    <div class="navy-card p-4 polygon-card border border-[#322B23] bg-[#17130F]">
+                        <span class="text-[10px] font-extrabold text-[#A8895F] uppercase block mb-1">{{ __('Base Notes') }}</span>
+                        <span class="text-xs font-bold text-[#EDE5D8]">{{ $product->base_notes }}</span>
+                    </div>
                 </div>
             </div>
-
-            @if(is_array($product->why_you_will_love_it))
-            <div class="pt-4">
-                <h4 class="font-serif font-bold text-lg text-[#A8895F] mb-3">{{ __("WHY YOU'LL LOVE IT") }}</h4>
-                <ul class="space-y-2 text-xs text-[#EDE5D8] font-bold">
-                    @foreach($product->why_you_will_love_it as $point)
-                    <li class="flex items-center gap-2">
-                        <i data-lucide="check" class="w-4 h-4 text-[#A8895F]"></i>
-                        <span>{{ $point }}</span>
-                    </li>
-                    @endforeach
-                </ul>
-            </div>
-            @endif
         </div>
     </div>
 
@@ -197,14 +211,23 @@
         <div class="lg:col-span-7 space-y-6">
             <h3 class="font-serif font-bold text-2xl text-[#EDE5D8]">{{ __('CLIENT REVIEWS') }}</h3>
 
-            @if($product->reviews->isEmpty())
+            @php
+                $approvedReviews = $product->approvedReviews;
+            @endphp
+
+            @if($approvedReviews->isEmpty())
             <p class="text-xs text-[#B5A897] font-semibold">{{ __('No reviews yet for this fragrance. Be the first to share your impression!') }}</p>
             @else
             <div class="space-y-4">
-                @foreach($product->reviews as $rev)
+                @foreach($approvedReviews as $rev)
                 <div class="navy-card p-4 polygon-card border border-[#322B23] bg-[#17130F]">
                     <div class="flex justify-between items-center mb-2">
-                        <span class="font-serif font-bold text-sm text-[#EDE5D8]">{{ $rev->customer_name }}</span>
+                        <div class="flex items-center gap-2">
+                            <span class="font-serif font-bold text-sm text-[#EDE5D8]">{{ $rev->customer_name }}</span>
+                            @if($rev->is_verified)
+                            <span class="text-[9px] text-emerald-400 font-extrabold uppercase border border-emerald-800 px-1.5 py-0.5 rounded">{{ __('Verified Purchase') }}</span>
+                            @endif
+                        </div>
                         <div class="flex text-[#A8895F] text-xs">
                             @for($i=0; $i<$rev->rating; $i++)★@endfor
                         </div>
@@ -231,7 +254,7 @@
                     <select name="rating" class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] px-3 py-2 focus:outline-none focus:border-[#A8895F] font-bold">
                         <option value="5">{{ __('★★★★★ (5/5) Exceptional') }}</option>
                         <option value="4">{{ __('★★★★☆ (4/5) Very Good') }}</option>
-                        <option value="3">{{ __('★★★☆☆ (3/3) Average') }}</option>
+                        <option value="3">{{ __('★★★☆☆ (3/5) Average') }}</option>
                     </select>
                 </div>
 
@@ -341,7 +364,7 @@
             productUrl: {{ \Illuminate\Support\Js::from(route('shop.show', $product->slug)) }},
             whatsappPhone: {{ \Illuminate\Support\Js::from(config('payment.whatsapp.phone_number', '255691980178')) }},
             selectedSize: firstVariant ? firstVariant.size : {{ \Illuminate\Support\Js::from($product->default_size) }},
-            currentPrice: firstVariant ? firstVariant.price : basePrice,
+            currentPrice: firstVariant ? (firstVariant.discount_price || firstVariant.price) : basePrice,
             quantity: 1,
 
             selectVariant(size, price) {

@@ -65,7 +65,7 @@
         <div class="p-4 bg-[#EDE5D8] border border-[#D8C9B8] polygon-card space-y-3">
             <div class="flex items-center justify-between gap-3">
                 <label for="image-{{ $previewId }}" class="block text-[10px] font-extrabold uppercase text-[#A8895F]">Desktop Design *</label>
-                <span class="text-[9px] font-bold text-gray-600">Minimum 800 × 500px</span>
+                <span class="text-[9px] font-bold text-emerald-800">✓ Picha yoyote inakubaliwa (Auto-fits)</span>
             </div>
 
             @if($banner?->image_url)
@@ -148,7 +148,33 @@
             <input type="hidden" name="is_active" value="0">
             <input type="checkbox" name="is_active" value="1" @checked(old('is_active', $banner?->is_active ?? true))
                    class="w-4 h-4 accent-[#A8895F]">
-            <span class="text-xs font-extrabold text-[#29241F]">Show this slide on the homepage</span>
+            <span class="text-xs font-extrabold text-[#29241F]">Status: Active (Visible on site)</span>
         </label>
+    </div>
+
+    <!-- Display Placements -->
+    <div class="p-4 bg-[#F8F5EF] border border-[#D8C9B8] polygon-card space-y-2">
+        <span class="block text-[10px] font-extrabold uppercase text-[#A8895F]">Where should this visual appear?</span>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <label class="flex items-center gap-2.5 p-3 bg-white border border-[#D8C9B8] polygon-card cursor-pointer hover:border-[#A8895F]">
+                <input type="hidden" name="show_in_hero" value="0">
+                <input type="checkbox" name="show_in_hero" value="1" @checked(old('show_in_hero', $banner?->show_in_hero ?? true))
+                       class="w-4 h-4 accent-[#A8895F]">
+                <div>
+                    <span class="text-xs font-extrabold text-[#29241F] block">🎯 Hero Slider (Top of Homepage)</span>
+                    <span class="text-[10px] text-gray-500">Main promotional hero banner section at the top.</span>
+                </div>
+            </label>
+
+            <label class="flex items-center gap-2.5 p-3 bg-white border border-[#D8C9B8] polygon-card cursor-pointer hover:border-[#A8895F]">
+                <input type="hidden" name="show_in_gallery" value="0">
+                <input type="checkbox" name="show_in_gallery" value="1" @checked(old('show_in_gallery', $banner?->show_in_gallery ?? true))
+                       class="w-4 h-4 accent-[#A8895F]">
+                <div>
+                    <span class="text-xs font-extrabold text-[#29241F] block">📸 Instagram & Campaign Visuals Gallery</span>
+                    <span class="text-[10px] text-gray-500">Interactive #SOZIECOLLECTION gallery carousel further down.</span>
+                </div>
+            </label>
+        </div>
     </div>
 </div>

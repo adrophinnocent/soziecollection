@@ -12,10 +12,13 @@ class HomeController extends Controller
 {
     public function index(): View
     {
-        $heroSlides = Banner::query()
+        $allBanners = Banner::query()
             ->active()
             ->ordered()
-            ->get()
+            ->get();
+
+        $heroSlides = $allBanners
+            ->filter(fn (Banner $b) => $b->show_in_hero)
             ->map(fn (Banner $banner): array => [
                 'image' => $banner->image_url,
                 'mobile_image' => $banner->mobile_image_url,
@@ -28,6 +31,21 @@ class HomeController extends Controller
                 'button_link' => $banner->button_link ?: route('shop.index'),
                 'secondary_button_text' => $banner->secondary_button_text ?: '',
                 'secondary_button_link' => $banner->secondary_button_link ?: '',
+            ])
+            ->values();
+
+        $gallerySlides = $allBanners
+            ->filter(fn (Banner $b) => $b->show_in_gallery)
+            ->map(fn (Banner $banner): array => [
+                'image' => $banner->image_url,
+                'mobile_image' => $banner->mobile_image_url,
+                'title' => $banner->title,
+                'eyebrow' => $banner->eyebrow ?: '',
+                'headline' => $banner->headline ?: $banner->title,
+                'highlight_text' => $banner->highlight_text ?: '',
+                'subtitle' => $banner->subtitle ?: '',
+                'tag' => '@soziecollection',
+                'handle' => '@soziecollection',
             ])
             ->values();
 
@@ -60,6 +78,7 @@ class HomeController extends Controller
 
         return view('home', compact(
             'heroSlides',
+            'gallerySlides',
             'categories',
             'bestSellers',
             'newArrivals',

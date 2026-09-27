@@ -33,15 +33,17 @@ class UpsertHomepageSlideRequest extends FormRequest
             'image' => [
                 $this->isMethod('post') ? 'required' : 'nullable',
                 'image',
-                'mimes:jpg,jpeg,png,webp',
-                'max:10240',
+                'mimes:jpg,jpeg,png,webp,gif,bmp,avif',
+                'max:20480',
             ],
-            'mobile_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
+            'mobile_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,gif,bmp,avif', 'max:20480'],
             'button_text' => ['nullable', 'string', 'max:60'],
             'button_link' => ['nullable', 'string', 'max:255', $this->safeLink()],
             'secondary_button_text' => ['nullable', 'string', 'max:60'],
             'secondary_button_link' => ['nullable', 'string', 'max:255', $this->safeLink()],
             'is_active' => ['sometimes', 'boolean'],
+            'show_in_hero' => ['sometimes', 'boolean'],
+            'show_in_gallery' => ['sometimes', 'boolean'],
             'sort_order' => ['required', 'integer', 'min:0', 'max:999'],
         ];
     }

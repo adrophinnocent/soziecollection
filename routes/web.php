@@ -161,6 +161,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/users', [AdminController::class, 'adminUsers'])->name('users');
         });
 
+        Route::middleware('can:reviews')->group(function () {
+            Route::get('/reviews', [AdminController::class, 'reviews'])->name('reviews');
+            Route::patch('/reviews/{review}/status', [AdminController::class, 'updateReviewStatus'])->name('reviews.status');
+            Route::delete('/reviews/{review}', [AdminController::class, 'deleteReview'])->name('reviews.delete');
+        });
+
         Route::middleware('can:settings')->group(function () {
             Route::get('/payments', [AdminController::class, 'payments'])->name('payments');
         });

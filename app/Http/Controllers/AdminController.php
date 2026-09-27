@@ -62,7 +62,10 @@ class AdminController extends Controller
             'discount_price' => 'nullable|numeric|min:0',
             'discount_percentage' => 'nullable|integer|min:0|max:100',
             'stock_quantity' => 'nullable|integer|min:0',
+            'low_stock_threshold' => 'nullable|integer|min:0',
+            'availability_status' => 'nullable|string',
             'description' => 'required|string',
+            'fragrance_story' => 'nullable|string',
             'fragrance_family' => 'required|string',
             'scent_type' => 'required|string',
             'top_notes' => 'required|string',
@@ -75,7 +78,7 @@ class AdminController extends Controller
             'intensity' => 'nullable|string',
             'video_url' => 'nullable|string|max:500',
             'image_url' => 'nullable|url',
-            'image_files.*' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+            'image_files.*' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif,bmp,avif|max:20480',
             'ad_headline' => 'nullable|string',
             'ad_copy' => 'nullable|string',
             'ad_cta' => 'nullable|string',
@@ -85,6 +88,7 @@ class AdminController extends Controller
             'whatsapp_caption' => 'nullable|string',
             'seo_title' => 'nullable|string',
             'meta_description' => 'nullable|string',
+            'focus_keyword' => 'nullable|string',
             'image_alt' => 'nullable|string',
             'slug' => 'nullable|string',
             'is_best_seller' => 'nullable|boolean',
@@ -109,9 +113,6 @@ class AdminController extends Controller
         }
 
         if (empty($images)) {
-            // Nothing was uploaded and no URL was given: use the bundled brand
-            // placeholder rather than a third-party photo, so a product created
-            // without artwork never depends on a host we do not control.
             $images[] = asset('images/product-placeholder.svg');
         }
 
@@ -122,6 +123,8 @@ class AdminController extends Controller
         $validated['concentration'] = $request->input('concentration', 'Eau de Parfum');
         $validated['default_size'] = $request->input('default_size', '50ml');
         $validated['stock_quantity'] = $request->input('stock_quantity', 50);
+        $validated['low_stock_threshold'] = $request->input('low_stock_threshold', 5);
+        $validated['availability_status'] = $request->input('availability_status', 'in_stock');
         $validated['images'] = $images;
         $validated['campaign_image'] = $images[0];
         $validated['is_best_seller'] = $request->has('is_best_seller');
@@ -153,7 +156,10 @@ class AdminController extends Controller
                         'product_id' => $product->id,
                         'size' => trim($v['size']),
                         'price' => $v['price'],
-                        'stock_quantity' => $validated['stock_quantity'],
+                        'discount_price' => ! empty($v['discount_price']) ? $v['discount_price'] : null,
+                        'sku' => ! empty($v['sku']) ? strtoupper($v['sku']) : null,
+                        'stock_quantity' => isset($v['stock_quantity']) && is_numeric($v['stock_quantity']) ? (int) $v['stock_quantity'] : $validated['stock_quantity'],
+                        'is_available' => isset($v['is_available']) ? (bool) $v['is_available'] : true,
                     ]);
                 }
             }
@@ -166,6 +172,7 @@ class AdminController extends Controller
                 'size' => $product->default_size ?: '50ml',
                 'price' => $product->effective_price,
                 'stock_quantity' => $validated['stock_quantity'],
+                'is_available' => true,
             ]);
         }
 
@@ -195,7 +202,10 @@ class AdminController extends Controller
             'discount_price' => 'nullable|numeric|min:0',
             'discount_percentage' => 'nullable|integer|min:0|max:100',
             'stock_quantity' => 'nullable|integer|min:0',
+            'low_stock_threshold' => 'nullable|integer|min:0',
+            'availability_status' => 'nullable|string',
             'description' => 'required|string',
+            'fragrance_story' => 'nullable|string',
             'fragrance_family' => 'required|string',
             'scent_type' => 'required|string',
             'top_notes' => 'required|string',
@@ -203,7 +213,7 @@ class AdminController extends Controller
             'base_notes' => 'required|string',
             'video_url' => 'nullable|string|max:500',
             'image_url' => 'nullable|url',
-            'image_files.*' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+            'image_files.*' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif,bmp,avif|max:20480',
             'ad_headline' => 'nullable|string',
             'ad_copy' => 'nullable|string',
             'ad_cta' => 'nullable|string',
@@ -213,6 +223,7 @@ class AdminController extends Controller
             'whatsapp_caption' => 'nullable|string',
             'seo_title' => 'nullable|string',
             'meta_description' => 'nullable|string',
+            'focus_keyword' => 'nullable|string',
             'image_alt' => 'nullable|string',
             'slug' => 'nullable|string',
             'is_best_seller' => 'nullable|boolean',
@@ -270,7 +281,10 @@ class AdminController extends Controller
                         'product_id' => $product->id,
                         'size' => trim($v['size']),
                         'price' => $v['price'],
-                        'stock_quantity' => $product->stock_quantity,
+                        'discount_price' => ! empty($v['discount_price']) ? $v['discount_price'] : null,
+                        'sku' => ! empty($v['sku']) ? strtoupper($v['sku']) : null,
+                        'stock_quantity' => isset($v['stock_quantity']) && is_numeric($v['stock_quantity']) ? (int) $v['stock_quantity'] : $product->stock_quantity,
+                        'is_available' => isset($v['is_available']) ? (bool) $v['is_available'] : true,
                     ]);
                 }
             }
@@ -371,5 +385,39 @@ class AdminController extends Controller
         $config = config('payment');
 
         return view('admin.payments.index', compact('config'));
+    }
+
+    public function reviews()
+    {
+        $reviews = Review::with('product')->latest()->get();
+
+        return view('admin.reviews.index', compact('reviews'));
+    }
+
+    public function updateReviewStatus(Request $request, Review $review)
+    {
+        $validated = $request->validate([
+            'status' => 'nullable|in:pending,approved,hidden',
+            'is_featured' => 'nullable|boolean',
+        ]);
+
+        if ($request->has('status')) {
+            $review->status = $request->status;
+        }
+
+        if ($request->has('is_featured')) {
+            $review->is_featured = $request->boolean('is_featured');
+        }
+
+        $review->save();
+
+        return back()->with('success', 'Review status updated successfully.');
+    }
+
+    public function deleteReview(Review $review)
+    {
+        $review->delete();
+
+        return back()->with('success', 'Review deleted successfully.');
     }
 }

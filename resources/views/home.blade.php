@@ -17,6 +17,10 @@
         ->filter(fn (array $slide): bool => filled($slide['image'] ?? null) || filled($slide['mobile_image'] ?? null))
         ->values();
 
+    $configuredGallerySlides = $gallerySlides
+        ->filter(fn (array $slide): bool => filled($slide['image'] ?? null) || filled($slide['mobile_image'] ?? null))
+        ->values();
+
     $campaignSlide = $configuredSlides->first();
 @endphp
 
@@ -601,9 +605,9 @@
     carrying a design the whole section is withheld rather than rendered as an
     empty carousel with orphan arrows.
 --}}
-@if($configuredSlides->isNotEmpty())
+@if($configuredGallerySlides->isNotEmpty())
 <section class="py-20 relative border-b border-[#322B23] bg-[#0C0A09] overflow-hidden"
-         x-data="gallerySlider({{ \Illuminate\Support\Js::from($configuredSlides) }})"
+         x-data="gallerySlider({{ \Illuminate\Support\Js::from($configuredGallerySlides) }})"
          x-init="initSlider()">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
 

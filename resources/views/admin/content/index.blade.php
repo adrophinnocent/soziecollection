@@ -94,6 +94,12 @@
                             <span class="px-2 py-0.5 border text-[9px] font-extrabold uppercase rounded {{ $banner->is_active ? 'bg-emerald-100 text-emerald-900 border-emerald-300' : 'bg-gray-100 text-gray-700 border-gray-300' }}">
                                 {{ $banner->is_active ? 'Live' : 'Hidden' }}
                             </span>
+                            @if($banner->show_in_hero)
+                            <span class="px-2 py-0.5 bg-amber-100 text-amber-900 border border-amber-300 text-[9px] font-extrabold uppercase rounded">🎯 Hero Slider</span>
+                            @endif
+                            @if($banner->show_in_gallery)
+                            <span class="px-2 py-0.5 bg-purple-100 text-purple-900 border border-purple-300 text-[9px] font-extrabold uppercase rounded">📸 Instagram Gallery</span>
+                            @endif
                         </div>
                         <h5 class="font-serif font-bold text-lg text-[#29241F]">{{ $banner->title }}</h5>
                         <p class="text-xs font-extrabold text-[#A8895F]">{{ $banner->headline ?: 'Headline not set' }} {{ $banner->highlight_text }}</p>
@@ -142,15 +148,22 @@
         <div class="border-b border-[#D8C9B8] pb-3 flex justify-between items-center">
             <div>
                 <h4 class="font-serif font-bold text-lg text-[#29241F]">📸 Instagram & Campaign Visuals Gallery</h4>
-                <p class="text-xs text-gray-600 mt-1">Uploaded slides automatically feed the high-resolution <span class="font-bold text-[#A8895F]">#SOZIECOLLECTION GALLERY</span> interactive carousel on the homepage.</p>
+                <p class="text-xs text-gray-600 mt-1">
+                    Visuals marked with <span class="font-bold text-[#A8895F]">"Display in Instagram Gallery"</span> feed the high-resolution <span class="font-bold text-[#A8895F]">#SOZIECOLLECTION GALLERY</span> interactive carousel on the homepage. You can enable or disable gallery placement independently for each slide.
+                </p>
             </div>
             <a href="{{ route('home') }}" target="_blank" class="px-3.5 py-1.5 bg-[#A8895F] text-white text-[10px] font-extrabold uppercase polygon-btn hover:bg-[#29241F]">
                 View Live Gallery
             </a>
         </div>
 
+        @php
+            $galleryBanners = $banners->filter(fn($b) => $b->show_in_gallery);
+        @endphp
+
+        @if($galleryBanners->isNotEmpty())
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
-            @foreach($banners as $banner)
+            @foreach($galleryBanners as $banner)
             <div class="relative aspect-square border border-[#D8C9B8] polygon-card overflow-hidden bg-white group shadow-sm">
                 <img src="{{ $banner->image_url }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                 <div class="absolute top-2 left-2 px-2 py-0.5 bg-[#17130F]/90 text-[#A8895F] text-[9px] font-extrabold uppercase polygon-badge border border-[#322B23]">
@@ -163,6 +176,11 @@
             </div>
             @endforeach
         </div>
+        @else
+        <div class="p-6 text-center bg-[#EDE5D8] border border-dashed border-[#A8895F]/50 polygon-card">
+            <p class="text-xs text-gray-600">No visuals currently selected for the Instagram Gallery. Check the <strong>"Display in Instagram Gallery"</strong> box when adding or editing a slide above.</p>
+        </div>
+        @endif
     </div>
 
 </div>

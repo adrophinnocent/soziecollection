@@ -184,14 +184,12 @@
                         <div>
                             <label class="block text-xs font-extrabold text-[#A8895F] uppercase tracking-widest mb-1">{{ __('Full Name *') }}</label>
                             <input type="text" name="customer_name" required value="{{ $prefill['customer_name'] }}"
-                                   placeholder="{{ __('e.g. Amina Khamis') }}"
                                    class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] px-3 py-2.5 focus:outline-none focus:border-[#A8895F] font-bold">
                         </div>
 
                         <div>
                             <label class="block text-xs font-extrabold text-[#A8895F] uppercase tracking-widest mb-1">{{ __('Phone Number (WhatsApp) *') }}</label>
                             <input type="text" name="customer_phone" required value="{{ $prefill['customer_phone'] }}"
-                                   placeholder="{{ __('e.g. 0712345678') }}"
                                    class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] px-3 py-2.5 focus:outline-none focus:border-[#A8895F] font-bold">
                         </div>
                     </div>
@@ -199,7 +197,6 @@
                     <div>
                         <label class="block text-xs font-extrabold text-[#A8895F] uppercase tracking-widest mb-1">{{ __('Email Address (Optional)') }}</label>
                         <input type="email" name="customer_email" value="{{ $prefill['customer_email'] }}"
-                               placeholder="{{ __('e.g. amina@example.com') }}"
                                class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] px-3 py-2.5 focus:outline-none focus:border-[#A8895F] font-bold">
                     </div>
 
@@ -222,7 +219,6 @@
                         <div>
                             <label class="block text-xs font-extrabold text-[#A8895F] uppercase tracking-widest mb-1">{{ __('Detailed Street Address / Landmark *') }}</label>
                             <input type="text" name="shipping_address" required value="{{ $prefill['shipping_address'] }}"
-                                   placeholder="{{ __('e.g. Masaki, Haile Selassie Rd, House 42') }}"
                                    class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] px-3 py-2.5 focus:outline-none focus:border-[#A8895F] font-bold">
                         </div>
                     </div>

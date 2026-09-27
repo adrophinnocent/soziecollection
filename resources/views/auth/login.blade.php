@@ -111,8 +111,7 @@
                                 required
                                 autofocus
                                 autocomplete="email"
-                                placeholder="you@example.com"
-                                class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] pl-10 pr-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/50 font-bold transition-all placeholder:text-[#A89C8C] placeholder:font-bold">
+                                class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] pl-10 pr-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/50 font-bold transition-all">
                         </div>
                     </div>
 
@@ -130,8 +129,7 @@
                                 name="password"
                                 required
                                 autocomplete="current-password"
-                                placeholder="••••••••"
-                                class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] pl-10 pr-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/50 font-bold transition-all placeholder:text-[#A89C8C] placeholder:font-bold">
+                                class="w-full bg-[#17130F] border border-[#322B23] text-xs text-[#EDE5D8] pl-10 pr-3 py-3 focus:outline-none focus:border-[#A8895F] focus:ring-2 focus:ring-[#A8895F]/50 font-bold transition-all">
                         </div>
                     </div>
 

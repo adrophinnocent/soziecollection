@@ -15,6 +15,14 @@ class Review extends Model
         'rating',
         'comment',
         'is_verified',
+        'status',
+        'is_featured',
+    ];
+
+    protected $casts = [
+        'rating' => 'integer',
+        'is_verified' => 'boolean',
+        'is_featured' => 'boolean',
     ];
 
     public function product()
