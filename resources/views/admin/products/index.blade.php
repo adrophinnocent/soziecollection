@@ -48,12 +48,22 @@
                     </td>
                     <td class="py-3">
                         <div class="flex items-center gap-2">
-                            <button onclick="copyProductLink('{{ route('shop.show', $p->slug) }}')"
+                            <!-- Live Product Page Link -->
+                            <a href="/product/{{ $p->slug }}" target="_blank"
+                               title="View product page on live store"
+                               class="px-2.5 py-1 bg-emerald-950/10 text-emerald-800 border border-emerald-600/30 rounded hover:bg-emerald-800 hover:text-white transition-all text-[10px] font-extrabold uppercase flex items-center gap-1">
+                                <i data-lucide="external-link" class="w-3 h-3"></i> View
+                            </a>
+
+                            <!-- Copy Direct Campaign Link Button -->
+                            <button onclick="copyProductLink('/product/{{ $p->slug }}')"
                                     title="Copy direct campaign link for WhatsApp / Social Media"
                                     class="px-2.5 py-1 bg-[#A8895F]/15 text-[#A8895F] border border-[#A8895F]/40 rounded hover:bg-[#A8895F] hover:text-white transition-all text-[10px] font-extrabold uppercase flex items-center gap-1 cursor-pointer">
                                 <i data-lucide="copy" class="w-3 h-3"></i> Copy Link
                             </button>
-                            <a href="{{ route('admin.products.edit', $p->id) }}" class="text-xs text-[#A8895F] hover:underline font-extrabold">Edit</a>
+
+                            <a href="{{ route('admin.products.edit', $p->id) }}" class="text-xs text-[#A8895F] hover:underline font-extrabold ml-1">Edit</a>
+
                             <form action="{{ route('admin.products.delete', $p->id) }}" method="POST" class="inline" onsubmit="return confirm('Delete product?')">
                                 @csrf
                                 @method('DELETE')
@@ -74,15 +84,16 @@
 
 @push('scripts')
 <script>
-    function copyProductLink(url) {
+    function copyProductLink(path) {
+        const fullUrl = path.startsWith('http') ? path : (window.location.origin + (path.startsWith('/') ? path : '/' + path));
         if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(url).then(() => {
-                alert('Copied product campaign link to clipboard:\n' + url);
+            navigator.clipboard.writeText(fullUrl).then(() => {
+                alert('Copied product campaign link:\n' + fullUrl);
             }).catch(() => {
-                fallbackCopyTextToClipboard(url);
+                fallbackCopyTextToClipboard(fullUrl);
             });
         } else {
-            fallbackCopyTextToClipboard(url);
+            fallbackCopyTextToClipboard(fullUrl);
         }
     }
 
@@ -95,7 +106,7 @@
         textArea.select();
         try {
             document.execCommand('copy');
-            alert('Copied product campaign link to clipboard:\n' + text);
+            alert('Copied product campaign link:\n' + text);
         } catch (err) {
             alert('Product Link:\n' + text);
         }

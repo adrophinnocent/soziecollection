@@ -151,7 +151,7 @@
                 </a>
 
                 <!-- Share Campaign Link Button -->
-                <button onclick="copyProductLink('{{ route('shop.show', $product->slug) }}')"
+                <button onclick="copyProductLink('/product/{{ $product->slug }}')"
                         class="w-full py-2.5 bg-[#17130F] border border-[#A8895F]/40 text-[#EDE5D8] font-extrabold text-xs uppercase tracking-wider polygon-btn text-center block hover:bg-[#221D19] transition-all">
                     <i data-lucide="share-2" class="w-4 h-4 inline-block mr-2 text-[#A8895F]"></i> {{ __('COPY CAMPAIGN LINK') }}
                 </button>
@@ -395,15 +395,16 @@
         }
     }
 
-    function copyProductLink(url) {
+    function copyProductLink(path) {
+        const fullUrl = path.startsWith('http') ? path : (window.location.origin + (path.startsWith('/') ? path : '/' + path));
         if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(url).then(() => {
-                alert('Copied product campaign link:\n' + url);
+            navigator.clipboard.writeText(fullUrl).then(() => {
+                alert('Copied product campaign link:\n' + fullUrl);
             }).catch(() => {
-                fallbackCopyTextToClipboard(url);
+                fallbackCopyTextToClipboard(fullUrl);
             });
         } else {
-            fallbackCopyTextToClipboard(url);
+            fallbackCopyTextToClipboard(fullUrl);
         }
     }
 
