@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    <form action="{{ route('admin.settings.business.update') }}" method="POST" class="space-y-6">
+    <form action="{{ route('admin.settings.business.update') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
         @csrf
         @method('PUT')
 
@@ -41,10 +41,19 @@
                           class="w-full bg-white border border-[#D8C9B8] text-[#29241F] p-2.5 focus:outline-none focus:border-[#A8895F]">{{ old('business_description', $settings['business_description'] ?? '') }}</textarea>
             </div>
 
-            <div class="text-xs font-bold">
-                <label class="block text-[#A8895F] uppercase mb-1">Brand Logo URL</label>
-                <input type="text" name="logo_url" value="{{ old('logo_url', $settings['logo_url'] ?? '/images/sozie-logo.png') }}"
-                       class="w-full bg-white border border-[#D8C9B8] text-[#29241F] p-2.5 focus:outline-none focus:border-[#A8895F]">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-bold">
+                <div>
+                    <label class="block text-[#A8895F] uppercase mb-1">Upload Brand Logo (File Upload)</label>
+                    <input type="file" name="logo_file" accept="image/*"
+                           class="w-full bg-white border border-[#D8C9B8] text-[#29241F] p-2 focus:outline-none focus:border-[#A8895F]">
+                    <span class="text-[10px] text-gray-500 mt-1 block">Upload PNG, JPG, WebP, or SVG logo file</span>
+                </div>
+
+                <div>
+                    <label class="block text-[#A8895F] uppercase mb-1">Or Brand Logo URL Link</label>
+                    <input type="text" name="logo_url" value="{{ old('logo_url', $settings['logo_url'] ?? '/images/sozie-logo.png') }}"
+                           class="w-full bg-white border border-[#D8C9B8] text-[#29241F] p-2.5 focus:outline-none focus:border-[#A8895F]">
+                </div>
             </div>
         </div>
 

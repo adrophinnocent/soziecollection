@@ -20,17 +20,22 @@ class HomepageSlideController extends Controller
             return back()->withErrors(['mobile_image' => 'The mobile design could not be stored.'])->withInput();
         }
 
-        $imagePath = $request->file('image')->store('banners', 'public');
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('banners', 'public');
+        } elseif ($request->filled('image_url')) {
+            $imagePath = $request->input('image_url');
+        }
 
-        if ($imagePath === false) {
+        if (empty($imagePath)) {
             if ($mobileImagePath) {
                 Storage::disk('public')->delete($mobileImagePath);
             }
 
-            return back()->withErrors(['image' => 'The desktop design could not be stored.'])->withInput();
+            return back()->withErrors(['image' => 'Upload a desktop design image file or enter an image URL.'])->withInput();
         }
 
-        $attributes = Arr::except($request->validated(), ['image', 'mobile_image']);
+        $attributes = Arr::except($request->validated(), ['image', 'image_url', 'mobile_image', 'mobile_image_url']);
         $attributes['image'] = $imagePath;
         $attributes['is_active'] = $request->boolean('is_active');
         $attributes['show_in_hero'] = $request->boolean('show_in_hero');
@@ -38,6 +43,8 @@ class HomepageSlideController extends Controller
 
         if ($mobileImagePath) {
             $attributes['mobile_image'] = $mobileImagePath;
+        } elseif ($request->filled('mobile_image_url')) {
+            $attributes['mobile_image'] = $request->input('mobile_image_url');
         }
 
         Banner::create($attributes);
@@ -53,29 +60,26 @@ class HomepageSlideController extends Controller
             return back()->withErrors(['mobile_image' => 'The mobile design could not be stored.'])->withInput();
         }
 
-        $attributes = Arr::except($request->validated(), ['image', 'mobile_image']);
+        $attributes = Arr::except($request->validated(), ['image', 'image_url', 'mobile_image', 'mobile_image_url']);
         $attributes['is_active'] = $request->boolean('is_active');
         $attributes['show_in_hero'] = $request->boolean('show_in_hero');
         $attributes['show_in_gallery'] = $request->boolean('show_in_gallery');
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('banners', 'public');
-
-            if ($imagePath === false) {
-                if ($mobileImagePath) {
-                    Storage::disk('public')->delete($mobileImagePath);
-                }
-
-                return back()->withErrors(['image' => 'The desktop design could not be stored.'])->withInput();
+            if ($imagePath) {
+                $this->deleteStoredFile($banner->image);
+                $attributes['image'] = $imagePath;
             }
-
-            $this->deleteStoredFile($banner->image);
-            $attributes['image'] = $imagePath;
+        } elseif ($request->filled('image_url')) {
+            $attributes['image'] = $request->input('image_url');
         }
 
         if ($mobileImagePath) {
             $this->deleteStoredFile($banner->mobile_image);
             $attributes['mobile_image'] = $mobileImagePath;
+        } elseif ($request->filled('mobile_image_url')) {
+            $attributes['mobile_image'] = $request->input('mobile_image_url');
         }
 
         $banner->update($attributes);

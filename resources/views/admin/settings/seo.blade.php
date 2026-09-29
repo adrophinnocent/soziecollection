@@ -21,7 +21,7 @@
         </div>
     </div>
 
-    <form action="{{ route('admin.settings.seo.update') }}" method="POST" class="space-y-6">
+    <form action="{{ route('admin.settings.seo.update') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
         @csrf
         @method('PUT')
 
@@ -57,10 +57,19 @@
                 </div>
             </div>
 
-            <div class="text-xs font-bold">
-                <label class="block text-[#A8895F] uppercase mb-1">Default Open Graph (OG) Image URL</label>
-                <input type="url" name="default_og_image" value="{{ old('default_og_image', $settings['default_og_image'] ?? '') }}"
-                       class="w-full bg-white border border-[#D8C9B8] text-[#29241F] p-2.5 focus:outline-none focus:border-[#A8895F]">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-bold">
+                <div>
+                    <label class="block text-[#A8895F] uppercase mb-1">Upload Default Open Graph Image (File Upload)</label>
+                    <input type="file" name="og_image_file" accept="image/*"
+                           class="w-full bg-white border border-[#D8C9B8] text-[#29241F] p-2 focus:outline-none focus:border-[#A8895F]">
+                    <span class="text-[10px] text-gray-500 mt-1 block">Upload default share card image for WhatsApp & Social Media</span>
+                </div>
+
+                <div>
+                    <label class="block text-[#A8895F] uppercase mb-1">Or Default Open Graph (OG) Image URL</label>
+                    <input type="url" name="default_og_image" value="{{ old('default_og_image', $settings['default_og_image'] ?? '') }}"
+                           class="w-full bg-white border border-[#D8C9B8] text-[#29241F] p-2.5 focus:outline-none focus:border-[#A8895F]">
+                </div>
             </div>
 
             <div class="text-xs font-bold">

@@ -149,6 +149,12 @@
                    class="w-full py-3 bg-emerald-800 text-white font-extrabold text-xs uppercase tracking-[0.2em] polygon-btn text-center block hover:bg-emerald-900">
                     <i data-lucide="message-circle" class="w-4 h-4 inline-block mr-2 text-white"></i> {{ __('ORDER DIRECTLY VIA WHATSAPP') }}
                 </a>
+
+                <!-- Share Campaign Link Button -->
+                <button onclick="copyProductLink('{{ route('shop.show', $product->slug) }}')"
+                        class="w-full py-2.5 bg-[#17130F] border border-[#A8895F]/40 text-[#EDE5D8] font-extrabold text-xs uppercase tracking-wider polygon-btn text-center block hover:bg-[#221D19] transition-all">
+                    <i data-lucide="share-2" class="w-4 h-4 inline-block mr-2 text-[#A8895F]"></i> {{ __('COPY CAMPAIGN LINK') }}
+                </button>
             </div>
 
             <!-- Fragrance Characteristics Badges -->
@@ -387,6 +393,34 @@
                 return 'https://wa.me/' + this.whatsappPhone + '?text=' + encodeURIComponent(message);
             }
         }
+    }
+
+    function copyProductLink(url) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(() => {
+                alert('Copied product campaign link:\n' + url);
+            }).catch(() => {
+                fallbackCopyTextToClipboard(url);
+            });
+        } else {
+            fallbackCopyTextToClipboard(url);
+        }
+    }
+
+    function fallbackCopyTextToClipboard(text) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            alert('Copied product campaign link:\n' + text);
+        } catch (err) {
+            alert('Link: ' + text);
+        }
+        document.body.removeChild(textArea);
     }
 </script>
 @endpush

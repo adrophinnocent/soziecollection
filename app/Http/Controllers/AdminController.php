@@ -432,10 +432,13 @@ class AdminController extends Controller
 
     public function updateBusinessSettings(Request $request)
     {
+        $request->validate([
+            'logo_file' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:5120',
+        ]);
+
         $keys = [
             'business_name',
             'business_description',
-            'logo_url',
             'website_url',
             'email',
             'phone',
@@ -454,7 +457,14 @@ class AdminController extends Controller
             Setting::set($key, $request->input($key, ''), 'business');
         }
 
-        return back()->with('success', 'Business information updated successfully!');
+        if ($request->hasFile('logo_file')) {
+            $path = $request->file('logo_file')->store('settings', 'public');
+            Setting::set('logo_url', asset('storage/'.$path), 'business');
+        } elseif ($request->filled('logo_url')) {
+            Setting::set('logo_url', $request->input('logo_url'), 'business');
+        }
+
+        return back()->with('success', 'Business information & logo updated successfully!');
     }
 
     public function seoSettings()
@@ -466,10 +476,13 @@ class AdminController extends Controller
 
     public function updateSeoSettings(Request $request)
     {
+        $request->validate([
+            'og_image_file' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+        ]);
+
         $keys = [
             'site_title',
             'meta_description',
-            'default_og_image',
             'default_keywords',
             'canonical_url',
             'robots_setting',
@@ -481,6 +494,21 @@ class AdminController extends Controller
             Setting::set($key, $request->input($key, ''), 'seo');
         }
 
-        return back()->with('success', 'SEO settings updated successfully!');
+        if ($request->hasFile('og_image_file')) {
+            $path = $request->file('og_image_file')->store('settings', 'public');
+            Setting::set('default_og_image', asset('storage/'.$path), 'seo');
+        } elseif ($request->filled('default_og_image')) {
+            Setting::set('default_og_image', $request->input('default_og_image'), 'seo');
+        }
+
+        try {
+            $sitemapController = new SitemapController;
+            $sitemapController->index();
+            $sitemapController->robots();
+        } catch (\Throwable $e) {
+            // Ignore if error during dynamic update
+        }
+
+        return back()->with('success', 'SEO settings & OG image updated successfully!');
     }
 }

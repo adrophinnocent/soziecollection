@@ -80,7 +80,7 @@ class SozieCollectionTest extends TestCase
 
         $addResponse = $this->postJson('/cart/add', [
             'product_id' => $product->id,
-            'size' => '50ml Signature Bottle',
+            'size' => '50ml',
             'quantity' => 2,
         ]);
 
@@ -99,7 +99,7 @@ class SozieCollectionTest extends TestCase
         // Add to cart
         $this->postJson('/cart/add', [
             'product_id' => $product->id,
-            'size' => '50ml Signature Bottle',
+            'size' => '50ml',
             'quantity' => 1,
         ]);
 

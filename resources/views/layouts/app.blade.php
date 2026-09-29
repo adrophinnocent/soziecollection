@@ -9,12 +9,6 @@
 
     @include('partials.seo')
 
-    {{--
-        Guarded icon renderer. Defined as a plain script (not inside Alpine state) so it
-        always exists before Alpine boots, and safe to call unconditionally: icons are
-        decorative, so a missing or slow icon script must never throw and take the rest
-        of the page's JavaScript (cart count, wishlist, drawers) down with it.
-    --}}
     <script>
         window.sozieIcons = function () {
             try {
@@ -28,21 +22,6 @@
         window.addEventListener('load', function () { window.sozieIcons(); });
     </script>
 
-    {{--
-        Guarded image fallback. Product photography lives in the database as an
-        absolute URL, so a browser on a network that cannot reach that host used
-        to collapse the whole card to nothing. Every image that is allowed to be
-        missing carries data-sozie-fallback, and this one delegated capture-phase
-        listener swaps in a bundled local placeholder when it fails.
-
-        `error` does not bubble, but it does travel the capture phase, so a single
-        listener on `document` also covers the images Alpine injects later — no
-        per-element handlers and no MutationObserver. If the placeholder itself
-        fails to load, the marker is dropped instead of retried, so it cannot loop.
-
-        Progressive enhancement: the placeholder is a nicety, not a requirement. With
-        JavaScript off, every page renders exactly as it did before.
-    --}}
     <script>
         window.sozieImageFallback = function () {
             if (window.sozieImageFallbackBound) {
@@ -71,9 +50,6 @@
         window.addEventListener('DOMContentLoaded', function () { window.sozieImageFallback(); });
     </script>
 
-    {{-- Lucide 1.48.0 is self-hosted (public/vendor/lucide.min.js) instead of a CDN:
-         third-party hosts get blocked or throttled on some mobile networks, which used
-         to leave every <i data-lucide> empty on some browsers. --}}
     <script src="{{ asset('vendor/lucide.min.js') }}" defer onerror="void 0"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -154,9 +130,6 @@
                     </a>
                     <a href="{{ route('shop.index') }}" class="hover:text-[#A8895F] transition-colors relative py-1 {{ request()->routeIs('shop.index') ? 'text-[#A8895F]' : '' }}">
                         {{ __('Shop Collection') }}
-                    </a>
-                    <a href="{{ route('shop.index', ['scent_type' => 'Floral']) }}" class="hover:text-[#A8895F] transition-colors">
-                        {{ __('Moods & Scents') }}
                     </a>
                     <a href="{{ route('home') }}#scent-finder" class="hover:text-[#A8895F] transition-colors text-[#A8895F] flex items-center gap-1 font-extrabold">
                         <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#A8895F]"></i> {{ __('Fragrance Finder') }}
@@ -239,11 +212,6 @@
                                         <i data-lucide="heart" class="w-4 h-4 text-[#A8895F]"></i>
                                         {{ __('Saved Wishlist') }}
                                     </a>
-                                    <a href="{{ route('account.addresses') }}"
-                                       class="flex items-center gap-3 px-4 py-2.5 text-[11px] font-bold text-[#EDE5D8] hover:bg-[#A8895F]/10 transition-colors uppercase tracking-[0.2em]">
-                                        <i data-lucide="map-pin" class="w-4 h-4 text-[#A8895F]"></i>
-                                        {{ __('Addresses') }}
-                                    </a>
                                     <a href="{{ route('account.profile') }}"
                                        class="flex items-center gap-3 px-4 py-2.5 text-[11px] font-bold text-[#EDE5D8] hover:bg-[#A8895F]/10 transition-colors uppercase tracking-[0.2em]">
                                         <i data-lucide="user-cog" class="w-4 h-4 text-[#A8895F]"></i>
@@ -266,7 +234,7 @@
                     @endguest
                 </nav>
 
-                <!-- HEADER ACTIONS (Search, Wishlist, Cart, WhatsApp) -->
+                <!-- HEADER ACTIONS (Search, Wishlist, Cart) -->
                 <div class="flex items-center space-x-4">
 
                     <!-- Search Trigger -->
@@ -307,8 +275,6 @@
                         </div>
                         <span class="hidden lg:inline text-xs font-bold uppercase tracking-wider text-[#A8895F]" x-text="formattedTotal">TZS 0</span>
                     </button>
-
-                    <!-- Direct WhatsApp Contact lives in the floating button, see below -->
 
                     <!-- Mobile Menu Button -->
                     <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 text-[#F8F5EF] hover:text-[#D4AF37]">
@@ -352,29 +318,6 @@
                             <p class="text-xs font-bold text-[#EDE5D8] truncate leading-tight">{{ Auth::user()->name }}</p>
                             <p class="text-[10px] text-[#A89C8C] font-bold truncate">{{ Auth::user()->email }}</p>
                         </div>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-2 pt-1">
-                        <a href="{{ route('account.dashboard') }}"
-                           class="flex items-center gap-1.5 px-2.5 py-2 text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#EDE5D8] bg-[#0C0A09] polygon-btn">
-                            <i data-lucide="layout-dashboard" class="w-3.5 h-3.5 text-[#A8895F]"></i>
-                            {{ __('Dashboard') }}
-                        </a>
-                        <a href="{{ route('account.orders') }}"
-                           class="flex items-center gap-1.5 px-2.5 py-2 text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#EDE5D8] bg-[#0C0A09] polygon-btn">
-                            <i data-lucide="package-search" class="w-3.5 h-3.5 text-[#A8895F]"></i>
-                            {{ __('Orders') }}
-                        </a>
-                        <a href="{{ route('account.wishlist') }}"
-                           class="flex items-center gap-1.5 px-2.5 py-2 text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#EDE5D8] bg-[#0C0A09] polygon-btn">
-                            <i data-lucide="heart" class="w-3.5 h-3.5 text-[#A8895F]"></i>
-                            {{ __('Wishlist') }}
-                        </a>
-                        <a href="{{ route('account.profile') }}"
-                           class="flex items-center gap-1.5 px-2.5 py-2 text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#EDE5D8] bg-[#0C0A09] polygon-btn">
-                            <i data-lucide="user-cog" class="w-3.5 h-3.5 text-[#A8895F]"></i>
-                            {{ __('Profile') }}
-                        </a>
                     </div>
 
                     @if(Auth::user()->isAdmin())
@@ -642,7 +585,6 @@
 
     <!-- GLOBAL FOOTER -->
     <footer class="obsidian-footer-bg relative text-[#F8F5EF] z-10 overflow-hidden pt-1">
-        <!-- Top Metallic Gold Shimmer Hairline -->
         <div class="h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent w-full"></div>
 
         <!-- LUXURY TRUST GUARANTEE BANNER -->
@@ -714,28 +656,24 @@
                     </p>
 
                     <div class="flex space-x-3 pt-1">
-                        <!-- Instagram -->
                         <a href="https://instagram.com" target="_blank" title="Instagram" class="w-9 h-9 rounded bg-white/[0.04] border border-[#C5A059]/30 flex items-center justify-center text-[#FFF5D0] hover:text-[#D4AF37] hover:border-[#D4AF37] hover:bg-[#D4AF37]/10 transition-all shadow-md">
                             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                             </svg>
                         </a>
 
-                        <!-- Facebook -->
                         <a href="https://facebook.com" target="_blank" title="Facebook" class="w-9 h-9 rounded bg-white/[0.04] border border-[#C5A059]/30 flex items-center justify-center text-[#FFF5D0] hover:text-[#D4AF37] hover:border-[#D4AF37] hover:bg-[#D4AF37]/10 transition-all shadow-md">
                             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                             </svg>
                         </a>
 
-                        <!-- TikTok -->
                         <a href="https://tiktok.com" target="_blank" title="TikTok" class="w-9 h-9 rounded bg-white/[0.04] border border-[#C5A059]/30 flex items-center justify-center text-[#FFF5D0] hover:text-[#D4AF37] hover:border-[#D4AF37] hover:bg-[#D4AF37]/10 transition-all shadow-md">
                             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.29-2.71.74-5.43 2.78-7.14 1.41-1.18 3.23-1.8 5.06-1.8.15 0 .3 0 .45.01v4.03c-.27-.04-.54-.05-.81-.03-1.07.03-2.11.49-2.83 1.25-.82.83-1.19 2.02-1.01 3.18.19 1.25 1.05 2.3 2.22 2.65.87.27 1.82.16 2.61-.28.87-.47 1.47-1.32 1.62-2.31.07-.63.05-1.28.05-1.92V.02z"/>
                             </svg>
                         </a>
 
-                        <!-- WhatsApp -->
                         <a href="https://wa.me/{{ config('payment.whatsapp.phone_number') }}" target="_blank" title="{{ __('WhatsApp Concierge') }}" class="w-9 h-9 rounded bg-emerald-950/80 border border-emerald-600/50 flex items-center justify-center text-emerald-300 hover:bg-emerald-900 transition-all shadow-md">
                             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.631.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
@@ -769,7 +707,6 @@
                         <li><a href="{{ route('orders.track') }}" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> {{ __('Track Order') }}</a></li>
                         <li><a href="{{ route('home') }}#scent-finder" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> {{ __('Fragrance Finder') }}</a></li>
                         <li><a href="https://wa.me/{{ config('payment.whatsapp.phone_number') }}" target="_blank" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> {{ __('VIP WhatsApp Concierge') }}</a></li>
-                        <li><a href="{{ route('account.dashboard') }}" class="hover:text-[#FFF5D0] transition-colors flex items-center gap-1.5 group"><span class="w-1 h-1 rounded-full bg-[#C5A059]/40 group-hover:bg-[#D4AF37] transition-colors"></span> {{ __('My Account Dashboard') }}</a></li>
                     </ul>
                 </div>
 
@@ -778,7 +715,7 @@
                     <div class="p-5 rounded-lg border border-[#C5A059]/30 bg-[#1A1613]/80 polygon-card shadow-2xl backdrop-blur-md">
                         <h4 class="font-serif font-bold text-sm tracking-[0.2em] text-[#D4AF37] uppercase mb-2">{{ __('THE VIP CIRCLE') }}</h4>
                         <p class="text-[11px] text-[#A89C8C] mb-4 font-normal leading-relaxed">
-                            {{ __('Subscribe for exclusive private access to unreleased perfume launches and private campaign invitations.') }}
+                            {{ __('Subscribe for exclusive private access to unreleased perfume launches.') }}
                         </p>
                         <form @submit.prevent="alert(@js(__('Thank you for joining Sozie Collection VIP Circle!')))" class="space-y-3">
                             <input type="email" placeholder="{{ __('Enter your email...') }}" required class="w-full bg-[#12100E] border border-[#C5A059]/40 text-xs text-[#FFF5D0] px-3.5 py-2.5 focus:outline-none focus:border-[#D4AF37] rounded font-medium placeholder-[#A89C8C]">
@@ -791,7 +728,6 @@
 
             </div>
 
-            <!-- Footer Bottom Line -->
             <div class="gold-line-glow h-[1px] w-full mb-8"></div>
 
             <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-[#C5A059] font-medium">
@@ -827,7 +763,6 @@
 
                 initApp() {
                     this.fetchCart();
-                    this.fetchLoggedInWishlist();
                     this.syncWishlistItems();
                     sozieIcons();
                 },
@@ -842,25 +777,6 @@
                             this.formattedTotal = data.formatted_total || 'TZS 0';
                             this.$nextTick(() => sozieIcons());
                         });
-                },
-
-                fetchLoggedInWishlist() {
-                    fetch('{{ route("wishlist.index_api") }}', {
-                        headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
-                    })
-                        .then(res => res.json())
-                        .then(data => {
-                            if (data.logged_in === true) {
-                                this.wishlistLoggedIn = true;
-                                this.wishlist = data.items || [];
-                                localStorage.setItem('sozie_wishlist', JSON.stringify(this.wishlist));
-                                this.syncWishlistItems();
-                                this.$nextTick(() => sozieIcons());
-                            } else {
-                                this.wishlistLoggedIn = false;
-                            }
-                        })
-                        .catch(() => { this.wishlistLoggedIn = false; });
                 },
 
                 addToCart(productId, size = null, quantity = 1) {
@@ -939,75 +855,24 @@
                 },
 
                 toggleWishlist(product) {
-                    const localItem = {
-                        id: product.id,
-                        name: product.name,
-                        formatted_price: product.formatted_price || ('TZS ' + Number(product.price || 0).toLocaleString()),
-                        image: product.image || product.primary_image
-                    };
-
-                    if (! this.wishlistLoggedIn) {
-                        const idx = this.wishlist.findIndex(item => Number(item.id) === Number(product.id));
-                        if (idx > -1) {
-                            this.wishlist.splice(idx, 1);
-                        } else {
-                            this.wishlist.push(localItem);
-                        }
-                        localStorage.setItem('sozie_wishlist', JSON.stringify(this.wishlist));
-                        this.syncWishlistItems();
-                        this.$nextTick(() => sozieIcons());
-                        return;
-                    }
-
-                    fetch('{{ route("wishlist.toggle") }}', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify({ product_id: product.id })
-                    })
-                        .then(async res => {
-                            if (res.status === 401) {
-                                this.wishlistLoggedIn = false;
-                                const idx = this.wishlist.findIndex(item => Number(item.id) === Number(product.id));
-                                if (idx > -1) this.wishlist.splice(idx, 1);
-                                else this.wishlist.push(localItem);
-                                localStorage.setItem('sozie_wishlist', JSON.stringify(this.wishlist));
-                                this.syncWishlistItems();
-                                this.$nextTick(() => sozieIcons());
-                                return null;
-                            }
-                            return res.json();
-                        })
-                        .then(data => {
-                            if (! data) return;
-                            if (data.logged_in === false) {
-                                this.wishlistLoggedIn = false;
-                                const idx = this.wishlist.findIndex(item => Number(item.id) === Number(product.id));
-                                if (idx > -1) this.wishlist.splice(idx, 1);
-                                else this.wishlist.push(localItem);
-                                localStorage.setItem('sozie_wishlist', JSON.stringify(this.wishlist));
-                                this.syncWishlistItems();
-                                this.$nextTick(() => sozieIcons());
-                                return;
-                            }
-                            this.fetchLoggedInWishlist();
-                        })
-                        .catch(() => {
-                            this.wishlistLoggedIn = false;
-                            const idx = this.wishlist.findIndex(item => Number(item.id) === Number(product.id));
-                            if (idx > -1) this.wishlist.splice(idx, 1);
-                            else this.wishlist.push(localItem);
-                            localStorage.setItem('sozie_wishlist', JSON.stringify(this.wishlist));
-                            this.syncWishlistItems();
-                            this.$nextTick(() => sozieIcons());
+                    const idx = this.wishlist.findIndex(item => Number(item.id) === Number(product.id));
+                    if (idx > -1) {
+                        this.wishlist.splice(idx, 1);
+                    } else {
+                        this.wishlist.push({
+                            id: product.id,
+                            name: product.name,
+                            formatted_price: product.formatted_price || ('TZS ' + Number(product.price || 0).toLocaleString()),
+                            image: product.image || product.primary_image
                         });
+                    }
+                    localStorage.setItem('sozie_wishlist', JSON.stringify(this.wishlist));
+                    this.syncWishlistItems();
+                    this.$nextTick(() => sozieIcons());
                 },
 
                 isInWishlist(productId) {
-                    return this.wishlist.some(item => item.id === productId);
+                    return this.wishlist.some(item => Number(item.id) === Number(productId));
                 },
 
                 syncWishlistItems() {

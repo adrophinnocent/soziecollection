@@ -59,28 +59,16 @@
 @theme {
     --font-serif: 'Cormorant Garamond', Georgia, serif;
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
-    --color-warm-sand: #0C0A09;
-    --color-ivory: #F8F5EF;
-    --color-taupe: #A89C8C;
-    --color-espresso: #EDE5D8;
-    --color-champagne-gold: #A8895F;
-    --color-primary: #EDE5D8;
-    --color-accent: #A8895F;
-    --color-neutral: #0C0A09;
+    --color-warm-sand: #F5F0E8;
+    --color-ivory: #FFFFFF;
+    --color-taupe: #E8DED0;
+    --color-espresso: #211E1A;
+    --color-champagne-gold: #B99A5B;
+    --color-primary: #F5F0E8;
+    --color-accent: #B99A5B;
+    --color-neutral: #211E1A;
 }
 
-/* ======================================================================
-   SOZIE OBSIDIAN PALETTE
-   The storefront is a single unconditional dark theme. Every surface, text
-   and border value below is defined once here and reused by the rest of
-   this stylesheet, so the design lives in one place and no browser setting
-   (Samsung Internet "dark mode for websites", Chrome force-dark, OS dark
-   mode) has anything left to override or invert.
-
-   Surfaces run near-black -> obsidian -> raised -> inset, so depth reads as
-   luminance on a black page instead of as shadow. Text is the warm cream
-   family; gold is unchanged and is the only accent.
-   ====================================================================== */
 :root {
     --surface-page: #0C0A09;
     --surface-card: #17130F;
@@ -109,15 +97,10 @@
     --state-amber-border: #78350F;
 }
 
-/* The admin panel is deliberately still a light warm-sand document: it is the
-   owner's back office, not the storefront, and it declares its own
-   color-scheme/theme-color meta. It therefore keeps the light defaults below;
-   only `html.sozie-storefront` (the storefront layout) opts into the obsidian
-   palette. Scoping the dark rules this way is what keeps admin untouched. */
 :root {
     color-scheme: light;
-    background-color: #EDE5D8;
-    color: #29241F;
+    background-color: #F5F0E8;
+    color: #211E1A;
 }
 
 html.sozie-storefront {
@@ -136,9 +119,8 @@ html.sozie-storefront body {
     color: var(--text-primary);
 }
 
-/* High Contrast Form Inputs (admin: light) */
 input, select, textarea {
-    color: #29241F !important;
+    color: #211E1A !important;
     background-color: #F8F5EF !important;
     border: 1px solid rgba(168, 137, 95, 0.4) !important;
 }
@@ -173,20 +155,19 @@ html.sozie-storefront textarea:focus {
     box-shadow: 0 0 0 3px rgba(168, 137, 95, 0.45);
 }
 
-/* Custom Scrollbar (admin: light track) */
 ::-webkit-scrollbar {
     width: 8px;
 }
 ::-webkit-scrollbar-track {
-    background: #EDE5D8;
+    background: #F5F0E8;
 }
 ::-webkit-scrollbar-thumb {
-    background: #D8C9B8;
+    background: #E8DED0;
     border-radius: 4px;
-    border: 1px solid rgba(168, 137, 95, 0.4);
+    border: 1px solid rgba(185, 154, 91, 0.4);
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #A8895F;
+    background: #B99A5B;
 }
 
 html.sozie-storefront ::-webkit-scrollbar-track {
@@ -200,7 +181,6 @@ html.sozie-storefront ::-webkit-scrollbar-thumb:hover {
     background: var(--gold);
 }
 
-/* Polygonal Clip Paths & Masks */
 .polygon-hero {
     clip-path: polygon(0 0, 100% 0, 100% 88%, 88% 100%, 0 100%);
 }
@@ -226,22 +206,19 @@ html.sozie-storefront ::-webkit-scrollbar-thumb:hover {
     clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
 }
 
-/* Glassmorphism & Ivory Panels (admin: light) */
 .glass-panel {
-    background: rgba(248, 245, 239, 0.96) !important;
+    background: rgba(255, 255, 255, 0.96) !important;
     backdrop-filter: blur(16px);
-    border: 1px solid rgba(168, 137, 95, 0.35) !important;
-    box-shadow: 0 10px 30px rgba(41, 36, 31, 0.08) !important;
+    border: 1px solid rgba(232, 222, 208, 0.8) !important;
+    box-shadow: 0 10px 30px rgba(33, 30, 26, 0.08) !important;
 }
 
 .glass-panel-gold {
-    background: linear-gradient(135deg, rgba(248, 245, 239, 0.98) 0%, rgba(216, 201, 184, 0.4) 100%) !important;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(245, 240, 232, 0.4) 100%) !important;
     backdrop-filter: blur(14px);
-    border: 1px solid rgba(168, 137, 95, 0.45) !important;
+    border: 1px solid rgba(185, 154, 91, 0.45) !important;
 }
 
-/* Dark Obsidian Bar — used by the sticky header so it reads as one
-   luxury dark theme with the obsidian footer. */
 .glass-panel-dark {
     background: radial-gradient(circle at 50% 0%, #1D1814 0%, #12100E 100%) !important;
     backdrop-filter: blur(16px);
@@ -250,9 +227,6 @@ html.sozie-storefront ::-webkit-scrollbar-thumb:hover {
     box-shadow: 0 10px 30px rgba(18, 16, 14, 0.35) !important;
 }
 
-/* Storefront: the same panels, re-cut for a near-black page. The gold hairline
-   and the blur stay; only the fill changes, so they still read as glass over
-   the page rather than as opaque light boxes. */
 html.sozie-storefront .glass-panel {
     background: rgba(23, 19, 15, 0.92) !important;
     border: 1px solid rgba(168, 137, 95, 0.3) !important;
@@ -265,7 +239,6 @@ html.sozie-storefront .glass-panel-gold {
     box-shadow: 0 14px 36px rgba(0, 0, 0, 0.55) !important;
 }
 
-/* Obsidian Cards & Containers */
 .glass-card, .wine-card, .navy-card {
     background: #17130F !important;
     backdrop-filter: blur(12px);
@@ -281,11 +254,6 @@ html.sozie-storefront .glass-panel-gold {
     box-shadow: 0 14px 34px rgba(168, 137, 95, 0.16) !important;
 }
 
-/* Gold Gradient Text.
-   Light-on-dark: a cream core fading through gold, so the highlight still
-   reads as the brightest thing on the page. `background-clip: text` is added
-   next to the -webkit- form because the standard property is what current
-   engines resolve; the -webkit- prefix alone is the legacy fallback. */
 .gold-gradient-text, .crimson-gradient-text {
     background: linear-gradient(135deg, #FFF5D0 0%, #D4AF37 45%, #C5A059 70%, #F8F5EF 100%);
     -webkit-background-clip: text;
@@ -293,9 +261,6 @@ html.sozie-storefront .glass-panel-gold {
     -webkit-text-fill-color: transparent;
 }
 
-/* On black a shadow has nothing to darken, so the gold "glow" utilities are
-   re-tuned as bloom: a tight inner core plus a wide halo, so they read as
-   light spilling off the element instead of as a smudge. */
 .gold-glow, .crimson-glow {
     box-shadow: 0 0 18px rgba(212, 175, 55, 0.28), 0 0 6px rgba(212, 175, 55, 0.35);
 }
@@ -304,7 +269,6 @@ html.sozie-storefront .glass-panel-gold {
     box-shadow: 0 0 26px rgba(212, 175, 55, 0.3), 0 0 60px rgba(168, 137, 95, 0.28);
 }
 
-/* Luxury Metallic Shimmer & Accent Utilities */
 .bg-gold-metallic {
     background: linear-gradient(135deg, #A8895F 0%, #D4AF37 35%, #F3E5AB 50%, #D4AF37 65%, #A8895F 100%);
 }
@@ -338,7 +302,6 @@ html.sozie-storefront .glass-panel-gold {
     background: radial-gradient(circle at 50% 0%, #1D1814 0%, #12100E 100%);
 }
 
-/* Floating Animation */
 @keyframes float {
     0%, 100% { transform: translateY(0px) rotate(0deg); }
     50% { transform: translateY(-12px) rotate(1deg); }

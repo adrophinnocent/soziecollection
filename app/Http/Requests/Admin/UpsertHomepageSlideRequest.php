@@ -2,26 +2,32 @@
 
 namespace App\Http\Requests\Admin;
 
-use Closure;
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 
 class UpsertHomepageSlideRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return $this->user()?->canAccess('homepage_content') ?? false;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
-     */
+    protected function prepareForValidation(): void
+    {
+        if ($this->filled('button_link')) {
+            $link = (string) $this->input('button_link');
+            if (! Str::startsWith(strtolower(trim($link)), ['javascript:', 'data:'])) {
+                $this->merge(['button_link' => $this->formatLink($link)]);
+            }
+        }
+        if ($this->filled('secondary_button_link')) {
+            $link = (string) $this->input('secondary_button_link');
+            if (! Str::startsWith(strtolower(trim($link)), ['javascript:', 'data:'])) {
+                $this->merge(['secondary_button_link' => $this->formatLink($link)]);
+            }
+        }
+    }
+
     public function rules(): array
     {
         return [
@@ -31,16 +37,18 @@ class UpsertHomepageSlideRequest extends FormRequest
             'highlight_text' => ['nullable', 'string', 'max:120'],
             'subtitle' => ['nullable', 'string', 'max:500'],
             'image' => [
-                $this->isMethod('post') ? 'required' : 'nullable',
-                'image',
-                'mimes:jpg,jpeg,png,webp,gif,bmp,avif',
+                'nullable',
+                'file',
+                'mimes:jpg,jpeg,png,webp,gif,bmp,avif,svg',
                 'max:20480',
             ],
-            'mobile_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,gif,bmp,avif', 'max:20480'],
+            'image_url' => ['nullable', 'string', 'max:500'],
+            'mobile_image' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,gif,bmp,avif,svg', 'max:20480'],
+            'mobile_image_url' => ['nullable', 'string', 'max:500'],
             'button_text' => ['nullable', 'string', 'max:60'],
-            'button_link' => ['nullable', 'string', 'max:255', $this->safeLink()],
+            'button_link' => ['nullable', 'string', 'max:255'],
             'secondary_button_text' => ['nullable', 'string', 'max:60'],
-            'secondary_button_link' => ['nullable', 'string', 'max:255', $this->safeLink()],
+            'secondary_button_link' => ['nullable', 'string', 'max:255'],
             'is_active' => ['sometimes', 'boolean'],
             'show_in_hero' => ['sometimes', 'boolean'],
             'show_in_gallery' => ['sometimes', 'boolean'],
@@ -48,26 +56,44 @@ class UpsertHomepageSlideRequest extends FormRequest
         ];
     }
 
-    /**
-     * @return array<string, string>
-     */
+    public function withValidator($validator): void
+    {
+        $validator->after(function ($validator) {
+            if ($this->isMethod('post')) {
+                if (! $this->hasFile('image') && ! $this->filled('image_url')) {
+                    $validator->errors()->add('image', 'Upload a desktop design image file or enter an image URL link.');
+                }
+            }
+
+            foreach (['button_link', 'secondary_button_link'] as $field) {
+                $link = (string) $this->input($field);
+                if (str_starts_with(strtolower(trim($link)), 'javascript:') || str_starts_with(strtolower(trim($link)), 'data:')) {
+                    $validator->errors()->add($field, 'Unsafe button link URL format.');
+                }
+            }
+        });
+    }
+
     public function messages(): array
     {
         return [
-            'image.required' => 'Upload a desktop design for this slide.',
+            'image.required' => 'Upload a desktop design image file or enter an image URL link.',
         ];
     }
 
-    private function safeLink(): Closure
+    private function formatLink(string $link): string
     {
-        return function (string $attribute, mixed $value, Closure $fail): void {
-            if (is_null($value) || $value === '') {
-                return;
-            }
+        $link = trim($link);
+        if ($link === '') {
+            return '';
+        }
+        if (Str::startsWith($link, ['/', '#', 'http://', 'https://'])) {
+            return $link;
+        }
+        if (str_contains($link, '.')) {
+            return 'https://'.$link;
+        }
 
-            if (! Str::startsWith((string) $value, ['/', '#', 'http://', 'https://'])) {
-                $fail('The :attribute must be an internal path or a valid http(s) URL.');
-            }
-        };
+        return '/'.$link;
     }
 }

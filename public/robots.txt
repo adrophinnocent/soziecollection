@@ -1,2 +1,7 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /checkout
+
+Sitemap: https://soziecollection.twinasafaris.com/sitemap.xml

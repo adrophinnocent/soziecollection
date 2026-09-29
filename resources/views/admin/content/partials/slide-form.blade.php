@@ -64,8 +64,8 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="p-4 bg-[#EDE5D8] border border-[#D8C9B8] polygon-card space-y-3">
             <div class="flex items-center justify-between gap-3">
-                <label for="image-{{ $previewId }}" class="block text-[10px] font-extrabold uppercase text-[#A8895F]">Desktop Design *</label>
-                <span class="text-[9px] font-bold text-emerald-800">✓ Picha yoyote inakubaliwa (Auto-fits)</span>
+                <label for="image-{{ $previewId }}" class="block text-[10px] font-extrabold uppercase text-[#A8895F]">Desktop Design Image *</label>
+                <span class="text-[9px] font-bold text-emerald-800">✓ Upload file au weka URL</span>
             </div>
 
             @if($banner?->image_url)
@@ -77,9 +77,15 @@
                  class="hidden w-full h-32 object-cover border border-[#D8C9B8] bg-white">
             @endif
 
-            <input id="image-{{ $previewId }}" type="file" name="image" accept="image/jpeg,image/png,image/webp" data-preview-id="{{ $previewId }}"
-                   @required(! $banner)
+            <input id="image-{{ $previewId }}" type="file" name="image" accept="image/*" data-preview-id="{{ $previewId }}"
                    class="w-full bg-white border border-[#D8C9B8] text-[#29241F] px-3 py-2 focus:outline-none focus:border-[#A8895F]">
+
+            <div class="pt-1">
+                <label class="block text-[9px] font-extrabold uppercase text-[#A8895F] mb-0.5">Au Image URL Link</label>
+                <input type="text" name="image_url" value="{{ old('image_url', Str::startsWith($banner?->image ?? '', 'http') ? $banner?->image : '') }}" placeholder="https://cdn.example.com/slide.jpg"
+                       class="w-full bg-white border border-[#D8C9B8] text-[#29241F] px-2.5 py-1.5 text-xs focus:outline-none focus:border-[#A8895F]">
+            </div>
+
             @error('image')
             <p class="text-[10px] font-bold text-rose-700">{{ $message }}</p>
             @enderror
@@ -97,8 +103,15 @@
                  class="hidden w-full h-32 object-cover border border-[#D8C9B8] bg-white">
             @endif
 
-            <input id="mobile_image-{{ $previewId }}" type="file" name="mobile_image" accept="image/jpeg,image/png,image/webp" data-mobile-preview-id="{{ $previewId }}"
+            <input id="mobile_image-{{ $previewId }}" type="file" name="mobile_image" accept="image/*" data-mobile-preview-id="{{ $previewId }}"
                    class="w-full bg-white border border-[#D8C9B8] text-[#29241F] px-3 py-2 focus:outline-none focus:border-[#A8895F]">
+
+            <div class="pt-1">
+                <label class="block text-[9px] font-extrabold uppercase text-[#A8895F] mb-0.5">Au Mobile Image URL Link</label>
+                <input type="text" name="mobile_image_url" value="{{ old('mobile_image_url', Str::startsWith($banner?->mobile_image ?? '', 'http') ? $banner?->mobile_image : '') }}" placeholder="https://cdn.example.com/mobile-slide.jpg"
+                       class="w-full bg-white border border-[#D8C9B8] text-[#29241F] px-2.5 py-1.5 text-xs focus:outline-none focus:border-[#A8895F]">
+            </div>
+
             @error('mobile_image')
             <p class="text-[10px] font-bold text-rose-700">{{ $message }}</p>
             @enderror

@@ -22,7 +22,7 @@
                     <th class="pb-3">Gender</th>
                     <th class="pb-3">Price</th>
                     <th class="pb-3">Flags</th>
-                    <th class="pb-3">Actions</th>
+                    <th class="pb-3">Campaign Link & Actions</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-[#D8C9B8]/60">
@@ -46,13 +46,20 @@
                         <span class="px-1.5 py-0.5 bg-[#29241F] text-white text-[9px] font-extrabold rounded">NEW</span>
                         @endif
                     </td>
-                    <td class="py-3 space-x-2">
-                        <a href="{{ route('admin.products.edit', $p->id) }}" class="text-xs text-[#A8895F] hover:underline font-extrabold">Edit</a>
-                        <form action="{{ route('admin.products.delete', $p->id) }}" method="POST" class="inline" onsubmit="return confirm('Delete product?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-xs text-rose-600 hover:underline font-extrabold">Delete</button>
-                        </form>
+                    <td class="py-3">
+                        <div class="flex items-center gap-2">
+                            <button onclick="copyProductLink('{{ route('shop.show', $p->slug) }}')"
+                                    title="Copy direct campaign link for WhatsApp / Social Media"
+                                    class="px-2.5 py-1 bg-[#A8895F]/15 text-[#A8895F] border border-[#A8895F]/40 rounded hover:bg-[#A8895F] hover:text-white transition-all text-[10px] font-extrabold uppercase flex items-center gap-1 cursor-pointer">
+                                <i data-lucide="copy" class="w-3 h-3"></i> Copy Link
+                            </button>
+                            <a href="{{ route('admin.products.edit', $p->id) }}" class="text-xs text-[#A8895F] hover:underline font-extrabold">Edit</a>
+                            <form action="{{ route('admin.products.delete', $p->id) }}" method="POST" class="inline" onsubmit="return confirm('Delete product?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-xs text-rose-600 hover:underline font-extrabold">Delete</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 @endforeach
@@ -64,5 +71,37 @@
         {{ $products->links() }}
     </div>
 </div>
+
+@push('scripts')
+<script>
+    function copyProductLink(url) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(() => {
+                alert('Copied product campaign link to clipboard:\n' + url);
+            }).catch(() => {
+                fallbackCopyTextToClipboard(url);
+            });
+        } else {
+            fallbackCopyTextToClipboard(url);
+        }
+    }
+
+    function fallbackCopyTextToClipboard(text) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            alert('Copied product campaign link to clipboard:\n' + text);
+        } catch (err) {
+            alert('Product Link:\n' + text);
+        }
+        document.body.removeChild(textArea);
+    }
+</script>
+@endpush
 
 @endsection

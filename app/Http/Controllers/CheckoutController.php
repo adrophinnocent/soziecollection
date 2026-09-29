@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AdminOrderNotification;
+use App\Mail\OrderReceived;
 use App\Models\Address;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Product;
+use App\Models\ProductVariant;
+use App\Models\Setting;
 use App\Models\User;
 use App\Support\CartItems;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class CheckoutController extends Controller
@@ -142,7 +148,7 @@ class CheckoutController extends Controller
         ]);
 
         foreach ($cart as $item) {
-            $variantSize = $item['size'] ?? $item['variant_size'] ?? '50ml Signature Bottle';
+            $variantSize = $item['size'] ?? $item['variant_size'] ?? '50ml';
 
             OrderItem::create([
                 'order_id' => $order->id,
@@ -154,6 +160,33 @@ class CheckoutController extends Controller
                 'unit_price' => $item['price'],
                 'subtotal' => $item['price'] * $item['quantity'],
             ]);
+
+            // Deduct inventory stock
+            if (! empty($item['product_id'])) {
+                $product = Product::find($item['product_id']);
+                if ($product && $product->stock_quantity >= $item['quantity']) {
+                    $product->decrement('stock_quantity', $item['quantity']);
+                    $variant = ProductVariant::where('product_id', $product->id)
+                        ->where('size', $variantSize)
+                        ->first();
+                    if ($variant && $variant->stock_quantity >= $item['quantity']) {
+                        $variant->decrement('stock_quantity', $item['quantity']);
+                    }
+                }
+            }
+        }
+
+        // Send email notifications
+        try {
+            if (! empty($order->customer_email)) {
+                Mail::to($order->customer_email)->send(new OrderReceived($order));
+            }
+            $adminEmail = Setting::get('email', config('mail.from.address', 'admin@soziecollection.com'));
+            if (! empty($adminEmail)) {
+                Mail::to($adminEmail)->send(new AdminOrderNotification($order));
+            }
+        } catch (\Throwable $e) {
+            // Log or ignore mail errors to keep checkout resilient
         }
 
         session()->forget('cart');

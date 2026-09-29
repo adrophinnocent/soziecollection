@@ -26,13 +26,26 @@ class CartController extends Controller
         ]);
 
         $product = Product::findOrFail($request->product_id);
-        $size = $request->input('size') ?: ($product->default_size ?: '50ml Signature Bottle');
+        $size = $request->input('size') ?: ($product->default_size ?: '50ml');
         $quantity = (int) $request->input('quantity', 1);
 
         // Find variant price if available
         $variant = ProductVariant::where('product_id', $product->id)
             ->where('size', $size)
             ->first();
+
+        // Stock check
+        $availableStock = $variant ? $variant->stock_quantity : $product->stock_quantity;
+        if ($product->availability_status === 'out_of_stock' || $product->availability_status === 'discontinued' || $availableStock <= 0) {
+            if ($request->wantsJson() || $request->ajax()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => __('This product or size variant is currently out of stock.'),
+                ], 422);
+            }
+
+            return back()->with('error', __('This product or size variant is currently out of stock.'));
+        }
 
         $price = $variant ? $variant->price : $product->effective_price;
 

@@ -112,7 +112,13 @@ class ProductController extends Controller
             $relatedProducts = $relatedProducts->concat($extraProducts);
         }
 
-        return view('shop.show', compact('product', 'relatedProducts'));
+        // Open Graph Campaign Metadata for WhatsApp/Social Media Sharing
+        $pageTitle = $product->seo_title ?: ($product->name.' | Sozie Collection');
+        $pageDescription = $product->meta_description ?: ($product->ad_headline ?: ($product->name.' — '.$product->concentration.' ('.$product->scent_type.'). Premium Fragrance | '.$product->formatted_price.' | Sozie Collection'));
+        $pageImage = $product->primary_image;
+        $canonicalUrl = route('shop.show', $product->slug);
+
+        return view('shop.show', compact('product', 'relatedProducts', 'pageTitle', 'pageDescription', 'pageImage', 'canonicalUrl'));
     }
 
     public function storeReview(Request $request, $id)
