@@ -6,6 +6,7 @@ use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Review;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -16,6 +17,33 @@ class HomeController extends Controller
             ->active()
             ->ordered()
             ->get();
+
+        $allProducts = Product::with('variants')->where('is_available', true)->get();
+
+        $resolveSmartLink = function (Banner $banner) use ($allProducts): string {
+            if ($banner->button_link && $banner->button_link !== '/shop' && $banner->button_link !== route('shop.index')) {
+                return $banner->button_link;
+            }
+
+            $searchTerms = array_filter([$banner->title, $banner->headline, $banner->eyebrow]);
+            foreach ($searchTerms as $term) {
+                $trimmed = trim($term);
+                if (mb_strlen($trimmed) < 3) {
+                    continue;
+                }
+
+                $matched = $allProducts->first(function (Product $p) use ($trimmed) {
+                    return Str::contains(strtolower($p->name), strtolower($trimmed))
+                        || Str::contains(strtolower($trimmed), strtolower($p->name));
+                });
+
+                if ($matched) {
+                    return route('shop.show', $matched->slug);
+                }
+            }
+
+            return $banner->button_link ?: route('shop.index');
+        };
 
         $heroSlides = $allBanners
             ->filter(fn (Banner $b) => $b->show_in_hero)
@@ -28,7 +56,7 @@ class HomeController extends Controller
                 'highlight_text' => $banner->highlight_text ?: '',
                 'description' => $banner->subtitle ?: '',
                 'button_text' => $banner->button_text ?: __('Shop Collection'),
-                'button_link' => $banner->button_link ?: route('shop.index'),
+                'button_link' => $resolveSmartLink($banner),
                 'secondary_button_text' => $banner->secondary_button_text ?: '',
                 'secondary_button_link' => $banner->secondary_button_link ?: '',
             ])
@@ -44,6 +72,7 @@ class HomeController extends Controller
                 'headline' => $banner->headline ?: $banner->title,
                 'highlight_text' => $banner->highlight_text ?: '',
                 'subtitle' => $banner->subtitle ?: '',
+                'button_link' => $resolveSmartLink($banner),
                 'tag' => '@soziecollection',
                 'handle' => '@soziecollection',
             ])
@@ -73,8 +102,6 @@ class HomeController extends Controller
             ->where('rating', '>=', 4)
             ->take(6)
             ->get();
-
-        $allProducts = Product::with('variants')->where('is_available', true)->get();
 
         return view('home', compact(
             'heroSlides',

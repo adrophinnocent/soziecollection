@@ -96,7 +96,7 @@
 
                     <a x-show="currentSlide.secondary_button_text"
                        :href="currentSlide.secondary_button_link"
-                       class="px-8 py-4 bg-[#17130F] border border-[#B99A5B]/50 text-[#EDE5D8] font-extrabold text-xs tracking-[0.2em] uppercase polygon-btn hover:bg-[#E8DED0] hover:text-[#12100E] transition-all backdrop-blur-md flex items-center gap-2 shadow-sm">
+                       class="px-8 py-4 bg-[#17130F] border border-[#B99A5B]/50 text-[#EDE5D8] font-extrabold text-xs tracking-[0.2em] uppercase polygon-btn hover:bg-[#E8DED0] hover:text-[#211E1A] transition-all backdrop-blur-md flex items-center gap-2 shadow-sm">
                         <i data-lucide="sparkles" class="w-4 h-4 text-[#8F6E3B]"></i>
                         <span x-text="currentSlide.secondary_button_text">{{ __('FIND YOUR SCENT') }}</span>
                     </a>
@@ -120,15 +120,15 @@
 
             </div>
 
-            <!-- Hero Visual Feature Bottle (Right) with SLIDING PICTURE -->
+            <!-- Hero Visual Feature Bottle (Right) with SLIDING PICTURE & CLICKABLE SMART PRODUCT LINK -->
             <div class="lg:col-span-5 relative flex justify-center">
                 <div class="relative w-80 h-[420px] sm:w-96 sm:h-[480px] group">
 
                     <!-- Golden Polygon Outer Frame -->
                     <div class="absolute inset-0 bg-[#E8DED0] polygon-card border-2 border-[#B99A5B] gold-glow-lg transition-all duration-500 group-hover:scale-[1.02]"></div>
 
-                    <!-- Main Image Container Box -->
-                    <div class="absolute inset-2 bg-[#17130F] polygon-card overflow-hidden shadow-2xl border border-[#B99A5B]/40">
+                    <!-- Main Clickable Image Container Box -->
+                    <a :href="currentSlide.button_link || '{{ route('shop.index') }}'" class="absolute inset-2 bg-[#17130F] polygon-card overflow-hidden shadow-2xl border border-[#B99A5B]/40 block">
 
                         <!-- Sliding Perfume Images inside Frame -->
                         <template x-for="(slide, index) in slides" :key="'bottle-' + index">
@@ -151,15 +151,18 @@
                         </template>
 
                         <!-- Floating Glass Product Tag -->
-                        <div class="absolute bottom-4 left-4 right-4 glass-panel p-3.5 polygon-card border border-[#B99A5B]/40 flex justify-between items-center z-20 shadow-2xl backdrop-blur-md">
+                        <div class="absolute bottom-4 left-4 right-4 glass-panel p-3.5 polygon-card border border-[#B99A5B]/40 flex justify-between items-center z-20 shadow-2xl backdrop-blur-md group-hover:border-[#B99A5B]">
                             <div>
                                 <span class="text-[10px] text-[#8F6E3B] font-extrabold uppercase tracking-widest block" x-text="currentSlide.badge || 'SIGNATURE'"></span>
-                                <h4 class="font-serif font-bold text-[#F8F5EF] text-base tracking-wide" x-text="currentSlide.name || currentSlide.title || 'SOZIE COLLECTION'"></h4>
+                                <h4 class="font-serif font-bold text-[#F8F5EF] text-base tracking-wide flex items-center gap-1.5">
+                                    <span x-text="currentSlide.name || currentSlide.title || 'SOZIE COLLECTION'"></span>
+                                    <i data-lucide="arrow-up-right" class="w-4 h-4 text-[#8F6E3B]"></i>
+                                </h4>
                             </div>
                             <span class="text-xs font-extrabold text-[#8F6E3B] font-mono" x-text="currentSlide.price || ''"></span>
                         </div>
 
-                    </div>
+                    </a>
 
                     <!-- Slide Controls / Navigation Dots -->
                     <template x-if="slides.length > 1">
@@ -190,25 +193,34 @@
 
             <!-- Left Large Campaign Image Frame -->
             <div class="lg:col-span-6 relative">
-                <div class="w-full h-[500px] glass-panel p-2 polygon-card border border-[#B99A5B]/40 shadow-2xl gold-glow bg-[#17130F]">
-                    <div class="w-full h-full polygon-card overflow-hidden relative flex items-center justify-center p-4 bg-[#F5F0E8]">
-                        @if($campaignSlide && ($campaignSlide['image'] ?? $campaignSlide['mobile_image']))
-                        <img src="{{ $campaignSlide['image'] ?? $campaignSlide['mobile_image'] }}" data-sozie-fallback loading="lazy" decoding="async"
-                             alt="{{ $campaignSlide['headline'] ?? __('Sozie Signature Scent') }}"
-                             class="w-full h-full object-contain filter drop-shadow-2xl">
-                        @else
-                        <div class="w-full h-full bg-gradient-to-t from-[#211E1A] via-[#8F6E3B] to-[#F5F0E8] flex items-center justify-center">
-                            <span class="font-serif font-bold text-3xl text-white">SOZIE COLLECTION</span>
-                        </div>
-                        @endif
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#211E1A]/90 via-[#211E1A]/30 to-transparent opacity-90"></div>
-                        <div class="absolute bottom-8 left-8 right-8 text-white space-y-1 z-10">
-                            <span class="text-xs font-extrabold text-[#E8DED0] tracking-[0.3em] uppercase block">{{ __('Sozie Signature Scent') }} &bull; {{ __('CROWN JEWEL COLLECTION') }}</span>
-                            <h3 class="font-serif font-bold text-3xl text-white">SOZIE GOLDEN AURA</h3>
-                            <p class="text-xs text-[#E8DED0] mt-2 line-clamp-2 font-medium">{{ __('Kashmiri saffron, warm honeycomb, and crystal amber blended to perfection.') }}</p>
+                @php
+                    $firstFeatured = $featuredProducts->first();
+                    $firstFeaturedUrl = $firstFeatured ? route('shop.show', $firstFeatured->slug) : route('shop.index');
+                @endphp
+                <a href="{{ $firstFeaturedUrl }}" class="block group">
+                    <div class="w-full h-[500px] glass-panel p-2 polygon-card border border-[#B99A5B]/40 shadow-2xl gold-glow bg-[#17130F] group-hover:border-[#B99A5B] transition-all">
+                        <div class="w-full h-full polygon-card overflow-hidden relative flex items-center justify-center p-4 bg-[#F5F0E8]">
+                            @if($campaignSlide && ($campaignSlide['image'] ?? $campaignSlide['mobile_image']))
+                            <img src="{{ $campaignSlide['image'] ?? $campaignSlide['mobile_image'] }}" data-sozie-fallback loading="lazy" decoding="async"
+                                 alt="{{ $campaignSlide['headline'] ?? __('Sozie Signature Scent') }}"
+                                 class="w-full h-full object-contain filter drop-shadow-2xl group-hover:scale-105 transition-transform duration-500">
+                            @else
+                            <div class="w-full h-full bg-gradient-to-t from-[#211E1A] via-[#8F6E3B] to-[#F5F0E8] flex items-center justify-center">
+                                <span class="font-serif font-bold text-3xl text-white">SOZIE COLLECTION</span>
+                            </div>
+                            @endif
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#211E1A]/90 via-[#211E1A]/30 to-transparent opacity-90"></div>
+                            <div class="absolute bottom-8 left-8 right-8 text-white space-y-1 z-10">
+                                <span class="text-xs font-extrabold text-[#E8DED0] tracking-[0.3em] uppercase block">{{ __('Sozie Signature Scent') }} &bull; {{ __('CROWN JEWEL COLLECTION') }}</span>
+                                <h3 class="font-serif font-bold text-3xl text-white group-hover:text-[#B99A5B] transition-colors flex items-center gap-2">
+                                    <span>{{ $firstFeatured ? $firstFeatured->name : 'SOZIE GOLDEN AURA' }}</span>
+                                    <i data-lucide="arrow-up-right" class="w-5 h-5 text-[#B99A5B]"></i>
+                                </h3>
+                                <p class="text-xs text-[#E8DED0] mt-2 line-clamp-2 font-medium">{{ $firstFeatured ? ($firstFeatured->fragrance_story ?: $firstFeatured->description) : __('Kashmiri saffron, warm honeycomb, and crystal amber blended to perfection.') }}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
 
             <!-- Right Showcase Card Details -->
@@ -225,12 +237,14 @@
                     @foreach($featuredProducts->take(2) as $fp)
                     <div class="glass-card p-4 sm:p-5 polygon-card border border-[#E8DED0] flex gap-4 items-center hover:border-[#B99A5B] transition-all bg-[#17130F]">
                         <!-- Unclipped Spacious Vertical Image Container for Perfume Bottle -->
-                        <div class="w-24 h-32 sm:w-28 sm:h-36 bg-[#F5F0E8] polygon-card overflow-hidden border border-[#E8DED0] flex items-center justify-center p-2 shrink-0">
-                            <img src="{{ $fp->primary_image }}" data-sozie-fallback loading="lazy" decoding="async" alt="{{ $fp->name }}" class="w-full h-full object-contain filter drop-shadow-xl">
-                        </div>
+                        <a href="{{ route('shop.show', $fp->slug) }}" class="w-24 h-32 sm:w-28 sm:h-36 bg-[#F5F0E8] polygon-card overflow-hidden border border-[#E8DED0] flex items-center justify-center p-2 shrink-0 group">
+                            <img src="{{ $fp->primary_image }}" data-sozie-fallback loading="lazy" decoding="async" alt="{{ $fp->name }}" class="w-full h-full object-contain filter drop-shadow-xl group-hover:scale-105 transition-transform duration-300">
+                        </a>
                         <div class="flex-grow min-w-0">
                             <div class="flex justify-between items-start gap-2">
-                                <h4 class="font-serif font-bold text-base sm:text-lg text-[#EDE5D8] truncate">{{ $fp->name }}</h4>
+                                <a href="{{ route('shop.show', $fp->slug) }}" class="hover:text-[#8F6E3B] transition-colors">
+                                    <h4 class="font-serif font-bold text-base sm:text-lg text-[#EDE5D8] truncate">{{ $fp->name }}</h4>
+                                </a>
                                 <span class="text-sm font-extrabold text-[#8F6E3B] shrink-0">{{ $fp->formatted_price }}</span>
                             </div>
                             <p class="text-xs text-[#B5A897] font-bold mt-1 truncate">{{ __('Top:') }} {{ $fp->top_notes }}</p>
@@ -239,10 +253,10 @@
                                         class="px-3.5 py-1.5 bg-[#8F6E3B] text-white text-[10px] font-extrabold uppercase tracking-wider polygon-btn hover:bg-[#211E1A] transition-colors">
                                     {{ __('ADD TO CART') }}
                                 </button>
-                                <button @click="$dispatch('open-quickview', { id: {{ $fp->id }} })"
-                                        class="px-3.5 py-1.5 bg-[#F5F0E8] border border-[#E8DED0] text-[#211E1A] text-[10px] font-bold uppercase tracking-wider polygon-btn hover:bg-[#17130F] hover:text-white">
-                                    {{ __('QUICK VIEW') }}
-                                </button>
+                                <a href="{{ route('shop.show', $fp->slug) }}"
+                                   class="px-3.5 py-1.5 bg-[#F5F0E8] border border-[#E8DED0] text-[#211E1A] text-[10px] font-bold uppercase tracking-wider polygon-btn hover:bg-[#17130F] hover:text-white">
+                                    {{ __('Full Page') }}
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -273,7 +287,7 @@
             </a>
         </div>
 
-        <!-- Product Cards Grid: Spacious Vertical Cards for Mobile & Desktop -->
+        <!-- Product Cards Grid: Direct Product Page Links -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             @foreach($bestSellers as $product)
             <div class="glass-panel p-4 sm:p-5 polygon-card border border-[#E8DED0] group hover:border-[#B99A5B] transition-all duration-300 flex flex-col justify-between relative bg-[#17130F] shadow-xs">
@@ -293,20 +307,18 @@
                 </button>
 
                 <div>
-                    <!-- Image Frame: Spacious, unclipped, tall vertical container for complete perfume bottle display -->
-                    <div class="w-full h-72 sm:h-84 lg:h-96 bg-[#F5F0E8] polygon-card overflow-hidden mb-4 relative border border-[#E8DED0] flex items-center justify-center p-4">
+                    <!-- Image Frame: Clickable direct product link -->
+                    <a href="{{ route('shop.show', $product->slug) }}" class="block w-full h-72 sm:h-84 lg:h-96 bg-[#F5F0E8] polygon-card overflow-hidden mb-4 relative border border-[#E8DED0] flex items-center justify-center p-4">
                         <img src="{{ $product->primary_image }}" data-sozie-fallback loading="lazy" decoding="async"
                              alt="{{ $product->name }}"
                              class="w-full h-full object-contain filter drop-shadow-2xl group-hover:scale-105 transition-transform duration-500">
 
-                        <!-- Quick View Overlay Button -->
                         <div class="absolute inset-0 bg-[#211E1A]/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 p-3 backdrop-blur-xs">
-                            <button @click="$dispatch('open-quickview', { id: {{ $product->id }} })"
-                                    class="px-4 py-2 bg-[#8F6E3B] text-white font-extrabold text-xs uppercase tracking-wider polygon-btn hover:bg-[#211E1A]">
+                            <span class="px-4 py-2 bg-[#8F6E3B] text-white font-extrabold text-xs uppercase tracking-wider polygon-btn hover:bg-[#211E1A]">
                                 {{ __('QUICK VIEW') }}
-                            </button>
+                            </span>
                         </div>
-                    </div>
+                    </a>
 
                     <!-- Category Tag -->
                     <span class="text-[10px] font-extrabold text-[#8F6E3B] uppercase tracking-widest block mb-1">
@@ -384,17 +396,19 @@
                         <template x-for="p in matches" :key="p.id">
                             <div class="glass-card p-3.5 polygon-card border border-[#E8DED0] text-center flex flex-col justify-between bg-[#17130F]">
                                 <div>
-                                    <div class="w-full h-52 bg-[#F5F0E8] polygon-card mb-3 border border-[#E8DED0] flex items-center justify-center p-3">
-                                        <img :src="p.images ? p.images[0] : p.campaign_image" data-sozie-fallback loading="lazy" decoding="async" class="w-full h-full object-contain filter drop-shadow-xl">
-                                    </div>
-                                    <h4 class="font-serif font-bold text-base text-[#EDE5D8]" x-text="p.name"></h4>
+                                    <a :href="'/product/' + p.slug" class="block w-full h-52 bg-[#F5F0E8] polygon-card mb-3 border border-[#E8DED0] flex items-center justify-center p-3 group">
+                                        <img :src="p.images ? p.images[0] : p.campaign_image" data-sozie-fallback loading="lazy" decoding="async" class="w-full h-full object-contain filter drop-shadow-xl group-hover:scale-105 transition-transform">
+                                    </a>
+                                    <a :href="'/product/' + p.slug" class="hover:text-[#8F6E3B] transition-colors">
+                                        <h4 class="font-serif font-bold text-base text-[#EDE5D8]" x-text="p.name"></h4>
+                                    </a>
                                     <p class="text-[10px] text-[#8F6E3B] uppercase tracking-widest font-extrabold mt-1" x-text="p.scent_type + ' • ' + p.fragrance_family"></p>
                                 </div>
                                 <div class="mt-3 pt-3 border-t border-[#E8DED0] flex justify-between items-center gap-1">
                                     <span class="text-xs font-extrabold text-[#EDE5D8]" x-text="'TZS ' + Number(p.price).toLocaleString()"></span>
-                                    <button @click="addToCart(p.id)" class="px-3 py-1.5 bg-[#8F6E3B] text-white text-[10px] font-extrabold uppercase polygon-btn hover:bg-[#211E1A]">
-                                        {{ __('ADD TO CART') }}
-                                    </button>
+                                    <a :href="'/product/' + p.slug" class="px-3 py-1.5 bg-[#8F6E3B] text-white text-[10px] font-extrabold uppercase polygon-btn hover:bg-[#211E1A]">
+                                        {{ __('View product') }}
+                                    </a>
                                 </div>
                             </div>
                         </template>
@@ -434,19 +448,18 @@
                 </span>
 
                 <div>
-                    <!-- Image Frame: Spacious vertical display -->
-                    <div class="w-full h-72 sm:h-84 lg:h-96 bg-[#F5F0E8] polygon-card overflow-hidden mb-4 relative border border-[#E8DED0] flex items-center justify-center p-4">
+                    <!-- Image Frame: Clickable direct product link -->
+                    <a href="{{ route('shop.show', $product->slug) }}" class="block w-full h-72 sm:h-84 lg:h-96 bg-[#F5F0E8] polygon-card overflow-hidden mb-4 relative border border-[#E8DED0] flex items-center justify-center p-4">
                         <img src="{{ $product->primary_image }}" data-sozie-fallback loading="lazy" decoding="async"
                              alt="{{ $product->name }}"
                              class="w-full h-full object-contain filter drop-shadow-2xl group-hover:scale-105 transition-transform duration-500">
 
                         <div class="absolute inset-0 bg-[#211E1A]/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 p-3 backdrop-blur-xs">
-                            <button @click="$dispatch('open-quickview', { id: {{ $product->id }} })"
-                                    class="px-4 py-2 bg-[#8F6E3B] text-white font-extrabold text-xs uppercase tracking-wider polygon-btn hover:bg-[#211E1A]">
+                            <span class="px-4 py-2 bg-[#8F6E3B] text-white font-extrabold text-xs uppercase tracking-wider polygon-btn hover:bg-[#211E1A]">
                                 {{ __('QUICK VIEW') }}
-                            </button>
+                            </span>
                         </div>
-                    </div>
+                    </a>
 
                     <span class="text-[10px] font-extrabold text-[#8F6E3B] uppercase tracking-widest block mb-0.5">
                         {{ $product->category ? $product->category->name : __('New Release') }}
@@ -555,7 +568,13 @@
                         <span class="font-serif font-bold text-sm text-[#EDE5D8] block">{{ $rev->customer_name }}</span>
                         <span class="text-[9px] text-emerald-400 font-extrabold uppercase tracking-wider">{{ __('Verified Purchase') }}</span>
                     </div>
-                    <span class="text-[10px] text-[#B5A897] font-bold">{{ $rev->product ? $rev->product->name : __('Sozie Perfume') }}</span>
+                    @if($rev->product)
+                    <a href="{{ route('shop.show', $rev->product->slug) }}" class="text-[10px] text-[#8F6E3B] font-bold hover:underline">
+                        {{ $rev->product->name }}
+                    </a>
+                    @else
+                    <span class="text-[10px] text-[#B5A897] font-bold">{{ __('Sozie Perfume') }}</span>
+                    @endif
                 </div>
             </div>
             @endforeach
@@ -565,7 +584,7 @@
 </section>
 
 <!-- ================================================================= -->
-<!-- SECTION 09: CAMPAIGN GALLERY SLIDER (DYNAMICALLY RENDERED WHEN BANNERS EXIST) -->
+<!-- SECTION 09: CAMPAIGN GALLERY SLIDER (EACH CARD LINKS TO ITS SPECIFIC PRODUCT) -->
 <!-- ================================================================= -->
 @if($configuredGallerySlides->count() > 0)
 <section class="py-20 relative border-b border-[#E8DED0] bg-[#F5F0E8] overflow-hidden"
@@ -597,7 +616,7 @@
 
                 <template x-for="(slide, i) in slides" :key="'camp-' + i">
                     <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 flex-shrink-0">
-                        <div class="h-80 glass-panel polygon-card overflow-hidden group relative border border-[#E8DED0] bg-[#17130F] shadow-lg p-3 flex items-center justify-center">
+                        <a :href="slide.button_link || @js(route('shop.index'))" class="block h-80 glass-panel polygon-card overflow-hidden group relative border border-[#E8DED0] bg-[#17130F] shadow-lg p-3">
                             <img :src="slide.image || slide.mobile_image" data-sozie-fallback :alt="slide.headline || 'Campaign Visual'"
                                  class="w-full h-full object-contain filter drop-shadow-xl group-hover:scale-105 transition-transform duration-700">
 
@@ -608,13 +627,16 @@
 
                             <div class="absolute inset-0 bg-gradient-to-t from-[#211E1A] via-[#211E1A]/80 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-5 backdrop-blur-xs">
                                 <span class="text-[10px] text-[#E8DED0] font-extrabold uppercase tracking-widest block" x-text="slide.highlight_text"></span>
-                                <h4 class="font-serif font-bold text-lg text-white" x-text="slide.headline"></h4>
+                                <h4 class="font-serif font-bold text-lg text-white flex items-center justify-between">
+                                    <span x-text="slide.headline"></span>
+                                    <i data-lucide="arrow-up-right" class="w-4 h-4 text-[#8F6E3B]"></i>
+                                </h4>
                                 <p class="text-xs text-[#E8DED0] mt-0.5 font-medium" x-text="slide.subtitle"></p>
-                                <a :href="slide.button_link || @js(route('shop.index'))" class="mt-3 inline-block py-1.5 px-3 bg-[#8F6E3B] text-white text-[10px] font-extrabold uppercase tracking-wider polygon-btn text-center hover:bg-[#E8DED0] hover:text-[#211E1A]">
+                                <span class="mt-3 inline-block py-1.5 px-3 bg-[#8F6E3B] text-white text-[10px] font-extrabold uppercase tracking-wider polygon-btn text-center group-hover:bg-[#E8DED0] group-hover:text-[#211E1A] transition-colors">
                                     {{ __('Shop Scent') }}
-                                </a>
+                                </span>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </template>
 
