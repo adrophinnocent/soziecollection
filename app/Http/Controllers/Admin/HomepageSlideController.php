@@ -36,6 +36,10 @@ class HomepageSlideController extends Controller
         }
 
         $attributes = Arr::except($request->validated(), ['image', 'image_url', 'mobile_image', 'mobile_image_url']);
+        $attributes['button_text'] = $attributes['button_text'] ?? '';
+        $attributes['button_link'] = $attributes['button_link'] ?? '';
+        $attributes['secondary_button_text'] = $attributes['secondary_button_text'] ?? '';
+        $attributes['secondary_button_link'] = $attributes['secondary_button_link'] ?? '';
         $attributes['image'] = $imagePath;
         $attributes['is_active'] = $request->boolean('is_active');
         $attributes['show_in_hero'] = $request->boolean('show_in_hero');
@@ -61,6 +65,10 @@ class HomepageSlideController extends Controller
         }
 
         $attributes = Arr::except($request->validated(), ['image', 'image_url', 'mobile_image', 'mobile_image_url']);
+        $attributes['button_text'] = $attributes['button_text'] ?? '';
+        $attributes['button_link'] = $attributes['button_link'] ?? '';
+        $attributes['secondary_button_text'] = $attributes['secondary_button_text'] ?? '';
+        $attributes['secondary_button_link'] = $attributes['secondary_button_link'] ?? '';
         $attributes['is_active'] = $request->boolean('is_active');
         $attributes['show_in_hero'] = $request->boolean('show_in_hero');
         $attributes['show_in_gallery'] = $request->boolean('show_in_gallery');
