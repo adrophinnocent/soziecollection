@@ -23,7 +23,7 @@
             <tbody class="divide-y divide-[#D8C9B8]/60">
                 @foreach($orders as $o)
                 <tr>
-                    <td class="py-3 font-mono text-[#A8895F] font-extrabold">{{ $o->order_number }}</td>
+                    <td class="py-3 font-mono text-[#7C5A2B] font-extrabold">{{ $o->order_number }}</td>
                     <td class="py-3 text-[#29241F]/80 font-semibold">{{ $o->created_at->format('d M Y, H:i') }}</td>
                     <td class="py-3 text-[#29241F] font-bold">{{ $o->customer_name }}</td>
                     <td class="py-3 text-[#29241F] font-semibold">{{ $o->customer_phone }}</td>
@@ -46,7 +46,7 @@
                         </form>
                     </td>
                     <td class="py-3">
-                        <a href="{{ route('orders.show', $o->order_number) }}" target="_blank" class="text-xs text-[#A8895F] hover:underline font-extrabold">
+                        <a href="{{ route('orders.show', $o->order_number) }}" target="_blank" class="text-xs text-[#7C5A2B] hover:underline font-extrabold">
                             View Receipt
                         </a>
                     </td>

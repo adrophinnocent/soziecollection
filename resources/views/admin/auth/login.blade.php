@@ -38,6 +38,9 @@
 
     <div class="relative z-10 w-full max-w-5xl px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
 
+        {{-- This left plate is the dark #29241F → #3D352C → #29241F gradient, not a
+             light panel, so the gold here is #D4AF37: it reads 5.73:1 on the
+             #3D352C midpoint, where the admin's #7C5A2B is only 2.56:1. --}}
         <div class="hidden lg:flex flex-col justify-between p-10 polygon-card border border-[#A8895F]/40 glass-panel-gold bg-gradient-to-br from-[#29241F] via-[#3D352C] to-[#29241F] text-[#F8F5EF] shadow-2xl">
             <div>
                 <a href="{{ route('home') }}" class="flex items-center gap-3 mb-10 group">
@@ -48,14 +51,14 @@
                     </div>
                     <div>
                         <span class="font-serif font-bold text-3xl tracking-[0.2em] text-[#F8F5EF] block">SOZIE</span>
-                        <span class="block text-[10px] tracking-[0.35em] text-[#A8895F] uppercase -mt-1 font-extrabold">COLLECTION</span>
+                        <span class="block text-[10px] tracking-[0.35em] text-[#D4AF37] uppercase -mt-1 font-extrabold">COLLECTION</span>
                     </div>
                 </a>
 
-                <span class="text-[11px] font-extrabold text-[#A8895F] uppercase tracking-[0.35em] block mb-4">RESTRICTED ACCESS</span>
+                <span class="text-[11px] font-extrabold text-[#D4AF37] uppercase tracking-[0.35em] block mb-4">RESTRICTED ACCESS</span>
                 <h1 class="font-serif font-bold text-4xl text-[#F8F5EF] leading-tight mb-6">
                     Atelier Management<br>
-                    <span class="text-[#A8895F]">Control Center</span>
+                    <span class="text-[#D4AF37]">Control Center</span>
                 </h1>
                 <p class="text-sm text-[#D8C9B8] leading-relaxed font-medium max-w-sm">
                     Secure portal for Sozie Collection operations, product catalog, order fulfillment, customer management, and reporting.
@@ -65,7 +68,7 @@
             <div class="space-y-4 pt-8">
                 <div class="flex items-start gap-3">
                     <div class="w-9 h-9 rounded-full bg-[#A8895F]/20 border border-[#A8895F]/40 flex items-center justify-center flex-shrink-0">
-                        <i data-lucide="shield-check" class="w-4 h-4 text-[#A8895F]"></i>
+                        <i data-lucide="shield-check" class="w-4 h-4 text-[#D4AF37]"></i>
                     </div>
                     <div>
                         <span class="text-sm font-bold text-[#F8F5EF] block">Role-Based Permissions</span>
@@ -74,7 +77,7 @@
                 </div>
                 <div class="flex items-start gap-3">
                     <div class="w-9 h-9 rounded-full bg-[#A8895F]/20 border border-[#A8895F]/40 flex items-center justify-center flex-shrink-0">
-                        <i data-lucide="package" class="w-4 h-4 text-[#A8895F]"></i>
+                        <i data-lucide="package" class="w-4 h-4 text-[#D4AF37]"></i>
                     </div>
                     <div>
                         <span class="text-sm font-bold text-[#F8F5EF] block">Inventory & Orders</span>
@@ -83,7 +86,7 @@
                 </div>
                 <div class="flex items-start gap-3">
                     <div class="w-9 h-9 rounded-full bg-[#A8895F]/20 border border-[#A8895F]/40 flex items-center justify-center flex-shrink-0">
-                        <i data-lucide="bar-chart-3" class="w-4 h-4 text-[#A8895F]"></i>
+                        <i data-lucide="bar-chart-3" class="w-4 h-4 text-[#D4AF37]"></i>
                     </div>
                     <div>
                         <span class="text-sm font-bold text-[#F8F5EF] block">Analytics & Reports</span>
@@ -93,7 +96,7 @@
             </div>
 
             <div class="pt-6 mt-6 border-t border-white/10 flex items-center justify-between text-xs text-[#D8C9B8]/70 font-bold">
-                <a href="{{ route('home') }}" class="flex items-center gap-2 hover:text-[#A8895F] transition-colors">
+                <a href="{{ route('home') }}" class="flex items-center gap-2 hover:text-[#D4AF37] transition-colors">
                     <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
                     <span>Return to Storefront</span>
                 </a>
@@ -111,12 +114,12 @@
                 </div>
                 <div>
                     <span class="font-serif font-bold text-2xl tracking-[0.2em] text-[#29241F] block">SOZIE ADMIN</span>
-                    <span class="block text-[9px] text-[#A8895F] tracking-[0.3em] uppercase -mt-1 font-extrabold">PORTAL LOGIN</span>
+                    <span class="block text-[9px] text-[#7C5A2B] tracking-[0.3em] uppercase -mt-1 font-extrabold">PORTAL LOGIN</span>
                 </div>
             </div>
 
             <div class="mb-8 lg:mb-10">
-                <span class="text-[10px] font-extrabold text-[#A8895F] uppercase tracking-[0.35em] block mb-2">WELCOME BACK</span>
+                <span class="text-[10px] font-extrabold text-[#7C5A2B] uppercase tracking-[0.35em] block mb-2">WELCOME BACK</span>
                 <h2 class="font-serif font-bold text-3xl sm:text-4xl text-[#29241F] mb-2">Sign In to Atelier</h2>
                 <p class="text-sm text-gray-600 font-medium leading-relaxed">
                     Enter your administrative credentials to access the management dashboard.
@@ -138,12 +141,12 @@
                 @csrf
 
                 <div>
-                    <label for="email" class="block text-[10px] font-extrabold text-[#A8895F] uppercase tracking-[0.25em] mb-2">
+                    <label for="email" class="block text-[10px] font-extrabold text-[#7C5A2B] uppercase tracking-[0.25em] mb-2">
                         Admin Email Address
                     </label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                            <i data-lucide="mail" class="w-4 h-4 text-[#A8895F]/60"></i>
+                            <i data-lucide="mail" class="w-4 h-4 text-[#7C5A2B]/60"></i>
                         </div>
                         <input
                             id="email"
@@ -159,12 +162,12 @@
                 </div>
 
                 <div>
-                    <label for="password" class="block text-[10px] font-extrabold text-[#A8895F] uppercase tracking-[0.25em] mb-2">
+                    <label for="password" class="block text-[10px] font-extrabold text-[#7C5A2B] uppercase tracking-[0.25em] mb-2">
                         Password
                     </label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                            <i data-lucide="lock-keyhole" class="w-4 h-4 text-[#A8895F]/60"></i>
+                            <i data-lucide="lock-keyhole" class="w-4 h-4 text-[#7C5A2B]/60"></i>
                         </div>
                         <input
                             id="password"
@@ -192,7 +195,7 @@
 
                 <button
                     type="submit"
-                    class="w-full py-3.5 bg-[#A8895F] text-white font-extrabold text-xs uppercase tracking-[0.25em] polygon-btn text-center block shadow-lg shadow-[#A8895F]/25 hover:bg-[#29241F] hover:shadow-[#29241F]/30 active:scale-[0.99] transition-all mt-2">
+                    class="w-full py-3.5 bg-[#7C5A2B] text-white font-extrabold text-xs uppercase tracking-[0.25em] polygon-btn text-center block shadow-lg shadow-[#A8895F]/25 hover:bg-[#29241F] hover:shadow-[#29241F]/30 active:scale-[0.99] transition-all mt-2">
                     <span class="inline-flex items-center justify-center gap-2">
                         <i data-lucide="log-in" class="w-4 h-4"></i>
                         Access Admin Panel
@@ -202,10 +205,10 @@
 
             <div class="mt-8 pt-6 border-t border-[#D8C9B8]">
                 <div class="p-4 bg-[#EDE5D8]/60 border border-[#A8895F]/30 polygon-card text-[11px] space-y-2">
-                    <span class="font-extrabold text-[#A8895F] uppercase tracking-[0.2em] block">Test Credentials</span>
+                    <span class="font-extrabold text-[#7C5A2B] uppercase tracking-[0.2em] block">Test Credentials</span>
                     <div class="grid grid-cols-1 gap-1 font-bold text-[#29241F]/80">
-                        <p><span class="text-[#A8895F]">Super Admin:</span> admin@soziecollection.com / password123</p>
-                        <p><span class="text-[#A8895F]">Manager:</span> manager@soziecollection.com / password123</p>
+                        <p><span class="text-[#7C5A2B]">Super Admin:</span> admin@soziecollection.com / password123</p>
+                        <p><span class="text-[#7C5A2B]">Manager:</span> manager@soziecollection.com / password123</p>
                     </div>
                 </div>
             </div>

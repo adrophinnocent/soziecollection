@@ -48,12 +48,12 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="p-4 bg-white border border-[#D8C9B8] polygon-card space-y-1">
-                <span class="text-[10px] font-extrabold uppercase text-[#A8895F]">Standard Delivery Fee</span>
+                <span class="text-[10px] font-extrabold uppercase text-[#7C5A2B]">Standard Delivery Fee</span>
                 <span class="font-serif font-bold text-xl text-[#29241F] block">TZS {{ number_format($config['delivery_fee'] ?? 5000) }}</span>
             </div>
 
             <div class="p-4 bg-white border border-[#D8C9B8] polygon-card space-y-1">
-                <span class="text-[10px] font-extrabold uppercase text-[#A8895F]">Free Delivery Order Threshold</span>
+                <span class="text-[10px] font-extrabold uppercase text-[#7C5A2B]">Free Delivery Order Threshold</span>
                 <span class="font-serif font-bold text-xl text-emerald-800 block">TZS {{ number_format($config['free_delivery_threshold'] ?? 100000) }}+</span>
             </div>
         </div>

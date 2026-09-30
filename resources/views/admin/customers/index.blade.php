@@ -8,15 +8,15 @@
     <!-- Header Stats -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="bg-[#F8F5EF] border border-[#D8C9B8] p-5 polygon-card shadow-sm">
-            <span class="text-[10px] font-extrabold uppercase text-[#A8895F] tracking-widest block">Total Customer Accounts</span>
+            <span class="text-[10px] font-extrabold uppercase text-[#7C5A2B] tracking-widest block">Total Customer Accounts</span>
             <span class="font-serif font-bold text-3xl text-[#29241F] block mt-1">{{ $customers->total() }}</span>
         </div>
         <div class="bg-[#F8F5EF] border border-[#D8C9B8] p-5 polygon-card shadow-sm">
-            <span class="text-[10px] font-extrabold uppercase text-[#A8895F] tracking-widest block">Active VIP Shoppers</span>
+            <span class="text-[10px] font-extrabold uppercase text-[#7C5A2B] tracking-widest block">Active VIP Shoppers</span>
             <span class="font-serif font-bold text-3xl text-[#29241F] block mt-1">{{ $customers->where('orders_count', '>', 0)->count() }}</span>
         </div>
         <div class="bg-[#F8F5EF] border border-[#D8C9B8] p-5 polygon-card shadow-sm">
-            <span class="text-[10px] font-extrabold uppercase text-[#A8895F] tracking-widest block">Checkout Guest Support</span>
+            <span class="text-[10px] font-extrabold uppercase text-[#7C5A2B] tracking-widest block">Checkout Guest Support</span>
             <span class="font-serif font-bold text-3xl text-emerald-800 block mt-1">Enabled</span>
         </div>
     </div>
@@ -47,7 +47,7 @@
                     <tr class="hover:bg-white/60 transition-colors">
                         <td class="p-4 font-bold text-[#29241F]">
                             <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#A8895F] to-[#29241F] text-white flex items-center justify-center font-serif font-bold text-xs">
+                                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#7C5A2B] to-[#29241F] text-white flex items-center justify-center font-serif font-bold text-xs">
                                     {{ strtoupper(substr($customer->name, 0, 1)) }}
                                 </div>
                                 <span>{{ $customer->name }}</span>
@@ -56,7 +56,7 @@
                         <td class="p-4 font-medium text-gray-700">{{ $customer->email }}</td>
                         <td class="p-4 font-medium text-gray-700">{{ $customer->phone ?? 'N/A' }}</td>
                         <td class="p-4 font-bold">
-                            <span class="px-2.5 py-1 bg-[#A8895F]/10 text-[#A8895F] border border-[#A8895F]/30 rounded polygon-badge font-extrabold text-[10px]">
+                            <span class="px-2.5 py-1 bg-[#A8895F]/10 text-[#7C5A2B] border border-[#A8895F]/30 rounded polygon-badge font-extrabold text-[10px]">
                                 {{ $customer->orders_count }} {{ Str::plural('Order', $customer->orders_count) }}
                             </span>
                         </td>
@@ -69,7 +69,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" class="p-8 text-center text-gray-500 font-medium">
+                        <td colspan="6" class="p-8 text-center text-gray-600 font-medium">
                             No registered customers found.
                         </td>
                     </tr>

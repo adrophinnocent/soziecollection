@@ -292,60 +292,67 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             @foreach($relatedProducts as $rel)
-            <div class="navy-card p-4 sm:p-5 polygon-card border border-[#322B23] group hover:border-[#A8895F] transition-all duration-300 flex flex-col justify-between relative shadow-xs bg-[#17130F]">
+            <div class="navy-card p-3 sm:p-4 polygon-card border border-[#322B23] group hover:border-[#A8895F] transition-all duration-300 flex flex-col h-full relative shadow-md bg-[#17130F]">
 
                 @if($rel->discount_percentage)
-                <span class="absolute top-6 left-6 z-20 bg-[#221D19] text-white text-[9px] font-extrabold uppercase px-2 py-0.5 polygon-badge shadow-md">
+                <span class="absolute top-5 left-5 z-20 bg-[#221D19] text-white text-[9px] font-extrabold uppercase px-2 py-0.5 polygon-badge shadow-md border border-[#322B23]">
                     -{{ $rel->discount_percentage }}%
                 </span>
                 @endif
 
-                <!-- Wishlist Heart Button -->
+                <!-- Wishlist Heart Button: the reactive :class binding must stay on this button. -->
                 <button @click="toggleWishlist({ id: {{ $rel->id }}, name: '{{ addslashes($rel->name) }}', price: '{{ $rel->formatted_price }}', image: '{{ $rel->primary_image }}' })"
-                        :class="isInWishlist({{ $rel->id }}) ? '[&_svg]:fill-[#A8895F] [&_svg]:text-[#A8895F]' : ''"
-                        class="absolute top-6 right-6 z-20 p-2 bg-[#221D19]/90 rounded-full text-[#EDE5D8] hover:text-[#A8895F] transition-colors shadow-xs">
+                        :class="isInWishlist({{ $rel->id }}) ? '[&_svg]:fill-rose-400 [&_svg]:text-rose-400' : ''"
+                        aria-label="{{ __('Save :name to wishlist', ['name' => $rel->name]) }}"
+                        class="absolute top-4 right-4 z-20 w-9 h-9 flex items-center justify-center bg-[#17130F]/90 rounded-full text-[#EDE5D8] hover:text-rose-400 transition-colors shadow-sm border border-[#322B23]">
                     <i data-lucide="heart" class="w-4 h-4"></i>
                 </button>
 
-                <div>
-                    <!-- Spacious Vertical Image Container: h-72 sm:h-84 lg:h-96 for complete bottle view -->
-                    <div class="w-full h-72 sm:h-84 lg:h-96 bg-[#0C0A09] polygon-card overflow-hidden mb-4 relative border border-[#322B23] flex items-center justify-center p-4">
-                        <img src="{{ $rel->primary_image }}" data-sozie-fallback loading="lazy" decoding="async"
-                             alt="{{ $rel->name }}"
-                             class="w-full h-full object-contain filter drop-shadow-2xl group-hover:scale-105 transition-transform duration-500">
+                <!-- 1. Image frame -->
+                <div class="relative w-full aspect-square bg-[#100E0C] polygon-card overflow-hidden border border-[#322B23] group/img flex items-center justify-center p-2 sm:p-3">
+                    <a href="{{ route('shop.show', $rel->slug) }}" class="absolute inset-0 z-10" aria-label="{{ $rel->name }}"></a>
 
-                        <div class="absolute inset-0 bg-[#29241F]/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 p-3 backdrop-blur-xs">
-                            <button @click="$dispatch('open-quickview', { id: {{ $rel->id }} })"
-                                    class="px-4 py-2 bg-[#A8895F] border border-[#A8895F] text-[#12100E] font-extrabold text-xs uppercase tracking-wider polygon-btn hover:bg-[#12100E] hover:text-[#F8F5EF]">
-                                {{ __('QUICK VIEW') }}
-                            </button>
-                        </div>
+                    <img src="{{ $rel->primary_image }}" data-sozie-fallback loading="lazy" decoding="async"
+                         alt="{{ $rel->name }}"
+                         class="w-full h-full object-cover object-center filter drop-shadow-xl group-hover/img:scale-105 transition-transform duration-500">
+
+                    <div class="absolute inset-0 z-20 bg-[#12100E]/70 opacity-0 group-hover/img:opacity-100 group-focus-within/img:opacity-100 transition-opacity flex items-center justify-center p-3 backdrop-blur-xs">
+                        <button @click="$dispatch('open-quickview', { id: {{ $rel->id }} })"
+                                class="px-4 py-2 bg-[#A8895F] border border-[#A8895F] text-[#12100E] font-extrabold text-xs uppercase tracking-wider polygon-btn hover:bg-[#12100E] hover:text-[#F8F5EF] transition-colors">
+                            {{ __('QUICK VIEW') }}
+                        </button>
                     </div>
+                </div>
 
-                    <span class="text-[10px] font-extrabold text-[#A8895F] uppercase tracking-widest block mb-1">
+                <!-- 2. Category tag, 3. name, 4. notes -->
+                <div class="mt-3 space-y-1">
+                    <span class="block text-[10px] font-extrabold text-[#A8895F] uppercase tracking-widest truncate">
                         {{ $rel->gender }} • {{ $rel->category ? $rel->category->name : __('Signature') }}
                     </span>
 
-                    <a href="{{ route('shop.show', $rel->slug) }}">
-                        <h4 class="font-serif font-bold text-xl text-[#EDE5D8] group-hover:text-[#A8895F] transition-colors leading-tight">
+                    <a href="{{ route('shop.show', $rel->slug) }}" class="block">
+                        <h4 class="font-serif font-bold text-base sm:text-lg leading-snug text-[#F8F5EF] group-hover:text-[#A8895F] transition-colors line-clamp-2">
                             {{ $rel->name }}
                         </h4>
                     </a>
 
-                    <p class="text-xs text-[#B5A897] font-medium mt-1 line-clamp-1">{{ __('Notes: :notes', ['notes' => $rel->top_notes]) }}</p>
+                    <p class="text-[11px] sm:text-xs leading-snug text-[#B5A897] font-medium line-clamp-1">{{ $rel->top_notes }}</p>
                 </div>
 
-                <div class="pt-4 mt-4 border-t border-[#322B23] flex items-center justify-between">
-                    <div>
-                        <span class="text-sm font-extrabold text-[#A8895F] block">{{ $rel->formatted_price }}</span>
+                <!-- 5. Divider, 6. price row (price on the right), 7. full-width add to cart -->
+                <div class="mt-auto pt-3 border-t border-[#322B23]">
+                    <div class="flex flex-wrap items-baseline justify-end gap-x-1.5 gap-y-0.5" data-card-price-row>
                         @if($rel->discount_price)
-                        <span class="text-[10px] text-[#A89C8C] line-through font-semibold">{{ $rel->formatted_original_price }}</span>
+                        <span class="text-[11px] sm:text-xs text-[#A89C8C] line-through font-semibold">{{ $rel->formatted_original_price }}</span>
                         @endif
+                        <span class="text-base sm:text-xl font-black text-[#A8895F] tracking-tight whitespace-nowrap" data-card-price>{{ $rel->formatted_price }}</span>
                     </div>
 
                     <button @click="addToCart({{ $rel->id }}, '{{ $rel->default_size }}')"
-                            class="p-2.5 bg-[#A8895F] border border-[#A8895F] text-[#12100E] polygon-btn hover:bg-[#12100E] hover:text-[#F8F5EF] transition-colors shadow-xs">
-                        <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                            aria-label="{{ __('Add :name to cart', ['name' => $rel->name]) }}"
+                            class="mt-2.5 w-full min-h-11 py-2.5 bg-[#A8895F] border border-[#A8895F] text-[#12100E] font-extrabold text-[11px] sm:text-xs uppercase tracking-wider polygon-btn hover:bg-[#12100E] hover:text-[#F8F5EF] transition-colors shadow-md flex items-center justify-center gap-1.5 sm:gap-2">
+                        <i data-lucide="shopping-bag" class="w-4 h-4 shrink-0"></i>
+                        <span>{{ __('ADD TO CART') }}</span>
                     </button>
                 </div>
 

@@ -6,7 +6,7 @@
 
 <div class="flex justify-between items-center mb-6">
     <h3 class="font-serif font-bold text-2xl text-[#29241F]">ALL PERFUME PRODUCTS</h3>
-    <a href="{{ route('admin.products.create') }}" class="px-6 py-2.5 bg-[#A8895F] text-white font-extrabold text-xs uppercase tracking-wider polygon-btn hover:bg-[#29241F]">
+    <a href="{{ route('admin.products.create') }}" class="px-6 py-2.5 bg-[#7C5A2B] text-white font-extrabold text-xs uppercase tracking-wider polygon-btn hover:bg-[#29241F]">
         + ADD NEW PERFUME
     </a>
 </div>
@@ -37,10 +37,10 @@
                     </td>
                     <td class="py-3 text-[#29241F] font-semibold">{{ $p->category ? $p->category->name : 'N/A' }}</td>
                     <td class="py-3 text-[#29241F] font-bold uppercase">{{ $p->gender }}</td>
-                    <td class="py-3 font-extrabold text-[#A8895F]">{{ $p->formatted_price }}</td>
+                    <td class="py-3 font-extrabold text-[#7C5A2B]">{{ $p->formatted_price }}</td>
                     <td class="py-3 space-x-1">
                         @if($p->is_best_seller)
-                        <span class="px-1.5 py-0.5 bg-[#A8895F] text-white text-[9px] font-extrabold rounded">BEST SELLER</span>
+                        <span class="px-1.5 py-0.5 bg-[#7C5A2B] text-white text-[9px] font-extrabold rounded">BEST SELLER</span>
                         @endif
                         @if($p->is_new_arrival)
                         <span class="px-1.5 py-0.5 bg-[#29241F] text-white text-[9px] font-extrabold rounded">NEW</span>
@@ -58,16 +58,18 @@
                             <!-- Copy Direct Campaign Link Button -->
                             <button onclick="copyProductLink('/product/{{ $p->slug }}')"
                                     title="Copy direct campaign link for WhatsApp / Social Media"
-                                    class="px-2.5 py-1 bg-[#A8895F]/15 text-[#A8895F] border border-[#A8895F]/40 rounded hover:bg-[#A8895F] hover:text-white transition-all text-[10px] font-extrabold uppercase flex items-center gap-1 cursor-pointer">
+                                    class="px-2.5 py-1 bg-[#A8895F]/15 text-[#7C5A2B] border border-[#A8895F]/40 rounded hover:bg-[#7C5A2B] hover:text-white transition-all text-[10px] font-extrabold uppercase flex items-center gap-1 cursor-pointer">
                                 <i data-lucide="copy" class="w-3 h-3"></i> Copy Link
                             </button>
 
-                            <a href="{{ route('admin.products.edit', $p->id) }}" class="text-xs text-[#A8895F] hover:underline font-extrabold ml-1">Edit</a>
+                            <a href="{{ route('admin.products.edit', $p->id) }}" class="text-xs text-[#7C5A2B] hover:underline font-extrabold ml-1">Edit</a>
 
                             <form action="{{ route('admin.products.delete', $p->id) }}" method="POST" class="inline" onsubmit="return confirm('Delete product?')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-xs text-rose-600 hover:underline font-extrabold">Delete</button>
+                                {{-- text-rose-700, not text-rose-600: rose-600 is 4.49:1 on the white
+                     table row, which is a rounding-error under AA at this size. --}}
+                <button type="submit" class="text-xs text-rose-700 hover:underline font-extrabold">Delete</button>
                             </form>
                         </div>
                     </td>

@@ -12,6 +12,7 @@ use App\Models\Review;
 use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class AdminController extends Controller
@@ -101,18 +102,37 @@ class AdminController extends Controller
 
         $images = [];
 
-        // Handle uploaded image files
+        // 1. Primary / Main Image File or URL
+        if ($request->hasFile('primary_image_file')) {
+            $path = $request->file('primary_image_file')->store('products', 'public');
+            $images[] = asset('storage/'.$path);
+        } elseif ($request->filled('primary_image_url')) {
+            $images[] = $request->primary_image_url;
+        }
+
+        // 2. Multiple Gallery Image Files or URL
+        if ($request->hasFile('gallery_files')) {
+            foreach ($request->file('gallery_files') as $file) {
+                $path = $file->store('products', 'public');
+                $images[] = asset('storage/'.$path);
+            }
+        }
+        if ($request->filled('gallery_url')) {
+            $images[] = $request->gallery_url;
+        }
+
+        // 3. Backwards compatibility for image_files and image_url
         if ($request->hasFile('image_files')) {
             foreach ($request->file('image_files') as $file) {
                 $path = $file->store('products', 'public');
                 $images[] = asset('storage/'.$path);
             }
         }
-
-        // Fallback to image URL if no file uploaded
-        if (empty($images) && $request->filled('image_url')) {
+        if ($request->filled('image_url')) {
             $images[] = $request->image_url;
         }
+
+        $images = array_values(array_unique($images));
 
         if (empty($images)) {
             $images[] = asset('images/product-placeholder.svg');
@@ -234,25 +254,53 @@ class AdminController extends Controller
             'is_limited_edition' => 'nullable|boolean',
         ]);
 
-        $images = $product->images ?: [];
+        // Process kept existing gallery images
+        $keptImages = $request->input('keep_images', []);
+        if (! is_array($keptImages)) {
+            $keptImages = [];
+        }
+
+        $primaryImage = null;
+        if ($request->hasFile('primary_image_file')) {
+            $path = $request->file('primary_image_file')->store('products', 'public');
+            $primaryImage = asset('storage/'.$path);
+        } elseif ($request->filled('primary_image_url')) {
+            $primaryImage = $request->primary_image_url;
+        }
+
+        $newGallery = [];
+        if ($request->hasFile('gallery_files')) {
+            foreach ($request->file('gallery_files') as $file) {
+                $path = $file->store('products', 'public');
+                $newGallery[] = asset('storage/'.$path);
+            }
+        }
+        if ($request->filled('gallery_url')) {
+            $newGallery[] = $request->gallery_url;
+        }
 
         if ($request->hasFile('image_files')) {
-            $newImages = [];
             foreach ($request->file('image_files') as $file) {
                 $path = $file->store('products', 'public');
-                $newImages[] = asset('storage/'.$path);
+                $newGallery[] = asset('storage/'.$path);
             }
-            if (! empty($newImages)) {
-                $images = array_merge($newImages, $images);
-            }
-        } elseif ($request->filled('image_url')) {
-            array_unshift($images, $request->image_url);
+        }
+        if ($request->filled('image_url')) {
+            $newGallery[] = $request->image_url;
         }
 
-        $validated['images'] = $images;
-        if (! empty($images)) {
-            $validated['campaign_image'] = $images[0];
+        if ($primaryImage) {
+            array_unshift($keptImages, $primaryImage);
         }
+
+        $finalImages = array_values(array_unique(array_merge($keptImages, $newGallery)));
+
+        if (empty($finalImages)) {
+            $finalImages[] = asset('images/product-placeholder.svg');
+        }
+
+        $validated['images'] = $finalImages;
+        $validated['campaign_image'] = $finalImages[0];
 
         if ($request->filled('slug')) {
             $validated['slug'] = Str::slug($request->slug);
@@ -340,12 +388,66 @@ class AdminController extends Controller
         return view('admin.customers.index', compact('customers'));
     }
 
+    /**
+     * The Marketing page carries three tabs: campaign banners, coupons and one
+     * row per product with its own shareable link and description. The tab is
+     * chosen by a query string rather than Alpine so the page works without
+     * JavaScript and so a specific tab can be linked to directly.
+     */
     public function marketing()
     {
         $banners = Banner::ordered()->get();
         $coupons = Coupon::latest()->get();
+        $tab = in_array(request('tab'), ['banners', 'coupons', 'campaign-links'], true)
+            ? request('tab')
+            : 'campaign-links';
 
-        return view('admin.marketing.index', compact('banners', 'coupons'));
+        $campaignLinks = $this->campaignLinks();
+
+        return view('admin.marketing.index', compact('banners', 'coupons', 'tab', 'campaignLinks'));
+    }
+
+    /**
+     * Every product with the exact copy a campaign needs: the absolute link a
+     * customer lands on, a description that is never blank, and the WhatsApp
+     * deep link that pre-fills the message. The description falls back through
+     * `fragrance_story` to a built default so a row can never render an empty
+     * message block.
+     *
+     * @return Collection<int, array<string, string>>
+     */
+    private function campaignLinks()
+    {
+        $whatsappNumber = preg_replace('/\D+/', '', (string) config('payment.whatsapp.phone_number'));
+
+        return Product::with('category')
+            ->orderBy('name')
+            ->get()
+            ->map(function (Product $product) use ($whatsappNumber): array {
+                $link = route('shop.show', $product->slug);
+
+                $description = trim((string) $product->description)
+                    ?: trim((string) $product->fragrance_story)
+                    ?: __('Discover :name, a handcrafted luxury fragrance from the Sozie Collection atelier.', [
+                        'name' => $product->name,
+                    ]);
+
+                $inStock = $product->is_available && $product->stock_quantity > 0;
+
+                return [
+                    'id' => (string) $product->id,
+                    'name' => $product->name,
+                    'category' => $product->category?->name ?? __('Fragrance'),
+                    'price' => $product->formatted_price,
+                    'image' => $product->primary_image,
+                    'in_stock' => $inStock,
+                    'availability' => $inStock ? 'in' : 'out',
+                    'link' => $link,
+                    'description' => $description,
+                    'message' => $description."\n\n".$link,
+                    'whatsapp_url' => 'https://wa.me/'.$whatsappNumber.'?text='.rawurlencode($description."\n\n".$link),
+                ];
+            });
     }
 
     public function reports()

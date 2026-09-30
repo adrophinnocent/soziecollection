@@ -29,14 +29,21 @@
 </head>
 <body x-data="{ adminMenuOpen: false }" class="bg-[#EDE5D8] text-[#29241F] font-sans min-h-screen flex">
 
+    {{-- The admin stays a light panel, so its gold has to be a gold that survives
+         a light ground. #A8895F, the storefront gold, is 2.6-3.3:1 here. #7C5A2B
+         clears AA on every light surface the admin actually uses: 6.26:1 on white,
+         5.76:1 on the #F8F5EF sidebar and 5.01:1 on the #EDE5D8 page, which
+         #8F6E3B (4.71 / 4.33 / 3.77) does not. Dark plates use #A8895F or
+         #D4AF37 instead — see the individual call sites. --}}
+
     <div x-show="adminMenuOpen" @click="adminMenuOpen = false" class="fixed inset-0 z-40 bg-black/50 lg:hidden" style="display: none;"></div>
 
     <aside class="fixed inset-y-0 left-0 z-50 w-64 bg-[#F8F5EF] border-r border-[#D8C9B8] flex flex-col justify-between p-6 flex-shrink-0 shadow-sm overflow-y-auto transform transition-transform duration-300 lg:static lg:translate-x-0"
            :class="adminMenuOpen ? 'translate-x-0' : '-translate-x-full'">
         <div class="space-y-8">
             <div class="flex items-center justify-between lg:hidden">
-                <span class="text-[10px] font-extrabold uppercase tracking-[0.25em] text-[#A8895F]">Navigation</span>
-                <button type="button" @click="adminMenuOpen = false" class="p-2 text-[#A8895F]" aria-label="Close navigation">
+                <span class="text-[10px] font-extrabold uppercase tracking-[0.25em] text-[#7C5A2B]">Navigation</span>
+                <button type="button" @click="adminMenuOpen = false" class="p-2 text-[#7C5A2B]" aria-label="Close navigation">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
@@ -45,12 +52,14 @@
             <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 group">
                 <div class="w-9 h-9 bg-gradient-to-br from-[#A8895F] via-[#D8C9B8] to-[#29241F] polygon-card flex items-center justify-center p-[1px] shadow-sm group-hover:scale-105 transition-transform duration-300">
                     <div class="w-full h-full bg-[#29241F] polygon-card flex items-center justify-center">
+                        {{-- The only gold-as-text on a dark plate in the admin: #A8895F
+                             reads 4.69:1 on #29241F, and #7C5A2B would be 2.45:1. --}}
                         <span class="font-serif font-bold text-base text-[#A8895F]">S</span>
                     </div>
                 </div>
                 <div>
                     <span class="font-serif font-bold text-lg tracking-wider text-[#29241F] block">SOZIE ADMIN</span>
-                    <span class="text-[9px] text-[#A8895F] tracking-[0.2em] uppercase font-extrabold block -mt-1">Management Hub</span>
+                    <span class="text-[9px] text-[#7C5A2B] tracking-[0.2em] uppercase font-extrabold block -mt-1">Management Hub</span>
                 </div>
             </a>
 
@@ -77,45 +86,45 @@
                  }">
 
                 <div>
-                    <button type="button" @click="toggleGroup('operations')" class="w-full flex items-center justify-between px-3 py-2 text-[#A8895F] border-b border-[#D8C9B8] text-[10px] font-extrabold tracking-[0.2em]">
+                    <button type="button" @click="toggleGroup('operations')" class="w-full flex items-center justify-between px-3 py-2 text-[#7C5A2B] border-b border-[#D8C9B8] text-[10px] font-extrabold tracking-[0.2em]">
                         <span>Daily Operations</span>
                         <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform" :class="isCollapsed('operations') ? '-rotate-90' : ''"></i>
                     </button>
                     <div x-show="!isCollapsed('operations')" class="space-y-2 pt-2">
                         <a href="{{ route('admin.dashboard') }}" @click="adminMenuOpen = false"
-                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.dashboard') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#A8895F] hover:bg-[#A8895F]/10' }}">
-                            <i data-lucide="layout-dashboard" class="w-4 h-4 text-[#A8895F]"></i>
+                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.dashboard') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#7C5A2B] hover:bg-[#A8895F]/10' }}">
+                            <i data-lucide="layout-dashboard" class="w-4 h-4 text-[#7C5A2B]"></i>
                             <span>Dashboard</span>
                         </a>
 
                         @can('products')
                         <a href="{{ route('admin.products') }}" @click="adminMenuOpen = false"
-                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.products*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#A8895F] hover:bg-[#A8895F]/10' }}">
-                            <i data-lucide="package" class="w-4 h-4 text-[#A8895F]"></i>
+                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.products*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#7C5A2B] hover:bg-[#A8895F]/10' }}">
+                            <i data-lucide="package" class="w-4 h-4 text-[#7C5A2B]"></i>
                             <span>Products Catalog</span>
                         </a>
                         @endcan
 
                         @can('orders')
                         <a href="{{ route('admin.orders') }}" @click="adminMenuOpen = false"
-                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.orders*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#A8895F] hover:bg-[#A8895F]/10' }}">
-                            <i data-lucide="shopping-cart" class="w-4 h-4 text-[#A8895F]"></i>
+                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.orders*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#7C5A2B] hover:bg-[#A8895F]/10' }}">
+                            <i data-lucide="shopping-cart" class="w-4 h-4 text-[#7C5A2B]"></i>
                             <span>Orders</span>
                         </a>
                         @endcan
 
                         @can('customers')
                         <a href="{{ route('admin.customers') }}" @click="adminMenuOpen = false"
-                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.customers*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#A8895F] hover:bg-[#A8895F]/10' }}">
-                            <i data-lucide="users" class="w-4 h-4 text-[#A8895F]"></i>
+                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.customers*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#7C5A2B] hover:bg-[#A8895F]/10' }}">
+                            <i data-lucide="users" class="w-4 h-4 text-[#7C5A2B]"></i>
                             <span>Customers</span>
                         </a>
                         @endcan
 
                         @can('reviews')
                         <a href="{{ route('admin.reviews') }}" @click="adminMenuOpen = false"
-                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.reviews*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#A8895F] hover:bg-[#A8895F]/10' }}">
-                            <i data-lucide="star" class="w-4 h-4 text-[#A8895F]"></i>
+                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.reviews*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#7C5A2B] hover:bg-[#A8895F]/10' }}">
+                            <i data-lucide="star" class="w-4 h-4 text-[#7C5A2B]"></i>
                             <span>Customer Reviews</span>
                         </a>
                         @endcan
@@ -123,23 +132,23 @@
                 </div>
 
                 <div>
-                    <button type="button" @click="toggleGroup('growth')" class="w-full flex items-center justify-between px-3 py-2 text-[#A8895F] border-b border-[#D8C9B8] text-[10px] font-extrabold tracking-[0.2em]">
+                    <button type="button" @click="toggleGroup('growth')" class="w-full flex items-center justify-between px-3 py-2 text-[#7C5A2B] border-b border-[#D8C9B8] text-[10px] font-extrabold tracking-[0.2em]">
                         <span>Growth & Reports</span>
                         <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform" :class="isCollapsed('growth') ? '-rotate-90' : ''"></i>
                     </button>
                     <div x-show="!isCollapsed('growth')" class="space-y-2 pt-2">
                         @can('marketing')
                         <a href="{{ route('admin.marketing') }}" @click="adminMenuOpen = false"
-                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.marketing*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#A8895F] hover:bg-[#A8895F]/10' }}">
-                            <i data-lucide="megaphone" class="w-4 h-4 text-[#A8895F]"></i>
+                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.marketing*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#7C5A2B] hover:bg-[#A8895F]/10' }}">
+                            <i data-lucide="megaphone" class="w-4 h-4 text-[#7C5A2B]"></i>
                             <span>Marketing</span>
                         </a>
                         @endcan
 
                         @can('reports')
                         <a href="{{ route('admin.reports') }}" @click="adminMenuOpen = false"
-                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.reports*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#A8895F] hover:bg-[#A8895F]/10' }}">
-                            <i data-lucide="bar-chart-3" class="w-4 h-4 text-[#A8895F]"></i>
+                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.reports*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#7C5A2B] hover:bg-[#A8895F]/10' }}">
+                            <i data-lucide="bar-chart-3" class="w-4 h-4 text-[#7C5A2B]"></i>
                             <span>Reports</span>
                         </a>
                         @endcan
@@ -147,43 +156,43 @@
                 </div>
 
                 <div>
-                    <button type="button" @click="toggleGroup('setup')" class="w-full flex items-center justify-between px-3 py-2 text-[#A8895F] border-b border-[#D8C9B8] text-[10px] font-extrabold tracking-[0.2em]">
+                    <button type="button" @click="toggleGroup('setup')" class="w-full flex items-center justify-between px-3 py-2 text-[#7C5A2B] border-b border-[#D8C9B8] text-[10px] font-extrabold tracking-[0.2em]">
                         <span>Store Setup</span>
                         <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform" :class="isCollapsed('setup') ? '-rotate-90' : ''"></i>
                     </button>
                     <div x-show="!isCollapsed('setup')" class="space-y-2 pt-2">
                         @can('homepage_content')
                         <a href="{{ route('admin.content') }}" @click="adminMenuOpen = false"
-                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.content*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#A8895F] hover:bg-[#A8895F]/10' }}">
-                            <i data-lucide="images" class="w-4 h-4 text-[#A8895F]"></i>
+                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.content*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#7C5A2B] hover:bg-[#A8895F]/10' }}">
+                            <i data-lucide="images" class="w-4 h-4 text-[#7C5A2B]"></i>
                             <span>Hero Slides & Instagram</span>
                         </a>
                         @endcan
 
                         @can('admin_users')
                         <a href="{{ route('admin.users') }}" @click="adminMenuOpen = false"
-                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.users*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#A8895F] hover:bg-[#A8895F]/10' }}">
-                            <i data-lucide="shield-user" class="w-4 h-4 text-[#A8895F]"></i>
+                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.users*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#7C5A2B] hover:bg-[#A8895F]/10' }}">
+                            <i data-lucide="shield-user" class="w-4 h-4 text-[#7C5A2B]"></i>
                             <span>Admin Users</span>
                         </a>
                         @endcan
 
                         @can('settings')
                         <a href="{{ route('admin.payments') }}" @click="adminMenuOpen = false"
-                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.payments*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#A8895F] hover:bg-[#A8895F]/10' }}">
-                            <i data-lucide="credit-card" class="w-4 h-4 text-[#A8895F]"></i>
+                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.payments*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#7C5A2B] hover:bg-[#A8895F]/10' }}">
+                            <i data-lucide="credit-card" class="w-4 h-4 text-[#7C5A2B]"></i>
                             <span>Payment Setup</span>
                         </a>
 
                         <a href="{{ route('admin.settings.business') }}" @click="adminMenuOpen = false"
-                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.settings.business*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#A8895F] hover:bg-[#A8895F]/10' }}">
-                            <i data-lucide="building-2" class="w-4 h-4 text-[#A8895F]"></i>
+                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.settings.business*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#7C5A2B] hover:bg-[#A8895F]/10' }}">
+                            <i data-lucide="building-2" class="w-4 h-4 text-[#7C5A2B]"></i>
                             <span>Business Info</span>
                         </a>
 
                         <a href="{{ route('admin.settings.seo') }}" @click="adminMenuOpen = false"
-                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.settings.seo*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#A8895F] hover:bg-[#A8895F]/10' }}">
-                            <i data-lucide="search" class="w-4 h-4 text-[#A8895F]"></i>
+                           class="flex items-center gap-3 px-3.5 py-2.5 rounded polygon-btn transition-all {{ request()->routeIs('admin.settings.seo*') ? 'bg-[#29241F] text-[#EDE5D8] font-extrabold shadow-sm' : 'text-[#29241F] hover:text-[#7C5A2B] hover:bg-[#A8895F]/10' }}">
+                            <i data-lucide="search" class="w-4 h-4 text-[#7C5A2B]"></i>
                             <span>SEO & Google</span>
                         </a>
                         @endcan
@@ -193,8 +202,10 @@
         </div>
 
         <div class="pt-6 border-t border-[#D8C9B8] space-y-3">
-            <div class="px-3 py-2 bg-[#EDE5D8] border border-[#A8895F]/30 polygon-card text-[10px] space-y-1">
-                <span class="font-extrabold text-[#A8895F] uppercase block">Atelier Status</span>
+            {{-- bg-white, not bg-[#EDE5D8]: the sidebar's darker gold is 4.71:1 on
+                 white but only 3.76:1 on #EDE5D8, and this label is 10px. --}}
+            <div class="px-3 py-2 bg-white border border-[#A8895F]/30 polygon-card text-[10px] space-y-1">
+                <span class="font-extrabold text-[#7C5A2B] uppercase block">Atelier Status</span>
                 <span class="flex items-center gap-1.5 text-[#29241F] font-bold">
                     <span class="w-2 h-2 rounded-full bg-emerald-600 animate-ping"></span>
                     Store Live & Accepting Orders
@@ -202,7 +213,7 @@
             </div>
 
             <a href="{{ route('home') }}" target="_blank"
-               class="flex items-center justify-center gap-2 w-full py-2.5 bg-[#29241F] text-[#EDE5D8] border border-[#A8895F]/40 font-extrabold text-xs uppercase tracking-wider polygon-btn hover:bg-[#A8895F] hover:text-white transition-all shadow-xs">
+               class="flex items-center justify-center gap-2 w-full py-2.5 bg-[#29241F] text-[#EDE5D8] border border-[#A8895F]/40 font-extrabold text-xs uppercase tracking-wider polygon-btn hover:bg-[#7C5A2B] hover:text-white transition-all shadow-xs">
                 <i data-lucide="external-link" class="w-4 h-4"></i>
                 <span>View Front Store</span>
             </a>
@@ -213,11 +224,11 @@
 
         <header class="bg-[#F8F5EF] border-b border-[#D8C9B8] px-4 sm:px-8 py-4 flex justify-between items-center shadow-xs sticky top-0 z-30 gap-4">
             <div class="flex items-center gap-3 min-w-0">
-                <button type="button" @click="adminMenuOpen = true" class="lg:hidden p-2 text-[#A8895F] border border-[#D8C9B8] bg-white shrink-0" aria-label="Open navigation">
+                <button type="button" @click="adminMenuOpen = true" class="lg:hidden p-2 text-[#7C5A2B] border border-[#D8C9B8] bg-white shrink-0" aria-label="Open navigation">
                     <i data-lucide="menu" class="w-5 h-5"></i>
                 </button>
                 <div class="min-w-0">
-                    <span class="text-[10px] text-[#A8895F] font-extrabold uppercase tracking-[0.25em] block truncate">SOZIE ATELIER MANAGEMENT</span>
+                    <span class="text-[10px] text-[#7C5A2B] font-extrabold uppercase tracking-[0.25em] block truncate">SOZIE ATELIER MANAGEMENT</span>
                     <h2 class="font-serif font-bold text-xl text-[#29241F] truncate">@yield('page_title', 'Dashboard Overview')</h2>
                 </div>
             </div>
@@ -225,7 +236,7 @@
             <div class="flex items-center gap-4">
                 @can('products')
                 <a href="{{ route('admin.products.create') }}"
-                   class="hidden sm:flex items-center gap-2 px-4 py-2 bg-[#A8895F] text-white font-extrabold text-xs uppercase tracking-wider polygon-btn hover:bg-[#29241F] shadow-sm">
+                   class="hidden sm:flex items-center gap-2 px-4 py-2 bg-[#7C5A2B] text-white font-extrabold text-xs uppercase tracking-wider polygon-btn hover:bg-[#29241F] shadow-sm">
                     <i data-lucide="plus" class="w-4 h-4"></i>
                     <span>New Perfume</span>
                 </a>
@@ -236,18 +247,20 @@
                 <div x-data="{ userMenuOpen: false }" class="relative">
                     <button @click="userMenuOpen = !userMenuOpen"
                             class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#EDE5D8] transition-all group">
-                        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-[#A8895F] to-[#29241F] flex items-center justify-center polygon-card shadow-sm">
+                        {{-- #7C5A2B, not the storefront #A8895F: the white initial sits on
+                             the gradient's light end, and #A8895F only gives 3.28:1. --}}
+                        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-[#7C5A2B] to-[#29241F] flex items-center justify-center polygon-card shadow-sm">
                             <span class="font-serif font-bold text-xs text-white uppercase tracking-wider">
                                 {{ substr(auth()->user()?->name ?? 'A', 0, 1) }}
                             </span>
                         </div>
                         <div class="text-right hidden sm:block">
                             <span class="font-serif font-bold text-[13px] text-[#29241F] block leading-tight">{{ auth()->user()?->name ?? 'Admin' }}</span>
-                            <span class="text-[9px] font-extrabold text-[#A8895F] uppercase tracking-wider leading-tight block">
+                            <span class="text-[9px] font-extrabold text-[#7C5A2B] uppercase tracking-wider leading-tight block">
                                 {{ auth()->user()?->role_label ?? 'Administrator' }}
                             </span>
                         </div>
-                        <i data-lucide="chevron-down" class="w-4 h-4 text-[#A8895F] transition-transform group-hover:text-[#29241F]"></i>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-[#7C5A2B] transition-transform group-hover:text-[#29241F]"></i>
                     </button>
 
                     <div x-show="userMenuOpen"
@@ -255,16 +268,20 @@
                          x-transition
                          class="absolute right-0 mt-3 w-64 glass-panel bg-[#F8F5EF] border border-[#D8C9B8] polygon-card shadow-2xl z-50 overflow-hidden" style="display: none;">
                         <div class="p-4 bg-gradient-to-br from-[#29241F] via-[#3D352C] to-[#29241F] border-b border-[#A8895F]/30 space-y-1">
+                            {{-- The dropdown header is a dark plate whose lightest point is
+                                 the #3D352C gradient stop, so the gold here is #D4AF37: the
+                                 admin's #7C5A2B reads only 1.92:1 there and the
+                                 storefront #A8895F only 3.67:1. --}}
                             <span class="text-[#F8F5EF] font-serif font-bold text-sm block">{{ auth()->user()?->name }}</span>
-                            <span class="text-[#A8895F] text-[10px] font-extrabold uppercase tracking-wider block">{{ auth()->user()?->email }}</span>
-                            <span class="inline-block mt-1 px-2 py-0.5 bg-[#A8895F]/20 text-[#A8895F] text-[9px] font-extrabold uppercase rounded border border-[#A8895F]/40 tracking-wider">
+                            <span class="text-[#D4AF37] text-[10px] font-extrabold uppercase tracking-wider block">{{ auth()->user()?->email }}</span>
+                            <span class="inline-block mt-1 px-2 py-0.5 bg-[#A8895F]/20 text-[#D4AF37] text-[9px] font-extrabold uppercase rounded border border-[#A8895F]/40 tracking-wider">
                                 {{ auth()->user()?->role_label ?? 'Role' }}
                             </span>
                         </div>
                         <div class="p-2">
                             <a href="{{ route('home') }}" target="_blank"
                                class="flex items-center gap-2 px-3 py-2 text-xs font-bold text-[#29241F] hover:bg-[#EDE5D8] rounded-lg transition-colors">
-                                <i data-lucide="store" class="w-4 h-4 text-[#A8895F]"></i>
+                                <i data-lucide="store" class="w-4 h-4 text-[#7C5A2B]"></i>
                                 Visit Storefront
                             </a>
                             <form method="POST" action="{{ route('admin.logout') }}" class="w-full">
@@ -309,5 +326,6 @@
             sozieIcons();
         });
     </script>
+    @stack('scripts')
 </body>
 </html>

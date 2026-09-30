@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class ColorSchemeTest extends TestCase
@@ -154,6 +155,174 @@ class ColorSchemeTest extends TestCase
                 "A gold-filled control on {$url} still has a white label.",
             );
         }
+    }
+
+    /**
+     * The shop grid, quick view, cart drawer, wishlist drawer and related
+     * products were all still painted with the pre-theme navy palette
+     * (#081944 card, #061338 image frame, #B39A84 bronze text, #0A1E54 label on
+     * bronze) while the rest of the storefront had moved to obsidian and gold.
+     * Every one of those hexes is now denied outright, because a card is the
+     * one thing a customer looks at first: if it drifts back to navy the page
+     * reads as two different shops.
+     *
+     * @return array<string, string> hex => what it used to paint
+     */
+    public static function retiredNavyPalette(): array
+    {
+        return [
+            '#081944' => 'the navy card surface',
+            '#0A1E54' => 'the navy label on a bronze button and the navy discount badge',
+            '#061338' => 'the navy image frame and the navy gradient banner',
+            '#B39A84' => 'the bronze text, borders and buttons',
+            '#917B68' => 'the bronze hover surface',
+            '#F9F0EE' => 'the cool off-white heading text',
+            '#CFC7C8' => 'the cool grey secondary text',
+        ];
+    }
+
+    /**
+     * @return array<string, array{0: string, 1: string}>
+     */
+    public static function navyPaletteProvider(): array
+    {
+        $cases = [];
+
+        foreach (self::retiredNavyPalette() as $hex => $wasUsedFor) {
+            $cases[$hex] = [$hex, $wasUsedFor];
+        }
+
+        return $cases;
+    }
+
+    /**
+     * A hex is denied in every utility position it could be smuggled back in:
+     * as a background, a border, or a text colour, on the storefront *and* in
+     * the admin panel.
+     */
+    #[DataProvider('navyPaletteProvider')]
+    public function test_the_retired_navy_palette_cannot_come_back(string $hex, string $wasUsedFor): void
+    {
+        foreach ($this->renderedStorefrontPages() as $url => $html) {
+            foreach (['bg', 'border', 'text'] as $property) {
+                $this->assertSame(
+                    0,
+                    preg_match(
+                        sprintf('/(?<![\w:-])%s-\[%s\](?![\w\/-])/', preg_quote($property, '/'), preg_quote($hex, '/')),
+                        $html,
+                    ),
+                    sprintf(
+                        '%s on %s: %s is retired, the storefront is obsidian and gold (see resources/css/app.css).',
+                        $property.'-['.$hex.']',
+                        $url,
+                        $wasUsedFor,
+                    ),
+                );
+            }
+        }
+
+        $admin = User::factory()->superAdmin()->create();
+
+        foreach (['/admin', '/admin/marketing'] as $url) {
+            $this->assertSame(
+                0,
+                preg_match(
+                    sprintf('/(?<![\w:-])(?:bg|border|text)-\[%s\](?![\w\/-])/', preg_quote($hex, '/')),
+                    $this->actingAs($admin)->get($url)->assertOk()->getContent(),
+                ),
+                sprintf('%s on %s: the retired navy palette must not reappear in the admin panel either.', $hex, $url),
+            );
+        }
+    }
+
+    /**
+     * The second light palette the storefront carried, and the reason the first
+     * denylist let the regression through: #EDE5D8, #F8F5EF, #D8C9B8 and #29241F
+     * were the tokens that were converted, so guarding them proved nothing about
+     * this set. #F5F0E8 / #E8DED0 / #B99A5B / #8F6E3B / #5C5248 / #211E1A are a
+     * *warmer, more saturated* cream-and-bronze ramp, they were never listed, and
+     * the homepage hero, signature blends and final CTA were still painted with
+     * them: a cream hero block inside an otherwise obsidian page.
+     *
+     * @return array<string, string> hex => what it used to paint
+     */
+    public static function retiredCreamPalette(): array
+    {
+        return [
+            '#F5F0E8' => 'the page, hero and product-image-well surface',
+            '#E8DED0' => 'the border, section divider and raised polygon frame',
+            '#B99A5B' => 'the bronze accent, gold border, gold shadow and gold button fill',
+            '#8F6E3B' => 'the dark bronze text and the bronze button fill',
+            '#5C5248' => 'the body text on cream',
+            '#211E1A' => 'the near-black fill, the heading text on cream and the scrim gradient',
+        ];
+    }
+
+    /**
+     * @return array<string, array{0: string, 1: string}>
+     */
+    public static function creamPaletteProvider(): array
+    {
+        $cases = [];
+
+        foreach (self::retiredCreamPalette() as $hex => $wasUsedFor) {
+            $cases[$hex] = [$hex, $wasUsedFor];
+        }
+
+        return $cases;
+    }
+
+    /**
+     * Denied in every utility position it could be smuggled back in: as a
+     * background, a border, or a text colour, on the storefront and in the admin.
+     */
+    #[DataProvider('creamPaletteProvider')]
+    public function test_the_retired_cream_palette_cannot_come_back(string $hex, string $wasUsedFor): void
+    {
+        foreach ($this->renderedStorefrontPages() as $url => $html) {
+            foreach (['bg', 'border', 'text'] as $property) {
+                $this->assertSame(
+                    0,
+                    preg_match(
+                        sprintf('/(?<![\w:-])%s-\[%s\](?![\w\/-])/', preg_quote($property, '/'), preg_quote($hex, '/')),
+                        $this->withoutReTintedResultCount($html),
+                    ),
+                    sprintf(
+                        '%s on %s: %s is retired, the storefront is obsidian and gold (see resources/css/app.css).',
+                        $property.'-['.$hex.']',
+                        $url,
+                        $wasUsedFor,
+                    ),
+                );
+            }
+        }
+
+        $admin = User::factory()->superAdmin()->create();
+
+        foreach (['/admin', '/admin/marketing', '/admin/content', '/admin/products'] as $url) {
+            $this->assertSame(
+                0,
+                preg_match(
+                    sprintf('/(?<![\w:-])(?:bg|border|text)-\[%s\](?![\w\/-])/', preg_quote($hex, '/')),
+                    $this->actingAs($admin)->get($url)->assertOk()->getContent(),
+                ),
+                sprintf('%s on %s: the retired cream palette must not reappear in the admin panel either.', $hex, $url),
+            );
+        }
+    }
+
+    /**
+     * The "Showing N perfumes" count is a `<strong>` inside a translated string,
+     * so its own `#8F6E3B` cannot be edited at the call site without rewriting
+     * the translation. `html.sozie-storefront .sozie-result-count strong` in
+     * app.css re-tints it to the gold that passes, so the utility itself is inert.
+     * That container is the single sanctioned exception, and it is stripped here
+     * so the rest of the document is still scanned — if the hook in app.css is ever
+     * removed, the bronze paints again and this stops matching.
+     */
+    private function withoutReTintedResultCount(string $html): string
+    {
+        return preg_replace('#<div class="sozie-result-count.*?</div>#s', '', $html) ?? $html;
     }
 
     /**

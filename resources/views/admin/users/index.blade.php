@@ -7,7 +7,9 @@
 
     <!-- Role Explanation Banner -->
     <div class="bg-gradient-to-br from-[#29241F] to-[#3D352C] text-[#F8F5EF] p-6 polygon-card border border-[#A8895F]/40 shadow-xl space-y-2">
-        <span class="text-[10px] font-extrabold uppercase tracking-[0.25em] text-[#A8895F]">ATELIER ROLE-BASED ACCESS CONTROL (RBAC)</span>
+        {{-- #D4AF37, not the admin's #7C5A2B: this sits on the dark banner
+             gradient, whose lightest point is the #3D352C stop (2.9:1 there). --}}
+        <span class="text-[10px] font-extrabold uppercase tracking-[0.25em] text-[#D4AF37]">ATELIER ROLE-BASED ACCESS CONTROL (RBAC)</span>
         <h3 class="font-serif font-bold text-2xl text-[#F8F5EF]">Administrative Team Roles</h3>
         <p class="text-xs text-[#D8C9B8]">6 strict permission scopes: Super Admin, Manager, Inventory Manager, Order Manager, Content Manager, and Customer.</p>
     </div>
@@ -16,7 +18,7 @@
     <div class="bg-[#F8F5EF] border border-[#D8C9B8] polygon-card shadow-sm overflow-hidden">
         <div class="p-5 border-b border-[#D8C9B8] bg-[#EDE5D8]/50 flex justify-between items-center">
             <h3 class="font-serif font-bold text-lg text-[#29241F]">Active Atelier Administrative Users</h3>
-            <span class="text-xs font-bold text-[#A8895F] uppercase">{{ count($adminUsers) }} Assigned Accounts</span>
+            <span class="text-xs font-bold text-[#7C5A2B] uppercase">{{ count($adminUsers) }} Assigned Accounts</span>
         </div>
 
         <div class="overflow-x-auto">
@@ -35,7 +37,7 @@
                     <tr class="hover:bg-white/60 transition-colors">
                         <td class="p-4 font-bold text-[#29241F]">
                             <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#A8895F] to-[#29241F] text-white flex items-center justify-center font-serif font-bold text-xs">
+                                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#7C5A2B] to-[#29241F] text-white flex items-center justify-center font-serif font-bold text-xs">
                                     {{ strtoupper(substr($user->name, 0, 1)) }}
                                 </div>
                                 <span>{{ $user->name }}</span>

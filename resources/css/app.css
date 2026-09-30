@@ -302,6 +302,26 @@ html.sozie-storefront .glass-panel-gold {
     background: radial-gradient(circle at 50% 0%, #1D1814 0%, #12100E 100%);
 }
 
+/* The catalogue's "Showing N perfumes" count is a <strong> inside a
+   translated string, so its own #8F6E3B bronze cannot be edited at the call
+   site without rewriting the translation. On the #0C0A09 page that bronze is
+   4.20:1, just under AA, so the count is re-tinted from here instead. */
+html.sozie-storefront .sozie-result-count strong {
+    color: var(--gold-light);
+}
+
+/* One published paginator serves both surfaces: #B5A897 is the storefront's
+   muted text and reaches 7.9:1 on #0C0A09, but only 2.31:1 on the admin's white
+   page. The admin gets its own body colour, which is what the rest of that
+   panel already uses. */
+.sozie-paginator-count {
+    color: #29241F;
+}
+
+html.sozie-storefront .sozie-paginator-count {
+    color: var(--text-muted);
+}
+
 @keyframes float {
     0%, 100% { transform: translateY(0px) rotate(0deg); }
     50% { transform: translateY(-12px) rotate(1deg); }

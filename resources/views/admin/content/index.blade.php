@@ -27,11 +27,11 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="p-4 bg-white border border-[#D8C9B8] polygon-card space-y-2">
-                <span class="text-[10px] font-extrabold uppercase text-[#A8895F]">English Banner Text</span>
+                <span class="text-[10px] font-extrabold uppercase text-[#7C5A2B]">English Banner Text</span>
                 <p class="text-xs text-[#29241F] font-bold">SOZIE COLLECTION</p>
             </div>
             <div class="p-4 bg-white border border-[#D8C9B8] polygon-card space-y-2">
-                <span class="text-[10px] font-extrabold uppercase text-[#A8895F]">Bilingual EN / SW Toggle</span>
+                <span class="text-[10px] font-extrabold uppercase text-[#7C5A2B]">Bilingual EN / SW Toggle</span>
                 <p class="text-xs text-emerald-800 font-extrabold">Active (Dynamic Switcher Enabled)</p>
             </div>
         </div>
@@ -43,26 +43,26 @@
             <div>
                 <h4 class="font-serif font-bold text-lg text-[#29241F]">Homepage Hero Slides</h4>
                 <p class="text-xs text-gray-600 mt-1">Upload your own campaign design, control the text, and decide which slide appears first.</p>
-                <p class="text-[11px] text-[#A8895F] font-bold mt-1.5">Until you activate a slide, the homepage shows the default hero with no photography.</p>
+                <p class="text-[11px] text-[#7C5A2B] font-bold mt-1.5">Until you activate a slide, the homepage shows the default hero with no photography.</p>
             </div>
             <div class="flex items-center gap-3">
                 <span class="px-2.5 py-1 bg-[#EDE5D8] border border-[#D8C9B8] text-[10px] font-extrabold uppercase rounded">
                     {{ $banners->count() }} {{ \Illuminate\Support\Str::plural('slide', $banners->count()) }}
                 </span>
                 <a href="{{ route('home') }}" target="_blank"
-                   class="px-4 py-2 bg-[#29241F] text-white text-[10px] font-extrabold uppercase polygon-btn hover:bg-[#A8895F]">
+                   class="px-4 py-2 bg-[#29241F] text-white text-[10px] font-extrabold uppercase polygon-btn hover:bg-[#7C5A2B]">
                     Preview Homepage
                 </a>
             </div>
         </div>
 
         <details class="border border-[#A8895F]/40 bg-white polygon-card">
-            <summary class="cursor-pointer list-none px-5 py-4 flex items-center justify-between gap-3 text-xs font-extrabold uppercase tracking-wider text-[#A8895F]">
+            <summary class="cursor-pointer list-none px-5 py-4 flex items-center justify-between gap-3 text-xs font-extrabold uppercase tracking-wider text-[#7C5A2B]">
                 <span class="flex items-center gap-2">
                     <i data-lucide="plus" class="w-4 h-4"></i>
                     Add New Homepage Slide
                 </span>
-                <span class="text-[10px] text-gray-500 normal-case font-semibold">Upload desktop design; mobile design is optional</span>
+                <span class="text-[10px] text-gray-600 normal-case font-semibold">Upload desktop design; mobile design is optional</span>
             </summary>
 
             <form action="{{ route('admin.slides.store') }}" method="POST" enctype="multipart/form-data" class="border-t border-[#D8C9B8] p-5">
@@ -73,7 +73,7 @@
                 ])
 
                 <div class="pt-4 mt-4 border-t border-[#D8C9B8] flex justify-end">
-                    <button type="submit" class="px-5 py-3 bg-[#A8895F] text-white text-xs font-extrabold uppercase tracking-wider polygon-btn hover:bg-[#29241F]">
+                    <button type="submit" class="px-5 py-3 bg-[#7C5A2B] text-white text-xs font-extrabold uppercase tracking-wider polygon-btn hover:bg-[#29241F]">
                         Create Homepage Slide
                     </button>
                 </div>
@@ -90,7 +90,7 @@
 
                     <div class="flex-grow min-w-0">
                         <div class="flex flex-wrap items-center gap-2 mb-1">
-                            <span class="text-[9px] font-extrabold uppercase tracking-widest text-[#A8895F]">Slide #{{ $banner->sort_order }}</span>
+                            <span class="text-[9px] font-extrabold uppercase tracking-widest text-[#7C5A2B]">Slide #{{ $banner->sort_order }}</span>
                             <span class="px-2 py-0.5 border text-[9px] font-extrabold uppercase rounded {{ $banner->is_active ? 'bg-emerald-100 text-emerald-900 border-emerald-300' : 'bg-gray-100 text-gray-700 border-gray-300' }}">
                                 {{ $banner->is_active ? 'Live' : 'Hidden' }}
                             </span>
@@ -102,14 +102,14 @@
                             @endif
                         </div>
                         <h5 class="font-serif font-bold text-lg text-[#29241F]">{{ $banner->title }}</h5>
-                        <p class="text-xs font-extrabold text-[#A8895F]">{{ $banner->headline ?: 'Headline not set' }} {{ $banner->highlight_text }}</p>
+                        <p class="text-xs font-extrabold text-[#7C5A2B]">{{ $banner->headline ?: 'Headline not set' }} {{ $banner->highlight_text }}</p>
                         <p class="text-xs text-gray-600 font-medium mt-1 line-clamp-2">{{ $banner->subtitle }}</p>
                     </div>
                 </div>
 
                 <div class="border-t border-[#D8C9B8] bg-[#EDE5D8]/50 px-4 py-3 flex flex-wrap items-center justify-between gap-3">
                     <details class="flex-1">
-                        <summary class="cursor-pointer list-none text-[10px] font-extrabold uppercase tracking-wider text-[#A8895F]">Edit Slide</summary>
+                        <summary class="cursor-pointer list-none text-[10px] font-extrabold uppercase tracking-wider text-[#7C5A2B]">Edit Slide</summary>
 
                         <form action="{{ route('admin.slides.update', $banner) }}" method="POST" enctype="multipart/form-data" class="pt-4 space-y-4">
                             @csrf
@@ -117,7 +117,7 @@
                             @include('admin.content.partials.slide-form', ['banner' => $banner])
 
                             <div class="pt-4 border-t border-[#D8C9B8] flex justify-end">
-                                <button type="submit" class="px-5 py-3 bg-[#A8895F] text-white text-xs font-extrabold uppercase tracking-wider polygon-btn hover:bg-[#29241F]">
+                                <button type="submit" class="px-5 py-3 bg-[#7C5A2B] text-white text-xs font-extrabold uppercase tracking-wider polygon-btn hover:bg-[#29241F]">
                                     Save Slide Changes
                                 </button>
                             </div>
@@ -135,7 +135,7 @@
             </article>
             @empty
             <div class="p-8 text-center bg-[#EDE5D8] border border-dashed border-[#A8895F]/50 polygon-card">
-                <i data-lucide="images" class="w-10 h-10 text-[#A8895F] mx-auto mb-3"></i>
+                <i data-lucide="images" class="w-10 h-10 text-[#7C5A2B] mx-auto mb-3"></i>
                 <p class="font-serif font-bold text-lg text-[#29241F]">No homepage slides yet</p>
                 <p class="text-xs text-gray-600 mt-1">Use “Add New Homepage Slide” to upload your first design.</p>
             </div>
@@ -149,10 +149,10 @@
             <div>
                 <h4 class="font-serif font-bold text-lg text-[#29241F]">📸 Instagram & Campaign Visuals Gallery</h4>
                 <p class="text-xs text-gray-600 mt-1">
-                    Visuals marked with <span class="font-bold text-[#A8895F]">"Display in Instagram Gallery"</span> feed the high-resolution <span class="font-bold text-[#A8895F]">#SOZIECOLLECTION GALLERY</span> interactive carousel on the homepage. You can enable or disable gallery placement independently for each slide.
+                    Visuals marked with <span class="font-bold text-[#7C5A2B]">"Display in Instagram Gallery"</span> feed the high-resolution <span class="font-bold text-[#7C5A2B]">#SOZIECOLLECTION GALLERY</span> interactive carousel on the homepage. You can enable or disable gallery placement independently for each slide.
                 </p>
             </div>
-            <a href="{{ route('home') }}" target="_blank" class="px-3.5 py-1.5 bg-[#A8895F] text-white text-[10px] font-extrabold uppercase polygon-btn hover:bg-[#29241F]">
+            <a href="{{ route('home') }}" target="_blank" class="px-3.5 py-1.5 bg-[#7C5A2B] text-white text-[10px] font-extrabold uppercase polygon-btn hover:bg-[#29241F]">
                 View Live Gallery
             </a>
         </div>
@@ -166,11 +166,11 @@
             @foreach($galleryBanners as $banner)
             <div class="relative aspect-square border border-[#D8C9B8] polygon-card overflow-hidden bg-white group shadow-sm">
                 <img src="{{ $banner->image_url }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                <div class="absolute top-2 left-2 px-2 py-0.5 bg-[#17130F]/90 text-[#A8895F] text-[9px] font-extrabold uppercase polygon-badge border border-[#322B23]">
+                <div class="absolute top-2 left-2 px-2 py-0.5 bg-[#17130F]/90 text-[#7C5A2B] text-[9px] font-extrabold uppercase polygon-badge border border-[#322B23]">
                     @soziecollection
                 </div>
                 <div class="absolute inset-0 bg-[#12100E]/80 opacity-0 group-hover:opacity-100 transition-opacity p-3 flex flex-col justify-end text-white">
-                    <span class="text-[9px] font-extrabold text-[#A8895F] uppercase">{{ $banner->title }}</span>
+                    <span class="text-[9px] font-extrabold text-[#7C5A2B] uppercase">{{ $banner->title }}</span>
                     <p class="text-xs font-serif font-bold truncate">{{ $banner->headline }}</p>
                 </div>
             </div>

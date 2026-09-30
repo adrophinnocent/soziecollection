@@ -7,7 +7,7 @@
 <div class="space-y-6">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-[#F8F5EF] p-6 border border-[#D8C9B8] polygon-card shadow-sm">
         <div>
-            <span class="text-[10px] font-extrabold uppercase tracking-[0.25em] text-[#A8895F]">CUSTOMER FEEDBACK MODERATION</span>
+            <span class="text-[10px] font-extrabold uppercase tracking-[0.25em] text-[#7C5A2B]">CUSTOMER FEEDBACK MODERATION</span>
             <h3 class="font-serif font-bold text-2xl text-[#29241F]">Customer Reviews & Ratings</h3>
             <p class="text-xs text-gray-600 mt-1">Approve, hide, or feature genuine customer reviews. Star ratings and average scores are computed automatically from approved reviews.</p>
         </div>
@@ -21,7 +21,7 @@
     <div class="bg-white border border-[#D8C9B8] polygon-card shadow-sm overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left text-xs">
-                <thead class="bg-[#F8F5EF] border-b border-[#D8C9B8] text-[10px] font-extrabold uppercase text-[#A8895F] tracking-wider">
+                <thead class="bg-[#F8F5EF] border-b border-[#D8C9B8] text-[10px] font-extrabold uppercase text-[#7C5A2B] tracking-wider">
                     <tr>
                         <th class="p-4">Customer</th>
                         <th class="p-4">Product</th>
@@ -36,7 +36,7 @@
                     <tr class="hover:bg-[#F8F5EF]/50 transition-colors">
                         <td class="p-4 font-bold text-[#29241F]">
                             {{ $rev->customer_name }}
-                            <span class="block text-[10px] text-gray-500 font-normal">{{ $rev->created_at->format('M d, Y') }}</span>
+                            <span class="block text-[10px] text-gray-600 font-normal">{{ $rev->created_at->format('M d, Y') }}</span>
                         </td>
                         <td class="p-4 font-extrabold text-[#29241F]">
                             {{ $rev->product ? $rev->product->name : 'General Perfume' }}
@@ -110,7 +110,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" class="p-8 text-center text-gray-500 font-medium">
+                        <td colspan="6" class="p-8 text-center text-gray-600 font-medium">
                             No customer reviews yet. Real customer reviews submitted on product pages will appear here for moderation.
                         </td>
                     </tr>
